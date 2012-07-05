@@ -1,0 +1,614 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		C28670F615A62418005DE3D5 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C28670F515A62418005DE3D5 /* UIKit.framework */; };
+		C28670F815A62418005DE3D5 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C28670F715A62418005DE3D5 /* Foundation.framework */; };
+		C28670FA15A62418005DE3D5 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C28670F915A62418005DE3D5 /* CoreGraphics.framework */; };
+		C28670FC15A62418005DE3D5 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C28670FB15A62418005DE3D5 /* CoreData.framework */; };
+		C286710215A62418005DE3D5 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C286710015A62418005DE3D5 /* InfoPlist.strings */; };
+		C286710415A62418005DE3D5 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C286710315A62418005DE3D5 /* main.m */; };
+		C286710815A62418005DE3D5 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C286710715A62418005DE3D5 /* AppDelegate.m */; };
+		C286710B15A62418005DE3D5 /* Blamph.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C286710915A62418005DE3D5 /* Blamph.xcdatamodeld */; };
+		C286711315A62418005DE3D5 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C286711215A62418005DE3D5 /* SenTestingKit.framework */; };
+		C286711415A62418005DE3D5 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C28670F515A62418005DE3D5 /* UIKit.framework */; };
+		C286711515A62418005DE3D5 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C28670F715A62418005DE3D5 /* Foundation.framework */; };
+		C286711615A62418005DE3D5 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C28670FB15A62418005DE3D5 /* CoreData.framework */; };
+		C286711E15A62418005DE3D5 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C286711C15A62418005DE3D5 /* InfoPlist.strings */; };
+		C286712115A62418005DE3D5 /* BlamphTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C286712015A62418005DE3D5 /* BlamphTests.m */; };
+		C286715115A62458005DE3D5 /* libDebugKitLibrary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C286714A15A62442005DE3D5 /* libDebugKitLibrary.a */; };
+		C286715215A62458005DE3D5 /* libICBProtocol.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C286713715A62431005DE3D5 /* libICBProtocol.a */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		C286711715A62418005DE3D5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C28670E815A62418005DE3D5 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C28670F015A62418005DE3D5;
+			remoteInfo = Blamph;
+		};
+		C286713615A62431005DE3D5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C286712A15A62431005DE3D5 /* ICBProtocol.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C293AF2715A415D4003FDA51;
+			remoteInfo = ICBProtocol;
+		};
+		C286713815A62431005DE3D5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C286712A15A62431005DE3D5 /* ICBProtocol.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C293AF3715A415D4003FDA51;
+			remoteInfo = ICBProtocolTests;
+		};
+		C286714515A62442005DE3D5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C286713E15A62441005DE3D5 /* DebugKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C2864811159AC401006B31D4;
+			remoteInfo = DebugKitFramework;
+		};
+		C286714715A62442005DE3D5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C286713E15A62441005DE3D5 /* DebugKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C2864829159AC401006B31D4;
+			remoteInfo = DebugKitFrameworkTests;
+		};
+		C286714915A62442005DE3D5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C286713E15A62441005DE3D5 /* DebugKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C286484F159AC657006B31D4;
+			remoteInfo = DebugKitLibrary;
+		};
+		C286714B15A62442005DE3D5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C286713E15A62441005DE3D5 /* DebugKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C286485D159AC657006B31D4;
+			remoteInfo = DebugKitLibraryTests;
+		};
+		C286714D15A6244E005DE3D5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C286713E15A62441005DE3D5 /* DebugKit.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = C286484E159AC657006B31D4;
+			remoteInfo = DebugKitLibrary;
+		};
+		C286714F15A6244E005DE3D5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C286712A15A62431005DE3D5 /* ICBProtocol.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = C293AF2615A415D4003FDA51;
+			remoteInfo = ICBProtocol;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		C28670F115A62418005DE3D5 /* Blamph.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Blamph.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C28670F515A62418005DE3D5 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		C28670F715A62418005DE3D5 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		C28670F915A62418005DE3D5 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		C28670FB15A62418005DE3D5 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		C28670FF15A62418005DE3D5 /* Blamph-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Blamph-Info.plist"; sourceTree = "<group>"; };
+		C286710115A62418005DE3D5 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		C286710315A62418005DE3D5 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		C286710515A62418005DE3D5 /* Blamph-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Blamph-Prefix.pch"; sourceTree = "<group>"; };
+		C286710615A62418005DE3D5 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		C286710715A62418005DE3D5 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		C286710A15A62418005DE3D5 /* Blamph.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Blamph.xcdatamodel; sourceTree = "<group>"; };
+		C286711115A62418005DE3D5 /* BlamphTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BlamphTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		C286711215A62418005DE3D5 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
+		C286711B15A62418005DE3D5 /* BlamphTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "BlamphTests-Info.plist"; sourceTree = "<group>"; };
+		C286711D15A62418005DE3D5 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		C286711F15A62418005DE3D5 /* BlamphTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BlamphTests.h; sourceTree = "<group>"; };
+		C286712015A62418005DE3D5 /* BlamphTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BlamphTests.m; sourceTree = "<group>"; };
+		C286712A15A62431005DE3D5 /* ICBProtocol.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ICBProtocol.xcodeproj; path = ../../protocol/ICBProtocol/ICBProtocol.xcodeproj; sourceTree = "<group>"; };
+		C286713E15A62441005DE3D5 /* DebugKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = DebugKit.xcodeproj; path = ../../../DebugKit/DebugKit.xcodeproj; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		C28670EE15A62418005DE3D5 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C286715115A62458005DE3D5 /* libDebugKitLibrary.a in Frameworks */,
+				C286715215A62458005DE3D5 /* libICBProtocol.a in Frameworks */,
+				C28670F615A62418005DE3D5 /* UIKit.framework in Frameworks */,
+				C28670F815A62418005DE3D5 /* Foundation.framework in Frameworks */,
+				C28670FA15A62418005DE3D5 /* CoreGraphics.framework in Frameworks */,
+				C28670FC15A62418005DE3D5 /* CoreData.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C286710D15A62418005DE3D5 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C286711315A62418005DE3D5 /* SenTestingKit.framework in Frameworks */,
+				C286711415A62418005DE3D5 /* UIKit.framework in Frameworks */,
+				C286711515A62418005DE3D5 /* Foundation.framework in Frameworks */,
+				C286711615A62418005DE3D5 /* CoreData.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		C28670E615A62418005DE3D5 = {
+			isa = PBXGroup;
+			children = (
+				C286713E15A62441005DE3D5 /* DebugKit.xcodeproj */,
+				C286712A15A62431005DE3D5 /* ICBProtocol.xcodeproj */,
+				C28670FD15A62418005DE3D5 /* Blamph */,
+				C286711915A62418005DE3D5 /* BlamphTests */,
+				C28670F415A62418005DE3D5 /* Frameworks */,
+				C28670F215A62418005DE3D5 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		C28670F215A62418005DE3D5 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C28670F115A62418005DE3D5 /* Blamph.app */,
+				C286711115A62418005DE3D5 /* BlamphTests.octest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		C28670F415A62418005DE3D5 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				C28670F515A62418005DE3D5 /* UIKit.framework */,
+				C28670F715A62418005DE3D5 /* Foundation.framework */,
+				C28670F915A62418005DE3D5 /* CoreGraphics.framework */,
+				C28670FB15A62418005DE3D5 /* CoreData.framework */,
+				C286711215A62418005DE3D5 /* SenTestingKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		C28670FD15A62418005DE3D5 /* Blamph */ = {
+			isa = PBXGroup;
+			children = (
+				C286710615A62418005DE3D5 /* AppDelegate.h */,
+				C286710715A62418005DE3D5 /* AppDelegate.m */,
+				C286710915A62418005DE3D5 /* Blamph.xcdatamodeld */,
+				C28670FE15A62418005DE3D5 /* Supporting Files */,
+			);
+			path = Blamph;
+			sourceTree = "<group>";
+		};
+		C28670FE15A62418005DE3D5 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				C28670FF15A62418005DE3D5 /* Blamph-Info.plist */,
+				C286710015A62418005DE3D5 /* InfoPlist.strings */,
+				C286710315A62418005DE3D5 /* main.m */,
+				C286710515A62418005DE3D5 /* Blamph-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		C286711915A62418005DE3D5 /* BlamphTests */ = {
+			isa = PBXGroup;
+			children = (
+				C286711F15A62418005DE3D5 /* BlamphTests.h */,
+				C286712015A62418005DE3D5 /* BlamphTests.m */,
+				C286711A15A62418005DE3D5 /* Supporting Files */,
+			);
+			path = BlamphTests;
+			sourceTree = "<group>";
+		};
+		C286711A15A62418005DE3D5 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				C286711B15A62418005DE3D5 /* BlamphTests-Info.plist */,
+				C286711C15A62418005DE3D5 /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		C286712B15A62431005DE3D5 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C286713715A62431005DE3D5 /* libICBProtocol.a */,
+				C286713915A62431005DE3D5 /* ICBProtocolTests.octest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		C286713F15A62441005DE3D5 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C286714615A62442005DE3D5 /* DebugKitFramework.framework */,
+				C286714815A62442005DE3D5 /* DebugKitTests.octest */,
+				C286714A15A62442005DE3D5 /* libDebugKitLibrary.a */,
+				C286714C15A62442005DE3D5 /* DebugKitLibraryTests.octest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		C28670F015A62418005DE3D5 /* Blamph */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C286712415A62418005DE3D5 /* Build configuration list for PBXNativeTarget "Blamph" */;
+			buildPhases = (
+				C28670ED15A62418005DE3D5 /* Sources */,
+				C28670EE15A62418005DE3D5 /* Frameworks */,
+				C28670EF15A62418005DE3D5 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				C286714E15A6244E005DE3D5 /* PBXTargetDependency */,
+				C286715015A6244E005DE3D5 /* PBXTargetDependency */,
+			);
+			name = Blamph;
+			productName = Blamph;
+			productReference = C28670F115A62418005DE3D5 /* Blamph.app */;
+			productType = "com.apple.product-type.application";
+		};
+		C286711015A62418005DE3D5 /* BlamphTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C286712715A62418005DE3D5 /* Build configuration list for PBXNativeTarget "BlamphTests" */;
+			buildPhases = (
+				C286710C15A62418005DE3D5 /* Sources */,
+				C286710D15A62418005DE3D5 /* Frameworks */,
+				C286710E15A62418005DE3D5 /* Resources */,
+				C286710F15A62418005DE3D5 /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				C286711815A62418005DE3D5 /* PBXTargetDependency */,
+			);
+			name = BlamphTests;
+			productName = BlamphTests;
+			productReference = C286711115A62418005DE3D5 /* BlamphTests.octest */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		C28670E815A62418005DE3D5 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0430;
+				ORGANIZATIONNAME = "Nuclear Bunny Studios, LLC";
+			};
+			buildConfigurationList = C28670EB15A62418005DE3D5 /* Build configuration list for PBXProject "Blamph" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = C28670E615A62418005DE3D5;
+			productRefGroup = C28670F215A62418005DE3D5 /* Products */;
+			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = C286713F15A62441005DE3D5 /* Products */;
+					ProjectRef = C286713E15A62441005DE3D5 /* DebugKit.xcodeproj */;
+				},
+				{
+					ProductGroup = C286712B15A62431005DE3D5 /* Products */;
+					ProjectRef = C286712A15A62431005DE3D5 /* ICBProtocol.xcodeproj */;
+				},
+			);
+			projectRoot = "";
+			targets = (
+				C28670F015A62418005DE3D5 /* Blamph */,
+				C286711015A62418005DE3D5 /* BlamphTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		C286713715A62431005DE3D5 /* libICBProtocol.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libICBProtocol.a;
+			remoteRef = C286713615A62431005DE3D5 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C286713915A62431005DE3D5 /* ICBProtocolTests.octest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = ICBProtocolTests.octest;
+			remoteRef = C286713815A62431005DE3D5 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C286714615A62442005DE3D5 /* DebugKitFramework.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = DebugKitFramework.framework;
+			remoteRef = C286714515A62442005DE3D5 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C286714815A62442005DE3D5 /* DebugKitTests.octest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			name = DebugKitTests.octest;
+			path = DebugKitFrameworkTests.octest;
+			remoteRef = C286714715A62442005DE3D5 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C286714A15A62442005DE3D5 /* libDebugKitLibrary.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libDebugKitLibrary.a;
+			remoteRef = C286714915A62442005DE3D5 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C286714C15A62442005DE3D5 /* DebugKitLibraryTests.octest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = DebugKitLibraryTests.octest;
+			remoteRef = C286714B15A62442005DE3D5 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
+
+/* Begin PBXResourcesBuildPhase section */
+		C28670EF15A62418005DE3D5 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C286710215A62418005DE3D5 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C286710E15A62418005DE3D5 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C286711E15A62418005DE3D5 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		C286710F15A62418005DE3D5 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		C28670ED15A62418005DE3D5 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C286710415A62418005DE3D5 /* main.m in Sources */,
+				C286710815A62418005DE3D5 /* AppDelegate.m in Sources */,
+				C286710B15A62418005DE3D5 /* Blamph.xcdatamodeld in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C286710C15A62418005DE3D5 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C286712115A62418005DE3D5 /* BlamphTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		C286711815A62418005DE3D5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C28670F015A62418005DE3D5 /* Blamph */;
+			targetProxy = C286711715A62418005DE3D5 /* PBXContainerItemProxy */;
+		};
+		C286714E15A6244E005DE3D5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = DebugKitLibrary;
+			targetProxy = C286714D15A6244E005DE3D5 /* PBXContainerItemProxy */;
+		};
+		C286715015A6244E005DE3D5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = ICBProtocol;
+			targetProxy = C286714F15A6244E005DE3D5 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		C286710015A62418005DE3D5 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C286710115A62418005DE3D5 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		C286711C15A62418005DE3D5 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C286711D15A62418005DE3D5 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		C286712215A62418005DE3D5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-all_load",
+				);
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				USER_HEADER_SEARCH_PATHS = "${BUILT_PRODUCTS_DIR}";
+			};
+			name = Debug;
+		};
+		C286712315A62418005DE3D5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-all_load",
+				);
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				USER_HEADER_SEARCH_PATHS = "${BUILT_PRODUCTS_DIR}";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		C286712515A62418005DE3D5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Blamph/Blamph-Prefix.pch";
+				INFOPLIST_FILE = "Blamph/Blamph-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		C286712615A62418005DE3D5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Blamph/Blamph-Prefix.pch";
+				INFOPLIST_FILE = "Blamph/Blamph-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		C286712815A62418005DE3D5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Blamph.app/Blamph";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Blamph/Blamph-Prefix.pch";
+				INFOPLIST_FILE = "BlamphTests/BlamphTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Debug;
+		};
+		C286712915A62418005DE3D5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Blamph.app/Blamph";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Blamph/Blamph-Prefix.pch";
+				INFOPLIST_FILE = "BlamphTests/BlamphTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		C28670EB15A62418005DE3D5 /* Build configuration list for PBXProject "Blamph" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C286712215A62418005DE3D5 /* Debug */,
+				C286712315A62418005DE3D5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C286712415A62418005DE3D5 /* Build configuration list for PBXNativeTarget "Blamph" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C286712515A62418005DE3D5 /* Debug */,
+				C286712615A62418005DE3D5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		C286712715A62418005DE3D5 /* Build configuration list for PBXNativeTarget "BlamphTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C286712815A62418005DE3D5 /* Debug */,
+				C286712915A62418005DE3D5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		C286710915A62418005DE3D5 /* Blamph.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				C286710A15A62418005DE3D5 /* Blamph.xcdatamodel */,
+			);
+			currentVersion = C286710A15A62418005DE3D5 /* Blamph.xcdatamodel */;
+			path = Blamph.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
+	};
+	rootObject = C28670E815A62418005DE3D5 /* Project object */;
+}
