@@ -8,6 +8,6 @@
 
 #import <SenTestingKit/SenTestingKit.h>
 
-@interface BlamphTests : SenTestCase <NSStreamDelegate>
+@interface BlamphTests : SenTestCase
 
 @end

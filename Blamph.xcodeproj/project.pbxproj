@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C263B65915A6586700F5714E /* ICBClient.m in Sources */ = {isa = PBXBuildFile; fileRef = C263B65815A6586700F5714E /* ICBClient.m */; };
 		C28670F615A62418005DE3D5 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C28670F515A62418005DE3D5 /* UIKit.framework */; };
 		C28670F815A62418005DE3D5 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C28670F715A62418005DE3D5 /* Foundation.framework */; };
 		C28670FA15A62418005DE3D5 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C28670F915A62418005DE3D5 /* CoreGraphics.framework */; };
@@ -92,6 +93,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		C263B65715A6586700F5714E /* ICBClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ICBClient.h; sourceTree = "<group>"; };
+		C263B65815A6586700F5714E /* ICBClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ICBClient.m; sourceTree = "<group>"; };
 		C28670F115A62418005DE3D5 /* Blamph.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Blamph.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C28670F515A62418005DE3D5 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		C28670F715A62418005DE3D5 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -182,6 +185,8 @@
 				C286710715A62418005DE3D5 /* AppDelegate.m */,
 				C286710915A62418005DE3D5 /* Blamph.xcdatamodeld */,
 				C28670FE15A62418005DE3D5 /* Supporting Files */,
+				C263B65715A6586700F5714E /* ICBClient.h */,
+				C263B65815A6586700F5714E /* ICBClient.m */,
 			);
 			path = Blamph;
 			sourceTree = "<group>";
@@ -403,6 +408,7 @@
 				C286710415A62418005DE3D5 /* main.m in Sources */,
 				C286710815A62418005DE3D5 /* AppDelegate.m in Sources */,
 				C286710B15A62418005DE3D5 /* Blamph.xcdatamodeld in Sources */,
+				C263B65915A6586700F5714E /* ICBClient.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -518,6 +524,7 @@
 				GCC_PREFIX_HEADER = "Blamph/Blamph-Prefix.pch";
 				INFOPLIST_FILE = "Blamph/Blamph-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = "${BUILT_PRODUCTS_DIR}/usr/local/include";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -529,6 +536,7 @@
 				GCC_PREFIX_HEADER = "Blamph/Blamph-Prefix.pch";
 				INFOPLIST_FILE = "Blamph/Blamph-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = "${BUILT_PRODUCTS_DIR}/usr/local/include";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -586,6 +594,7 @@
 				C286712615A62418005DE3D5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		C286712715A62418005DE3D5 /* Build configuration list for PBXNativeTarget "BlamphTests" */ = {
 			isa = XCConfigurationList;
@@ -594,6 +603,7 @@
 				C286712915A62418005DE3D5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 
