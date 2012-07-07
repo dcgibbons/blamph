@@ -8,15 +8,15 @@
 
 #import "ICBClient.h"
 
-
 @implementation ICBClient
 
 - (id)init
 {
     if (self = [super init])
     {
-        inputBuffer = [NSMutableData dataWithCapacity:8 * 1024];
-        outputBuffer = [NSMutableData dataWithCapacity:8 * 1024];
+        packetBuffer = malloc(MAX_PACKET_SIZE);
+        chatGroups = [NSMutableArray arrayWithCapacity:100];
+        chatUsers = [NSMutableArray arrayWithCapacity:500];
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handlePacket:) name:@"ICBPacket" object:nil];
         
@@ -53,7 +53,11 @@
     ICBPacket *packet = [notification object];
     DLog("handlePacket: packet received! %@", packet);
 
-    if ([packet isKindOfClass:[ExitPacket class]])
+    if ([packet isKindOfClass:[CommandOutputPacket class]])
+    {
+        [self handleCommandOutputPacket:(CommandOutputPacket *)packet];
+    }
+    else if ([packet isKindOfClass:[ExitPacket class]])
     {
         // TODO
     }
@@ -75,86 +79,151 @@
     }
 }
 
+- (void)handleCommandOutputPacket:(CommandOutputPacket *)packet
+{
+    DLog(@"CommandOutputPacket!\n%@", [[packet data] hexDump]);
+    NSString *outputType = [packet outputType];
+    
+    if (clientState == kParsingWhoListing)
+    {
+        if ([outputType compare:@"gh"] == 0)
+        {
+            // NO-OP
+        }
+        else if ([outputType compare:@"wg"] == 0)
+        {
+            DLog(@"WTF?!");
+        }
+        else if ([outputType compare:@"wh"] == 0)
+        {
+            // NO-OP
+        }
+        else if ([outputType compare:@"wl"] == 0)
+        {
+            NSString *chatUser = [packet getFieldAtIndex:2];
+            [chatUsers addObject:chatUser];
+        }
+        else if ([outputType compare:@"co"] == 0)
+        {
+            // When doing a full who listing, a CommandOutput output type will appear in the format of
+            // Total: %d user(s in %d group(s) to designate the end of the who listing
+            if ([[packet getFieldAtIndex:1] compare:@"Total" options:0 range:NSMakeRange(0, 5)] == 0) 
+            {
+                DLog(@"Who Listing Complete!");
+                DLog(@"Groups=%@", chatGroups);
+                DLog(@"Users=%@", chatUsers);
+            }
+            else if ([[packet getFieldAtIndex:1] compare:@"Group: " options:0 range:NSMakeRange(0, 7)] == 0)
+            {
+                NSString *chatGroup = [[[packet getFieldAtIndex:1] substringWithRange:NSMakeRange(7, 8)] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+                [chatGroups addObject:chatGroup];
+            }
+        }
+    }
+}
+
 - (void)handleErrorPacket:(ErrorPacket *)packet
 {
-    DLog(@"ICBClient: [=Error=] %@", [packet errorText]);
+    DLog(@"[=Error=] %@", [packet errorText]);
 }
 
 - (void)handleLoginPacket:(LoginPacket *)packet
 {
-    DLog(@"ICBClient: Login OK");
+    DLog(@"Login OK - sending who command");
     // TODO: reconnectNeeded = false
+    
+    CommandPacket *whoPacket = [[CommandPacket alloc] initWithCommand:@"w" optionalArgs:@""];
+    [self sendPacket:whoPacket];
+    
+    clientState = kParsingWhoListing;
+    [chatGroups removeAllObjects];
+    [chatUsers removeAllObjects];
 }
 
 - (void)handleProtocolPacket:(ProtocolPacket *)packet
 {
+    // TODO: check protocol packet version
+    
     NSString *id = @"testuser";
     NSString *nick = @"tester";
     NSString *group = @"";
     NSString *command = @"login";
     NSString *passwd = @"";
 
-    LoginPacket *loginPacket = [[LoginPacket alloc] initWithUserDetails:id nick:nick group:group command:command password:passwd];
-    [self sendPacket:loginPacket];
-    
-    /* set the appropriate echoback state */
-//    int echoback = clientProperties.getEchoback();
-//    switch (echoback) {
-//        case Echoback.ECHOBACK_ON:
-//            sendCommandMessage("echoback", "on");
-//            break;
-//        case Echoback.ECHOBACK_VERBOSE_SERVER:
-//            sendCommandMessage("echoback", "verbose");
-//            break;
-//        default:
-//            break;
-//    }
-//    
-//    executeInitScript();    
+    LoginPacket *loginPacket = [[LoginPacket alloc] initWithUserDetails:id 
+                                                                   nick:nick 
+                                                                  group:group 
+                                                                command:command 
+                                                               password:passwd];
+    [self sendPacket:loginPacket];  
 }
 
 - (void)sendPacket:(ICBPacket *)packet
 {
     NSData *data = [packet data];
     DLog(@"Sending Packet!!!\n%@", [data hexDump]);
-    
-    NSUInteger dataLength = [data length];
-    NSAssert(dataLength <= 255, @"packet is too large");
-    uint8_t l = dataLength;
-    
-    [outputBuffer appendBytes:&l length:sizeof(l)];
-    [outputBuffer appendBytes:[data bytes] length:dataLength];
-    
-    [self flushOutputBuffer];
+
+    uint8_t l = [data length];
+    NSInteger written = [ostream write:&l maxLength:sizeof(l)];
+    DLog(@"wrote %d bytes", written);
+    NSAssert(written == sizeof(l), @"unable to write packet length");
+    written = [ostream write:[data bytes] maxLength:l];
+    DLog(@"wrote %d bytes", written);
+    NSAssert(written == l, @"unable to write packet data");
 }
 
-- (void)flushOutputBuffer
+- (void)handleInputStream:(NSInputStream *)stream
 {
-    NSUInteger bufferLength = [outputBuffer length];
-    if (bufferLength > 0 && [ostream hasSpaceAvailable])
+    // NOTE: it appears from reviewing http://www.opensource.apple.com/source/CFNetwork/CFNetwork-129.9/Stream/CFSocketStream.c
+    // that the internal CFStream buffer sizes are 32 KB, so we don't need additional buffering logic in this class.
+    
+    while ([stream hasBytesAvailable])
     {
-        NSInteger written = [ostream write:[outputBuffer bytes] maxLength:bufferLength];
-        DLog(@"ICBPacket: flushOutputBuffer wrote %d bytes", written);
-        
-        if (written < 0)
+        if (readState == kWaitingForPacket)
         {
-            DLog(@"Oh, No! NSOutputStream write failure. Will our event handler receive the error, too?");
-        } 
-        else if (written > 0)
+            NSInteger len = [stream read:&packetLength maxLength:sizeof(packetLength)];
+            if (len < 0)
+            {
+                DLog(@"Error reading from input stream!");
+            }
+            else if (len == 0)
+            {
+                DLog(@"0 bytes read from input stream!");
+            }
+            else
+            {
+                DLog(@"new packet detected, packetLength=%u", packetLength);
+                bufferPos = 0;
+                readState = kReadingPacket;
+            }
+        }
+        else if (readState == kReadingPacket)
         {
-            if (written == bufferLength)
+            NSInteger len = [stream read:&packetBuffer[bufferPos] maxLength:packetLength - bufferPos];
+            if (len < 0)
             {
-                [outputBuffer setLength:0];
-            } 
-            else 
+                DLog(@"Error reading from input stream!");
+            }
+            else if (len == 0)
             {
-                NSRange replacementRange = NSMakeRange(0, written);
-                NSUInteger remainingLength = bufferLength - written;
-                DLog(@"replacing output buffer range(%u,%u) with buffer of length %u where original length was %u",
-                     replacementRange.location, replacementRange.length, remainingLength, bufferLength);
-                [outputBuffer replaceBytesInRange:replacementRange 
-                                        withBytes:&[outputBuffer bytes][written]
-                                           length:remainingLength];
+                DLog(@"0 bytes read from input stream!");
+            }
+            else
+            {
+                DLog(@"%d bytes read from input stream!", len);
+                bufferPos += len;
+                if (bufferPos < packetLength)
+                {
+                    DLog(@"packet not fully read, need %u more bytes", packetLength - bufferPos);
+                }
+                else
+                {
+                    NSData *packetData = [NSData dataWithBytes:packetBuffer length:packetLength];
+                    ICBPacket *packet = [ICBPacket packetWithBuffer:packetData];
+                    [[NSNotificationCenter defaultCenter] postNotificationName:@"ICBPacket" object:packet];
+                    
+                    readState = kWaitingForPacket;
+                }
             }
         }
     }
@@ -164,58 +233,20 @@
 
 - (void)stream:(NSStream *)theStream handleEvent:(NSStreamEvent)streamEvent
 {
-    NSUInteger len = 0;
-    
     switch (streamEvent) {
         case NSStreamEventOpenCompleted:
             DLog(@"NSStreamEventOpenCompleted");
             readState = kWaitingForPacket;
+            clientState = kReady;
             break;
             
         case NSStreamEventHasBytesAvailable:
-        {
             DLog(@"NSStreamEventHasBytesAvailable");
-            
-            NSInputStream *inputStream = (NSInputStream *)theStream;
-            
-            while ([inputStream hasBytesAvailable]) 
-            {
-                switch (readState) {
-                    case kWaitingForPacket:
-                        len = [inputStream read:&packetLength maxLength:sizeof(packetLength)];
-                        DLog("State: new packet detected, packetLength=%u len=%u", packetLength, len);
-                        bytesRead = 0;
-                        readState = kReadingPacket;
-                        break;
-                    case kReadingPacket:
-                    {
-                        uint8_t buffer[256];
-                        len = [inputStream read:buffer maxLength:sizeof(buffer)];
-                        bytesRead += len;
-                        DLog("State: reading packet, packetLength=%u bytesRead=%u len=%u", packetLength, bytesRead, len);
-                        [inputBuffer appendBytes:buffer length:len];
-                        break;
-                    }
-                }
-                
-                if (bytesRead >= packetLength) {
-                    DLog("full packet received! buffer=\n%@", [inputBuffer hexDump]);
-                    ICBPacket *packet = [ICBPacket packetWithBuffer:inputBuffer];
-                    DLog("Packet: %@", packet);
-                    
-                    readState = kWaitingForPacket;
-                    [inputBuffer setLength:0]; // TODO: is this right?
-                    
-                    [[NSNotificationCenter defaultCenter] postNotificationName:@"ICBPacket" object:packet];
-                }
-            }
-            
+            [self handleInputStream:(NSInputStream *)theStream];
             break;
-        }
             
         case NSStreamEventHasSpaceAvailable:
             DLog(@"NSStreamEventHasSpaceAvailable");
-            [self flushOutputBuffer];
             break;
             
         case NSStreamEventErrorOccurred:

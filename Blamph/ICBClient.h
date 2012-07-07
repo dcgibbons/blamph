@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 #import "ICBPacket.h"
+#import "CommandPacket.h"
+#import "CommandOutputPacket.h"
 #import "ErrorPacket.h"
 #import "ExitPacket.h"
 #import "LoginPacket.h"
@@ -20,22 +22,25 @@
     NSInputStream *istream;
     NSOutputStream *ostream;
     
-    NSMutableData *inputBuffer;
-    NSMutableData *outputBuffer;
-
-    uint8_t packetLength;
-    NSUInteger bytesRead;
+    uint8_t packetLength, bufferPos;
+    uint8_t *packetBuffer;
     
     enum { kWaitingForPacket, kReadingPacket } readState;
+    
+    enum { kReady, kParsingWhoListing } clientState;
+    
+    NSMutableArray *chatGroups;
+    NSMutableArray *chatUsers;
 }
 
 - (id)init;
 - (void)handlePacket:(NSNotification *)notification;
+- (void)handleCommandOutputPacket:(CommandOutputPacket *)packet;
 - (void)handleErrorPacket:(ErrorPacket *)packet;
 - (void)handleLoginPacket:(LoginPacket *)packet;
 - (void)handleProtocolPacket:(ProtocolPacket *)packet;
 
 - (void)sendPacket:(ICBPacket *)packet;
- - (void)flushOutputBuffer;
+- (void)handleInputStream:(NSInputStream *)stream;
 
 @end
