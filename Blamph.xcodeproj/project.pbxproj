@@ -7,7 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C21DD6C015C24B6F00E89FFC /* LobbyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C21DD6BF15C24B6F00E89FFC /* LobbyViewController.m */; };
+		C258172115C2F4D3008DC45B /* libMBProgressHUD.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C258171E15C2F4A6008DC45B /* libMBProgressHUD.a */; };
+		C258173715C2F8FD008DC45B /* libDebugKitLibrary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C258173215C2F8E7008DC45B /* libDebugKitLibrary.a */; };
 		C263B65915A6586700F5714E /* ICBClient.m in Sources */ = {isa = PBXBuildFile; fileRef = C263B65815A6586700F5714E /* ICBClient.m */; };
+		C263B6C715AB604200F5714E /* ICBData.m in Sources */ = {isa = PBXBuildFile; fileRef = C263B6C615AB604200F5714E /* ICBData.m */; };
 		C28670F615A62418005DE3D5 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C28670F515A62418005DE3D5 /* UIKit.framework */; };
 		C28670F815A62418005DE3D5 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C28670F715A62418005DE3D5 /* Foundation.framework */; };
 		C28670FA15A62418005DE3D5 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C28670F915A62418005DE3D5 /* CoreGraphics.framework */; };
@@ -22,11 +26,63 @@
 		C286711615A62418005DE3D5 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C28670FB15A62418005DE3D5 /* CoreData.framework */; };
 		C286711E15A62418005DE3D5 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C286711C15A62418005DE3D5 /* InfoPlist.strings */; };
 		C286712115A62418005DE3D5 /* BlamphTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C286712015A62418005DE3D5 /* BlamphTests.m */; };
-		C286715115A62458005DE3D5 /* libDebugKitLibrary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C286714A15A62442005DE3D5 /* libDebugKitLibrary.a */; };
 		C286715215A62458005DE3D5 /* libICBProtocol.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C286713715A62431005DE3D5 /* libICBProtocol.a */; };
+		C293156115BCF632004718FB /* MainStoryboard_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C293156015BCF632004718FB /* MainStoryboard_iPad.storyboard */; };
+		C29A17C915C1E87D005612E7 /* ServerDefinition.m in Sources */ = {isa = PBXBuildFile; fileRef = C29A17C815C1E87D005612E7 /* ServerDefinition.m */; };
+		C2ECFEAD15BF4D9700FEF49B /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C2ECFEAC15BF4D9700FEF49B /* MainStoryboard.storyboard */; };
+		C2ECFEB015BF4DF800FEF49B /* MasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C2ECFEAF15BF4DF800FEF49B /* MasterViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		C258171D15C2F4A6008DC45B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C258171615C2F4A6008DC45B /* MBProgressHUD.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = D286A7491518C70F00E13FB8;
+			remoteInfo = MBProgressHUD;
+		};
+		C258171F15C2F4CC008DC45B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C258171615C2F4A6008DC45B /* MBProgressHUD.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = D286A7481518C70F00E13FB8;
+			remoteInfo = MBProgressHUD;
+		};
+		C258172D15C2F8E7008DC45B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C258172315C2F8E7008DC45B /* DebugKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C2864811159AC401006B31D4;
+			remoteInfo = DebugKitFramework;
+		};
+		C258172F15C2F8E7008DC45B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C258172315C2F8E7008DC45B /* DebugKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C2864829159AC401006B31D4;
+			remoteInfo = DebugKitFrameworkTests;
+		};
+		C258173115C2F8E7008DC45B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C258172315C2F8E7008DC45B /* DebugKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C286484F159AC657006B31D4;
+			remoteInfo = DebugKitLibrary;
+		};
+		C258173315C2F8E7008DC45B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C258172315C2F8E7008DC45B /* DebugKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C286485D159AC657006B31D4;
+			remoteInfo = DebugKitLibraryTests;
+		};
+		C258173515C2F8F0008DC45B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C258172315C2F8E7008DC45B /* DebugKit.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = C286484E159AC657006B31D4;
+			remoteInfo = DebugKitLibrary;
+		};
 		C286711715A62418005DE3D5 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = C28670E815A62418005DE3D5 /* Project object */;
@@ -48,41 +104,6 @@
 			remoteGlobalIDString = C293AF3715A415D4003FDA51;
 			remoteInfo = ICBProtocolTests;
 		};
-		C286714515A62442005DE3D5 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = C286713E15A62441005DE3D5 /* DebugKit.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = C2864811159AC401006B31D4;
-			remoteInfo = DebugKitFramework;
-		};
-		C286714715A62442005DE3D5 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = C286713E15A62441005DE3D5 /* DebugKit.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = C2864829159AC401006B31D4;
-			remoteInfo = DebugKitFrameworkTests;
-		};
-		C286714915A62442005DE3D5 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = C286713E15A62441005DE3D5 /* DebugKit.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = C286484F159AC657006B31D4;
-			remoteInfo = DebugKitLibrary;
-		};
-		C286714B15A62442005DE3D5 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = C286713E15A62441005DE3D5 /* DebugKit.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = C286485D159AC657006B31D4;
-			remoteInfo = DebugKitLibraryTests;
-		};
-		C286714D15A6244E005DE3D5 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = C286713E15A62441005DE3D5 /* DebugKit.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = C286484E159AC657006B31D4;
-			remoteInfo = DebugKitLibrary;
-		};
 		C286714F15A6244E005DE3D5 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = C286712A15A62431005DE3D5 /* ICBProtocol.xcodeproj */;
@@ -93,8 +114,14 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		C21DD6BE15C24B6F00E89FFC /* LobbyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LobbyViewController.h; sourceTree = "<group>"; };
+		C21DD6BF15C24B6F00E89FFC /* LobbyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LobbyViewController.m; sourceTree = "<group>"; };
+		C258171615C2F4A6008DC45B /* MBProgressHUD.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = MBProgressHUD.xcodeproj; path = ../../deps/MBProgressHUD/MBProgressHUD.xcodeproj; sourceTree = "<group>"; };
+		C258172315C2F8E7008DC45B /* DebugKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = DebugKit.xcodeproj; path = ../../deps/DebugKit/DebugKit.xcodeproj; sourceTree = "<group>"; };
 		C263B65715A6586700F5714E /* ICBClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ICBClient.h; sourceTree = "<group>"; };
 		C263B65815A6586700F5714E /* ICBClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ICBClient.m; sourceTree = "<group>"; };
+		C263B6C515AB604200F5714E /* ICBData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ICBData.h; sourceTree = "<group>"; };
+		C263B6C615AB604200F5714E /* ICBData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ICBData.m; sourceTree = "<group>"; };
 		C28670F115A62418005DE3D5 /* Blamph.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Blamph.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C28670F515A62418005DE3D5 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		C28670F715A62418005DE3D5 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -114,7 +141,12 @@
 		C286711F15A62418005DE3D5 /* BlamphTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BlamphTests.h; sourceTree = "<group>"; };
 		C286712015A62418005DE3D5 /* BlamphTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BlamphTests.m; sourceTree = "<group>"; };
 		C286712A15A62431005DE3D5 /* ICBProtocol.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ICBProtocol.xcodeproj; path = ../../protocol/ICBProtocol/ICBProtocol.xcodeproj; sourceTree = "<group>"; };
-		C286713E15A62441005DE3D5 /* DebugKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = DebugKit.xcodeproj; path = ../../../DebugKit/DebugKit.xcodeproj; sourceTree = "<group>"; };
+		C293156015BCF632004718FB /* MainStoryboard_iPad.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MainStoryboard_iPad.storyboard; sourceTree = "<group>"; };
+		C29A17C715C1E87D005612E7 /* ServerDefinition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServerDefinition.h; sourceTree = "<group>"; };
+		C29A17C815C1E87D005612E7 /* ServerDefinition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ServerDefinition.m; sourceTree = "<group>"; };
+		C2ECFEAC15BF4D9700FEF49B /* MainStoryboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MainStoryboard.storyboard; sourceTree = "<group>"; };
+		C2ECFEAE15BF4DF800FEF49B /* MasterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MasterViewController.h; sourceTree = "<group>"; };
+		C2ECFEAF15BF4DF800FEF49B /* MasterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MasterViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -122,7 +154,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C286715115A62458005DE3D5 /* libDebugKitLibrary.a in Frameworks */,
+				C258173715C2F8FD008DC45B /* libDebugKitLibrary.a in Frameworks */,
+				C258172115C2F4D3008DC45B /* libMBProgressHUD.a in Frameworks */,
 				C286715215A62458005DE3D5 /* libICBProtocol.a in Frameworks */,
 				C28670F615A62418005DE3D5 /* UIKit.framework in Frameworks */,
 				C28670F815A62418005DE3D5 /* Foundation.framework in Frameworks */,
@@ -145,10 +178,30 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		C258171715C2F4A6008DC45B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C258171E15C2F4A6008DC45B /* libMBProgressHUD.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		C258172415C2F8E7008DC45B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C258172E15C2F8E7008DC45B /* DebugKitFramework.framework */,
+				C258173015C2F8E7008DC45B /* DebugKitTests.octest */,
+				C258173215C2F8E7008DC45B /* libDebugKitLibrary.a */,
+				C258173415C2F8E7008DC45B /* DebugKitLibraryTests.octest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		C28670E615A62418005DE3D5 = {
 			isa = PBXGroup;
 			children = (
-				C286713E15A62441005DE3D5 /* DebugKit.xcodeproj */,
+				C258172315C2F8E7008DC45B /* DebugKit.xcodeproj */,
+				C258171615C2F4A6008DC45B /* MBProgressHUD.xcodeproj */,
 				C286712A15A62431005DE3D5 /* ICBProtocol.xcodeproj */,
 				C28670FD15A62418005DE3D5 /* Blamph */,
 				C286711915A62418005DE3D5 /* BlamphTests */,
@@ -181,12 +234,22 @@
 		C28670FD15A62418005DE3D5 /* Blamph */ = {
 			isa = PBXGroup;
 			children = (
+				C28670FE15A62418005DE3D5 /* Supporting Files */,
 				C286710615A62418005DE3D5 /* AppDelegate.h */,
 				C286710715A62418005DE3D5 /* AppDelegate.m */,
 				C286710915A62418005DE3D5 /* Blamph.xcdatamodeld */,
-				C28670FE15A62418005DE3D5 /* Supporting Files */,
 				C263B65715A6586700F5714E /* ICBClient.h */,
 				C263B65815A6586700F5714E /* ICBClient.m */,
+				C263B6C515AB604200F5714E /* ICBData.h */,
+				C263B6C615AB604200F5714E /* ICBData.m */,
+				C2ECFEAC15BF4D9700FEF49B /* MainStoryboard.storyboard */,
+				C293156015BCF632004718FB /* MainStoryboard_iPad.storyboard */,
+				C2ECFEAE15BF4DF800FEF49B /* MasterViewController.h */,
+				C2ECFEAF15BF4DF800FEF49B /* MasterViewController.m */,
+				C29A17C715C1E87D005612E7 /* ServerDefinition.h */,
+				C29A17C815C1E87D005612E7 /* ServerDefinition.m */,
+				C21DD6BE15C24B6F00E89FFC /* LobbyViewController.h */,
+				C21DD6BF15C24B6F00E89FFC /* LobbyViewController.m */,
 			);
 			path = Blamph;
 			sourceTree = "<group>";
@@ -230,17 +293,6 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		C286713F15A62441005DE3D5 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				C286714615A62442005DE3D5 /* DebugKitFramework.framework */,
-				C286714815A62442005DE3D5 /* DebugKitTests.octest */,
-				C286714A15A62442005DE3D5 /* libDebugKitLibrary.a */,
-				C286714C15A62442005DE3D5 /* DebugKitLibraryTests.octest */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -255,7 +307,8 @@
 			buildRules = (
 			);
 			dependencies = (
-				C286714E15A6244E005DE3D5 /* PBXTargetDependency */,
+				C258173615C2F8F0008DC45B /* PBXTargetDependency */,
+				C258172015C2F4CC008DC45B /* PBXTargetDependency */,
 				C286715015A6244E005DE3D5 /* PBXTargetDependency */,
 			);
 			name = Blamph;
@@ -303,12 +356,16 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = C286713F15A62441005DE3D5 /* Products */;
-					ProjectRef = C286713E15A62441005DE3D5 /* DebugKit.xcodeproj */;
+					ProductGroup = C258172415C2F8E7008DC45B /* Products */;
+					ProjectRef = C258172315C2F8E7008DC45B /* DebugKit.xcodeproj */;
 				},
 				{
 					ProductGroup = C286712B15A62431005DE3D5 /* Products */;
 					ProjectRef = C286712A15A62431005DE3D5 /* ICBProtocol.xcodeproj */;
+				},
+				{
+					ProductGroup = C258171715C2F4A6008DC45B /* Products */;
+					ProjectRef = C258171615C2F4A6008DC45B /* MBProgressHUD.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -320,6 +377,42 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
+		C258171E15C2F4A6008DC45B /* libMBProgressHUD.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libMBProgressHUD.a;
+			remoteRef = C258171D15C2F4A6008DC45B /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C258172E15C2F8E7008DC45B /* DebugKitFramework.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = DebugKitFramework.framework;
+			remoteRef = C258172D15C2F8E7008DC45B /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C258173015C2F8E7008DC45B /* DebugKitTests.octest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			name = DebugKitTests.octest;
+			path = DebugKitFrameworkTests.octest;
+			remoteRef = C258172F15C2F8E7008DC45B /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C258173215C2F8E7008DC45B /* libDebugKitLibrary.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libDebugKitLibrary.a;
+			remoteRef = C258173115C2F8E7008DC45B /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C258173415C2F8E7008DC45B /* DebugKitLibraryTests.octest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = DebugKitLibraryTests.octest;
+			remoteRef = C258173315C2F8E7008DC45B /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		C286713715A62431005DE3D5 /* libICBProtocol.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -334,35 +427,6 @@
 			remoteRef = C286713815A62431005DE3D5 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		C286714615A62442005DE3D5 /* DebugKitFramework.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = DebugKitFramework.framework;
-			remoteRef = C286714515A62442005DE3D5 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		C286714815A62442005DE3D5 /* DebugKitTests.octest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			name = DebugKitTests.octest;
-			path = DebugKitFrameworkTests.octest;
-			remoteRef = C286714715A62442005DE3D5 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		C286714A15A62442005DE3D5 /* libDebugKitLibrary.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libDebugKitLibrary.a;
-			remoteRef = C286714915A62442005DE3D5 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		C286714C15A62442005DE3D5 /* DebugKitLibraryTests.octest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = DebugKitLibraryTests.octest;
-			remoteRef = C286714B15A62442005DE3D5 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
@@ -371,6 +435,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				C286710215A62418005DE3D5 /* InfoPlist.strings in Resources */,
+				C293156115BCF632004718FB /* MainStoryboard_iPad.storyboard in Resources */,
+				C2ECFEAD15BF4D9700FEF49B /* MainStoryboard.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -409,6 +475,10 @@
 				C286710815A62418005DE3D5 /* AppDelegate.m in Sources */,
 				C286710B15A62418005DE3D5 /* Blamph.xcdatamodeld in Sources */,
 				C263B65915A6586700F5714E /* ICBClient.m in Sources */,
+				C263B6C715AB604200F5714E /* ICBData.m in Sources */,
+				C2ECFEB015BF4DF800FEF49B /* MasterViewController.m in Sources */,
+				C29A17C915C1E87D005612E7 /* ServerDefinition.m in Sources */,
+				C21DD6C015C24B6F00E89FFC /* LobbyViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -423,15 +493,20 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		C258172015C2F4CC008DC45B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = MBProgressHUD;
+			targetProxy = C258171F15C2F4CC008DC45B /* PBXContainerItemProxy */;
+		};
+		C258173615C2F8F0008DC45B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = DebugKitLibrary;
+			targetProxy = C258173515C2F8F0008DC45B /* PBXContainerItemProxy */;
+		};
 		C286711815A62418005DE3D5 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = C28670F015A62418005DE3D5 /* Blamph */;
 			targetProxy = C286711715A62418005DE3D5 /* PBXContainerItemProxy */;
-		};
-		C286714E15A6244E005DE3D5 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = DebugKitLibrary;
-			targetProxy = C286714D15A6244E005DE3D5 /* PBXContainerItemProxy */;
 		};
 		C286715015A6244E005DE3D5 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;

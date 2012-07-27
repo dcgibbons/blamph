@@ -15,10 +15,14 @@
 #import "LoginPacket.h"
 #import "PingPacket.h"
 #import "ProtocolPacket.h"
+#import "ServerDefinition.h"
 
 @interface ICBClient : NSObject <NSStreamDelegate>
 {
 @private
+    ServerDefinition *serverDefinition;
+    NSString *nickname;
+    
     NSInputStream *istream;
     NSOutputStream *ostream;
     
@@ -31,9 +35,15 @@
     
     NSMutableArray *chatGroups;
     NSMutableArray *chatUsers;
+    
+    // statistics
+    NSUInteger bytesReceived;
+    NSUInteger bytesSent;
+    NSUInteger packetsReceived;
+    NSUInteger packetsSent;
 }
 
-- (id)init;
+- (id)initWithServer:(ServerDefinition *)serverDefinition andNickname:(NSString *)nickname;
 - (void)handlePacket:(NSNotification *)notification;
 - (void)handleCommandOutputPacket:(CommandOutputPacket *)packet;
 - (void)handleErrorPacket:(ErrorPacket *)packet;
@@ -42,5 +52,8 @@
 
 - (void)sendPacket:(ICBPacket *)packet;
 - (void)handleInputStream:(NSInputStream *)stream;
+
+@property (nonatomic, readonly) NSArray *groups;
+@property (nonatomic, readonly) NSArray *users;
 
 @end

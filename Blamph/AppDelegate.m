@@ -7,24 +7,29 @@
 //
 
 #import "AppDelegate.h"
+#import "MasterViewController.h"
 
 @implementation AppDelegate
 
 @synthesize window = _window;
-@synthesize client = _client;
+//@synthesize client = _client;
 @synthesize managedObjectContext = __managedObjectContext;
 @synthesize managedObjectModel = __managedObjectModel;
 @synthesize persistentStoreCoordinator = __persistentStoreCoordinator;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
-    self.window.backgroundColor = [UIColor whiteColor];
-    [self.window makeKeyAndVisible];
     
-    self.client = [[ICBClient alloc] init];
+//    self.client = [[ICBClient alloc] init];
     
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+        abort();
+    } else {
+        MasterViewController *controller = (MasterViewController *)self.window.rootViewController;
+        controller.managedObjectContext = self.managedObjectContext;
+    }
+
     return YES;
 }
 

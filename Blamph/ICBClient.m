@@ -10,13 +10,21 @@
 
 @implementation ICBClient
 
-- (id)init
+- (id)initWithServer:(ServerDefinition *)userServerDefinition andNickname:(NSString *)userNickname
 {
     if (self = [super init])
     {
+        nickname = userNickname;
+        serverDefinition = userServerDefinition;
+        
         packetBuffer = malloc(MAX_PACKET_SIZE);
         chatGroups = [NSMutableArray arrayWithCapacity:100];
         chatUsers = [NSMutableArray arrayWithCapacity:500];
+        
+        bytesReceived = 0;
+        bytesSent = 0;
+        packetsReceived = 0;
+        packetsSent = 0;
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handlePacket:) name:@"ICBPacket" object:nil];
         
@@ -48,10 +56,21 @@
     return self;
 }
 
+- (NSString *)groups
+{
+    return [NSArray arrayWithArray:chatGroups];
+}
+
+- (NSString *)users
+{
+    return [NSArray arrayWithArray:chatUsers];
+}
+
 - (void)handlePacket:(NSNotification *)notification
 {
     ICBPacket *packet = [notification object];
     DLog("handlePacket: packet received! %@", packet);
+    packetsReceived++;
 
     if ([packet isKindOfClass:[CommandOutputPacket class]])
     {
@@ -115,7 +134,8 @@
             }
             else if ([[packet getFieldAtIndex:1] compare:@"Group: " options:0 range:NSMakeRange(0, 7)] == 0)
             {
-                NSString *chatGroup = [[[packet getFieldAtIndex:1] substringWithRange:NSMakeRange(7, 8)] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+                NSString *chatGroup = [[[packet getFieldAtIndex:1] substringWithRange:NSMakeRange(7, 8)] 
+                                       stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
                 [chatGroups addObject:chatGroup];
             }
         }
@@ -138,14 +158,16 @@
     clientState = kParsingWhoListing;
     [chatGroups removeAllObjects];
     [chatUsers removeAllObjects];
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"ICBClient:loginOK" object:self];
 }
 
 - (void)handleProtocolPacket:(ProtocolPacket *)packet
 {
     // TODO: check protocol packet version
     
-    NSString *id = @"testuser";
-    NSString *nick = @"tester";
+    NSString *id = nickname;
+    NSString *nick = nickname;
     NSString *group = @"";
     NSString *command = @"login";
     NSString *passwd = @"";
@@ -162,6 +184,7 @@
 {
     NSData *data = [packet data];
     DLog(@"Sending Packet!!!\n%@", [data hexDump]);
+    packetsSent++;
 
     uint8_t l = [data length];
     NSInteger written = [ostream write:&l maxLength:sizeof(l)];
@@ -193,6 +216,7 @@
             else
             {
                 DLog(@"new packet detected, packetLength=%u", packetLength);
+                bytesReceived += len;
                 bufferPos = 0;
                 readState = kReadingPacket;
             }
@@ -211,6 +235,7 @@
             else
             {
                 DLog(@"%d bytes read from input stream!", len);
+                bytesReceived += len;
                 bufferPos += len;
                 if (bufferPos < packetLength)
                 {
