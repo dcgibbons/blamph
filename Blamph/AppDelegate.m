@@ -2,149 +2,372 @@
 //  AppDelegate.m
 //  Blamph
 //
-//  Created by Chad Gibbons on 07/05/2012.
+//  Created by Chad Gibbons on 10/29/12.
 //  Copyright (c) 2012 Nuclear Bunny Studios, LLC. All rights reserved.
 //
 
 #import "AppDelegate.h"
+#import "ServerDefinition.h"
+#import "DateTimeUtils.h"
 
 @implementation AppDelegate
 
-@synthesize window = _window;
-@synthesize managedObjectContext = __managedObjectContext;
-@synthesize managedObjectModel = __managedObjectModel;
-@synthesize persistentStoreCoordinator = __persistentStoreCoordinator;
+@synthesize inputTextField;
+@synthesize outputTextView;
 
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+- (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
-    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    // Override point for customization after application launch.
-    self.window.backgroundColor = [UIColor whiteColor];
-    [self.window makeKeyAndVisible];
+    servers = [NSMutableArray arrayWithObjects:
+               [[ServerDefinition alloc] initWithName:@"localhost"
+                                          andHostname:@"localhost"
+                                              andPort:7326],
+               [[ServerDefinition alloc] initWithName:@"default"
+                                          andHostname:@"default.icb.net"
+                                              andPort:7326],
+               nil];
+    
+    [self.window makeFirstResponder:self.inputTextField];
+}
+
+- (BOOL)control:(NSControl *)control textShouldEndEditing:(NSText *)fieldEditor
+{
+    if (control == self.inputTextField)
+    {
+        NSString *cmd = self.inputTextField.stringValue;
+        [self.inputTextField setStringValue:@""];
+        
+        if (cmd == nil || [cmd length] == 0)
+            return TRUE;
+        
+        if ([cmd characterAtIndex:0] != '/')
+        {
+            [self sendOpenMessage:cmd];
+        }
+        else if ([cmd characterAtIndex:1] == '/')
+        {
+            [self sendOpenMessage:[cmd substringFromIndex:1]];
+        }
+        else
+        {
+            [self sendPersonalMessage:@"server" withMsg:[cmd substringFromIndex:1]];
+        }
+    }
+    
     return YES;
 }
 
-- (void)applicationWillResignActive:(UIApplication *)application
+- (NSString *)removeControlCharacters:(NSString *)s
 {
-    // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
-    // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
+    const NSUInteger n = [s length];
+    NSMutableString *t = [NSMutableString stringWithCapacity:n];
+    char c;
+    for (NSUInteger i = 0; i < n; i++)
+    {
+        c = [s characterAtIndex:i];
+        if (isspace(c))
+            [t appendFormat:@"%c", c];
+        else if (!iscntrl(c))
+            [t appendFormat:@"%c", c];
+    }
+    return t;
 }
 
-- (void)applicationDidEnterBackground:(UIApplication *)application
+- (void)sendOpenMessage:(NSString *)msg
 {
-    // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later. 
-    // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+    NSString *current;
+    NSString *remaining = [self removeControlCharacters:msg];
+    do {
+        if ([remaining length] > MAX_OPEN_MESSAGE_SIZE)
+        {
+            current = [remaining substringToIndex:MAX_OPEN_MESSAGE_SIZE];
+            NSRange range = [current rangeOfCharacterFromSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]
+                                                     options:NSBackwardsSearch];
+            if (range.location != NSNotFound)
+            {
+                current = [current substringWithRange:NSMakeRange(0, range.location + 1)];
+            }
+            remaining = [remaining substringFromIndex:[current length]];
+        }
+        else
+        {
+            current = remaining;
+            remaining = @"";
+        }
+        
+        OpenPacket *p = [[OpenPacket alloc] initWithText:current];
+        [client sendPacket:p];
+    } while ([remaining length] > 0);
 }
 
-- (void)applicationWillEnterForeground:(UIApplication *)application
+- (void)sendPersonalMessage:(NSString *)nick withMsg:(NSString *)msg
 {
-    // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+    NSString *current;
+    NSString *remaining = [self removeControlCharacters:msg];
+    do {
+        if ([remaining length] > MAX_PERSONAL_MESSAGE_SIZE)
+        {
+            current = [remaining substringToIndex:MAX_PERSONAL_MESSAGE_SIZE];
+            NSRange range = [current rangeOfCharacterFromSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]
+                                                     options:NSBackwardsSearch];
+            if (range.location != NSNotFound)
+            {
+                current = [current substringWithRange:NSMakeRange(0, range.location + 1)];
+            }
+            remaining = [remaining substringFromIndex:[current length]];
+        }
+        else
+        {
+            current = remaining;
+            remaining = @"";
+        }
+        
+        NSString *s = [NSString stringWithFormat:@"%@ %@", nick, current];
+        CommandPacket *p = [[CommandPacket alloc] initWithCommand:@"m" optionalArgs:s];
+        [client sendPacket:p];
+    } while ([remaining length] > 0);
+    
+    // TODO: add outgoing username to history
 }
 
-- (void)applicationDidBecomeActive:(UIApplication *)application
+- (IBAction)connect:(id)sender
 {
-    // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-}
-
-- (void)applicationWillTerminate:(UIApplication *)application
-{
-    // Saves changes in the application's managed object context before the application terminates.
-    [self saveContext];
-}
-
-- (void)saveContext
-{
-    NSError *error = nil;
-    NSManagedObjectContext *managedObjectContext = self.managedObjectContext;
-    if (managedObjectContext != nil) {
-        if ([managedObjectContext hasChanges] && ![managedObjectContext save:&error]) {
-             // Replace this implementation with code to handle the error appropriately.
-             // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development. 
-            NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-            abort();
-        } 
+    NSString *nickname = @"chadwick2";
+    NSUInteger server = 0;
+    
+    ServerDefinition *serverDefinition = (ServerDefinition *)[servers objectAtIndex:server];
+    if (serverDefinition != nil)
+    {
+        NSLog(@"Ready to connect as user %@ to server %@", nickname, serverDefinition);
+        //MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        //hud.labelText = @"Connecting";
+        
+        client = [[ICBClient alloc] initWithServer:serverDefinition
+                                       andNickname:nickname];
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(handlePacket:)
+                                                     name:@"ICBPacket"
+                                                   object:nil];
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(clientNotify:)
+                                                     name:nil
+                                                   object:client];
     }
 }
 
-#pragma mark - Core Data stack
-
-// Returns the managed object context for the application.
-// If the context doesn't already exist, it is created and bound to the persistent store coordinator for the application.
-- (NSManagedObjectContext *)managedObjectContext
+- (IBAction)disconnect:(id)sender
 {
-    if (__managedObjectContext != nil) {
-        return __managedObjectContext;
+    // TODO
+}
+
+- (IBAction)makeKeyAndOrderFront:(id)sender
+{
+    // TODO
+}
+
+- (void)handlePacket:(NSNotification *)notification
+{
+    const ICBPacket *packet = [notification object];
+    
+    [self displayMessageTimestamp];
+    
+    if ([packet isKindOfClass:[OpenPacket class]])
+    {
+        [self displayOpenPacket:(OpenPacket *)packet];
+    }
+    else if ([packet isKindOfClass:[PersonalPacket class]])
+    {
+        [self displayPersonalPacket:(PersonalPacket *)packet];
+    }
+    else if ([packet isKindOfClass:[CommandOutputPacket class]])
+    {
+        [self displayCommandOutputPacket:(CommandOutputPacket *)packet];
+    }
+    else if ([packet isKindOfClass:[BeepPacket class]])
+    {
+        [self displayBeepPacket:(BeepPacket *)packet];
+    }
+    else if ([packet isKindOfClass:[ExitPacket class]])
+    {
+        [self displayExitPacket:(ExitPacket *)packet];
+    }
+    else if ([packet isKindOfClass:[PingPacket class]])
+    {
+        [self displayPingPacket:(PingPacket *)packet];
+    }
+    else if ([packet isKindOfClass:[ProtocolPacket class]])
+    {
+        [self displayProtocolPacket:(ProtocolPacket *)packet];
+    }
+    else if ([packet isKindOfClass:[ErrorPacket class]])
+    {
+        [self displayErrorPacket:(ErrorPacket *)packet];
+    }
+    else if ([packet isKindOfClass:[StatusPacket class]])
+    {
+        [self displayStatusPacket:(StatusPacket *)packet];
     }
     
-    NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinator];
-    if (coordinator != nil) {
-        __managedObjectContext = [[NSManagedObjectContext alloc] init];
-        [__managedObjectContext setPersistentStoreCoordinator:coordinator];
-    }
-    return __managedObjectContext;
+    // TODO: don't scroll down if scrolled-back
+    NSRange range = NSMakeRange(self.outputTextView.textStorage.length - 1, 1);
+    [self.outputTextView scrollRangeToVisible:range];
 }
 
-// Returns the managed object model for the application.
-// If the model doesn't already exist, it is created from the application's model.
-- (NSManagedObjectModel *)managedObjectModel
+- (void)displayMessageTimestamp
 {
-    if (__managedObjectModel != nil) {
-        return __managedObjectModel;
-    }
-    NSURL *modelURL = [[NSBundle mainBundle] URLForResource:@"Blamph" withExtension:@"momd"];
-    __managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];
-    return __managedObjectModel;
+    CFAbsoluteTime now = CFAbsoluteTimeGetCurrent();
+    CFDateRef date = CFDateCreate(kCFAllocatorDefault, now);
+
+    CFLocaleRef currentLocale = CFLocaleCopyCurrent();
+    
+    CFDateFormatterRef dateFormatter = CFDateFormatterCreate
+    (NULL, currentLocale, kCFDateFormatterNoStyle, kCFDateFormatterShortStyle);
+    
+    CFStringRef formattedString = CFDateFormatterCreateStringWithDate(NULL, dateFormatter, date);
+    CFShow(formattedString);
+    
+    const NSTextStorage *textStorage = self.outputTextView.textStorage;
+    
+    NSString *s = [NSString stringWithFormat:@"%@ ", formattedString];
+    [textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:s]];
+    [textStorage setFont:[NSFont fontWithName:@"Monaco" size:12.0f]];
 }
 
-// Returns the persistent store coordinator for the application.
-// If the coordinator doesn't already exist, it is created and the application's store added to it.
-- (NSPersistentStoreCoordinator *)persistentStoreCoordinator
+- (void)displayOpenPacket:(OpenPacket *)p
 {
-    if (__persistentStoreCoordinator != nil) {
-        return __persistentStoreCoordinator;
-    }
+    const NSTextStorage *textStorage = self.outputTextView.textStorage;
     
-    NSURL *storeURL = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:@"Blamph.sqlite"];
+    NSString *s = [NSString stringWithFormat:@"<%@> %@\n", p.nick, p.text];
     
-    NSError *error = nil;
-    __persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:[self managedObjectModel]];
-    if (![__persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeURL options:nil error:&error]) {
-        /*
-         Replace this implementation with code to handle the error appropriately.
-         
-         abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development. 
-         
-         Typical reasons for an error here include:
-         * The persistent store is not accessible;
-         * The schema for the persistent store is incompatible with current managed object model.
-         Check the error message to determine what the actual problem was.
-         
-         
-         If the persistent store is not accessible, there is typically something wrong with the file path. Often, a file URL is pointing into the application's resources directory instead of a writeable directory.
-         
-         If you encounter schema incompatibility errors during development, you can reduce their frequency by:
-         * Simply deleting the existing store:
-         [[NSFileManager defaultManager] removeItemAtURL:storeURL error:nil]
-         
-         * Performing automatic lightweight migration by passing the following dictionary as the options parameter: 
-         [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithBool:YES], NSMigratePersistentStoresAutomaticallyOption, [NSNumber numberWithBool:YES], NSInferMappingModelAutomaticallyOption, nil];
-         
-         Lightweight migration will only work for a limited set of schema changes; consult "Core Data Model Versioning and Data Migration Programming Guide" for details.
-         
-         */
-        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-        abort();
-    }    
+    NSMutableAttributedString *as = [[NSMutableAttributedString alloc] initWithString:s];
+    [as addAttribute:NSLinkAttributeName value:p.nick range:NSMakeRange(1, [p.nick length])];
     
-    return __persistentStoreCoordinator;
+    [textStorage appendAttributedString:as];
+    [textStorage setFont:[NSFont fontWithName:@"Monaco" size:12.0f]];
 }
 
-#pragma mark - Application's Documents directory
-
-// Returns the URL to the application's Documents directory.
-- (NSURL *)applicationDocumentsDirectory
+- (void)displayPersonalPacket:(PersonalPacket *)p
 {
-    return [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
+    const NSTextStorage *textStorage = self.outputTextView.textStorage;
+    
+    NSString *s = [NSString stringWithFormat:@"<*%@*> %@\n", p.nick, p.text];
+    
+    NSMutableAttributedString *as = [[NSMutableAttributedString alloc] initWithString:s];
+    [as addAttribute:NSLinkAttributeName value:p.nick range:NSMakeRange(2, [p.nick length])];
+    
+    [textStorage appendAttributedString:as];
+    [textStorage setFont:[NSFont fontWithName:@"Monaco" size:12.0f]];
+}
+
+- (void)displayBeepPacket:(BeepPacket *)p
+{
+    const NSTextStorage *textStorage = self.outputTextView.textStorage;
+
+    NSString *s = [NSString stringWithFormat:@"[=Beep!=] %@ has sent you a beep\n", p.nick];
+
+    NSMutableAttributedString *as = [[NSMutableAttributedString alloc] initWithString:s];
+    [as addAttribute:NSLinkAttributeName value:p.nick range:NSMakeRange(11, [p.nick length])];
+    
+    [textStorage appendAttributedString:as];
+    [textStorage setFont:[NSFont fontWithName:@"Monaco" size:12.0f]];
+    
+    NSBeep();
+}
+
+- (void)displayExitPacket:(ExitPacket *)p
+{
+    const NSTextStorage *textStorage = self.outputTextView.textStorage;
+    
+    NSString *s = @"[=Disconnected=]\n";
+    [textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:s]];
+    [textStorage setFont:[NSFont fontWithName:@"Monaco" size:12.0f]];
+}
+
+- (void)displayPingPacket:(PingPacket *)p
+{
+    const NSTextStorage *textStorage = self.outputTextView.textStorage;
+    
+    NSString *s = @"[=Ping!=]\n";
+    [textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:s]];
+    [textStorage setFont:[NSFont fontWithName:@"Monaco" size:12.0f]];
+}
+
+- (void)displayProtocolPacket:(ProtocolPacket *)p
+{
+    const NSTextStorage *textStorage = self.outputTextView.textStorage;
+    
+    NSString *s = [NSString stringWithFormat:@"Connected to the %@ server (%@)\n",
+                   p.serverName, p.serverDescription];
+    [textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:s]];
+    [textStorage setFont:[NSFont fontWithName:@"Monaco" size:12.0f]];
+}
+
+- (void)displayStatusPacket:(StatusPacket *)p
+{
+    const NSTextStorage *textStorage = self.outputTextView.textStorage;
+    
+    NSString *s = [NSString stringWithFormat:@"[=%@=] %@\n", p.header, p.text];
+    [textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:s]];
+    [textStorage setFont:[NSFont fontWithName:@"Monaco" size:12.0f]];
+}
+
+- (void)displayErrorPacket:(ErrorPacket *)p
+{
+    const NSTextStorage *textStorage = self.outputTextView.textStorage;
+    
+    NSString *s = [NSString stringWithFormat:@"[=Error=] %@\n", p.errorText];
+    [textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:s]];
+    [textStorage setFont:[NSFont fontWithName:@"Monaco" size:12.0f]];
+}
+
+- (void)displayCommandOutputPacket:(CommandOutputPacket *)p
+{
+    const NSTextStorage *textStorage = self.outputTextView.textStorage;
+
+    NSString *s = nil;
+    
+    if ([p.outputType compare:@"wh"] == NSOrderedSame)
+    {
+        s = @"\t\tNickname\tIdle\tSign-on\tAccount\n";
+    }
+    else if ([p.outputType compare:@"wl"] == NSOrderedSame)
+    {
+        NSMutableString *ms = [NSMutableString stringWithCapacity:80];
+        [ms appendFormat:@"\t%c\t", [p isModerator] ? '*' : ' '];
+        [ms appendFormat:@"%@\t", [p nickname]];
+        [ms appendFormat:@"%@\t", [self formatElapsedTime:[p idleTime]]];
+        [ms appendFormat:@"%@\t", [self formatEventTime:[p signOnTime]]];
+        [ms appendFormat:@"%@@%@\n", p.username, p.hostname];
+        s = ms;
+        NSLog(@"wl=%@", s);
+    }
+    else
+    {
+        s = [NSString stringWithFormat:@"%@\n", p.output];
+    }
+    [textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:s]];
+    [textStorage setFont:[NSFont fontWithName:@"Monaco" size:12.0f]];
+}
+
+- (NSString *)formatElapsedTime:(NSTimeInterval)elapsedTime
+{
+    return [DateTimeUtils formatElapsedTime:elapsedTime];
+}
+
+- (NSString *)formatEventTime:(NSDate *)time
+{
+    return [DateTimeUtils formatEventTime:time];
+}
+
+- (void)clientNotify:(NSNotification *)notification
+{
+    if ([[notification name] compare:@"ICBClient:loginOK"] == NSOrderedSame)
+    {
+        //        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        //        [self performSegueWithIdentifier:@"connectSegue" sender:self];
+        NSLog(@"login ok!!");
+    }
 }
 
 @end

@@ -7,135 +7,189 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		C28670F615A62418005DE3D5 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C28670F515A62418005DE3D5 /* UIKit.framework */; };
-		C28670F815A62418005DE3D5 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C28670F715A62418005DE3D5 /* Foundation.framework */; };
-		C28670FA15A62418005DE3D5 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C28670F915A62418005DE3D5 /* CoreGraphics.framework */; };
-		C28670FC15A62418005DE3D5 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C28670FB15A62418005DE3D5 /* CoreData.framework */; };
-		C286710215A62418005DE3D5 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C286710015A62418005DE3D5 /* InfoPlist.strings */; };
-		C286710415A62418005DE3D5 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C286710315A62418005DE3D5 /* main.m */; };
-		C286710815A62418005DE3D5 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C286710715A62418005DE3D5 /* AppDelegate.m */; };
-		C286710B15A62418005DE3D5 /* Blamph.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C286710915A62418005DE3D5 /* Blamph.xcdatamodeld */; };
-		C286711315A62418005DE3D5 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C286711215A62418005DE3D5 /* SenTestingKit.framework */; };
-		C286711415A62418005DE3D5 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C28670F515A62418005DE3D5 /* UIKit.framework */; };
-		C286711515A62418005DE3D5 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C28670F715A62418005DE3D5 /* Foundation.framework */; };
-		C286711615A62418005DE3D5 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C28670FB15A62418005DE3D5 /* CoreData.framework */; };
-		C286711E15A62418005DE3D5 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C286711C15A62418005DE3D5 /* InfoPlist.strings */; };
-		C286712115A62418005DE3D5 /* BlamphTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C286712015A62418005DE3D5 /* BlamphTests.m */; };
-		C286715115A62458005DE3D5 /* libDebugKitLibrary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C286714A15A62442005DE3D5 /* libDebugKitLibrary.a */; };
-		C286715215A62458005DE3D5 /* libICBProtocol.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C286713715A62431005DE3D5 /* libICBProtocol.a */; };
+		C2F19574163F26E3006D48A4 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2F1953D163F2628006D48A4 /* Cocoa.framework */; };
+		C2F1957A163F26E3006D48A4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C2F19578163F26E3006D48A4 /* InfoPlist.strings */; };
+		C2F1957C163F26E3006D48A4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C2F1957B163F26E3006D48A4 /* main.m */; };
+		C2F19580163F26E3006D48A4 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = C2F1957E163F26E3006D48A4 /* Credits.rtf */; };
+		C2F19583163F26E3006D48A4 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C2F19582163F26E3006D48A4 /* AppDelegate.m */; };
+		C2F19586163F26E3006D48A4 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = C2F19584163F26E3006D48A4 /* MainMenu.xib */; };
+		C2F1958D163F26E3006D48A4 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C286711215A62418005DE3D5 /* SenTestingKit.framework */; };
+		C2F1958E163F26E3006D48A4 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2F1953D163F2628006D48A4 /* Cocoa.framework */; };
+		C2F19596163F26E3006D48A4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C2F19594163F26E3006D48A4 /* InfoPlist.strings */; };
+		C2F19599163F26E3006D48A4 /* BlamphTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C2F19598163F26E3006D48A4 /* BlamphTests.m */; };
+		C2F195AF163F2C8B006D48A4 /* ICBClient.m in Sources */ = {isa = PBXBuildFile; fileRef = C2F195AE163F2C8B006D48A4 /* ICBClient.m */; };
+		C2F199E816404A64006D48A4 /* BeepPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = C2F199CF16404A64006D48A4 /* BeepPacket.m */; };
+		C2F199E916404A64006D48A4 /* BeepPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = C2F199CF16404A64006D48A4 /* BeepPacket.m */; };
+		C2F199EA16404A64006D48A4 /* ErrorPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = C2F199D116404A64006D48A4 /* ErrorPacket.m */; };
+		C2F199EB16404A64006D48A4 /* ErrorPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = C2F199D116404A64006D48A4 /* ErrorPacket.m */; };
+		C2F199EC16404A64006D48A4 /* ExitPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = C2F199D316404A64006D48A4 /* ExitPacket.m */; };
+		C2F199ED16404A64006D48A4 /* ExitPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = C2F199D316404A64006D48A4 /* ExitPacket.m */; };
+		C2F199EE16404A64006D48A4 /* ICBPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = C2F199D516404A64006D48A4 /* ICBPacket.m */; };
+		C2F199EF16404A64006D48A4 /* ICBPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = C2F199D516404A64006D48A4 /* ICBPacket.m */; };
+		C2F199F016404A64006D48A4 /* ICBProtocol-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C2F199D616404A64006D48A4 /* ICBProtocol-Info.plist */; };
+		C2F199F116404A64006D48A4 /* ICBProtocol-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C2F199D616404A64006D48A4 /* ICBProtocol-Info.plist */; };
+		C2F199F216404A64006D48A4 /* ICBProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = C2F199D916404A64006D48A4 /* ICBProtocol.m */; };
+		C2F199F316404A64006D48A4 /* ICBProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = C2F199D916404A64006D48A4 /* ICBProtocol.m */; };
+		C2F199F416404A64006D48A4 /* LoginPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = C2F199DB16404A64006D48A4 /* LoginPacket.m */; };
+		C2F199F516404A64006D48A4 /* LoginPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = C2F199DB16404A64006D48A4 /* LoginPacket.m */; };
+		C2F199F616404A64006D48A4 /* OpenPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = C2F199DD16404A64006D48A4 /* OpenPacket.m */; };
+		C2F199F716404A64006D48A4 /* OpenPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = C2F199DD16404A64006D48A4 /* OpenPacket.m */; };
+		C2F199F816404A64006D48A4 /* PersonalPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = C2F199DF16404A64006D48A4 /* PersonalPacket.m */; };
+		C2F199F916404A64006D48A4 /* PersonalPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = C2F199DF16404A64006D48A4 /* PersonalPacket.m */; };
+		C2F199FA16404A64006D48A4 /* PingPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = C2F199E116404A64006D48A4 /* PingPacket.m */; };
+		C2F199FB16404A64006D48A4 /* PingPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = C2F199E116404A64006D48A4 /* PingPacket.m */; };
+		C2F199FC16404A64006D48A4 /* PongPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = C2F199E316404A64006D48A4 /* PongPacket.m */; };
+		C2F199FD16404A64006D48A4 /* PongPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = C2F199E316404A64006D48A4 /* PongPacket.m */; };
+		C2F199FE16404A64006D48A4 /* ProtocolPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = C2F199E516404A64006D48A4 /* ProtocolPacket.m */; };
+		C2F199FF16404A64006D48A4 /* ProtocolPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = C2F199E516404A64006D48A4 /* ProtocolPacket.m */; };
+		C2F19A0016404A64006D48A4 /* StatusPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = C2F199E716404A64006D48A4 /* StatusPacket.m */; };
+		C2F19A0116404A64006D48A4 /* StatusPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = C2F199E716404A64006D48A4 /* StatusPacket.m */; };
+		C2F19A1C16404B13006D48A4 /* DebugKitFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2F19A1716404B03006D48A4 /* DebugKitFramework.framework */; };
+		C2F19A1F16404BC0006D48A4 /* CommandPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = C2F19A1E16404BC0006D48A4 /* CommandPacket.m */; };
+		C2F19A2216404BDC006D48A4 /* CommandOutputPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = C2F19A2116404BDC006D48A4 /* CommandOutputPacket.m */; };
+		C2F19A2516404C2F006D48A4 /* ServerDefinition.m in Sources */ = {isa = PBXBuildFile; fileRef = C2F19A2416404C2F006D48A4 /* ServerDefinition.m */; };
+		C2F19A6916449B5B006D48A4 /* DateTimeUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = C2F19A6816449B5B006D48A4 /* DateTimeUtils.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		C286711715A62418005DE3D5 /* PBXContainerItemProxy */ = {
+		C2F1958F163F26E3006D48A4 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = C28670E815A62418005DE3D5 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = C28670F015A62418005DE3D5;
+			remoteGlobalIDString = C2F19571163F26E3006D48A4;
 			remoteInfo = Blamph;
 		};
-		C286713615A62431005DE3D5 /* PBXContainerItemProxy */ = {
+		C2F19A0E16404B03006D48A4 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = C286712A15A62431005DE3D5 /* ICBProtocol.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = C293AF2715A415D4003FDA51;
-			remoteInfo = ICBProtocol;
-		};
-		C286713815A62431005DE3D5 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = C286712A15A62431005DE3D5 /* ICBProtocol.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = C293AF3715A415D4003FDA51;
-			remoteInfo = ICBProtocolTests;
-		};
-		C286714515A62442005DE3D5 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = C286713E15A62441005DE3D5 /* DebugKit.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = C2864811159AC401006B31D4;
-			remoteInfo = DebugKitFramework;
-		};
-		C286714715A62442005DE3D5 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = C286713E15A62441005DE3D5 /* DebugKit.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = C2864829159AC401006B31D4;
-			remoteInfo = DebugKitFrameworkTests;
-		};
-		C286714915A62442005DE3D5 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = C286713E15A62441005DE3D5 /* DebugKit.xcodeproj */;
+			containerPortal = C2F19A0216404B02006D48A4 /* DebugKit.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = C286484F159AC657006B31D4;
 			remoteInfo = DebugKitLibrary;
 		};
-		C286714B15A62442005DE3D5 /* PBXContainerItemProxy */ = {
+		C2F19A1016404B03006D48A4 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = C286713E15A62441005DE3D5 /* DebugKit.xcodeproj */;
+			containerPortal = C2F19A0216404B02006D48A4 /* DebugKit.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = C286485D159AC657006B31D4;
 			remoteInfo = DebugKitLibraryTests;
 		};
-		C286714D15A6244E005DE3D5 /* PBXContainerItemProxy */ = {
+		C2F19A1216404B03006D48A4 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = C286713E15A62441005DE3D5 /* DebugKit.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = C286484E159AC657006B31D4;
-			remoteInfo = DebugKitLibrary;
+			containerPortal = C2F19A0216404B02006D48A4 /* DebugKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C2F19719163F40B1006D48A4;
+			remoteInfo = "DebugKitLibrary (OS X)";
 		};
-		C286714F15A6244E005DE3D5 /* PBXContainerItemProxy */ = {
+		C2F19A1416404B03006D48A4 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = C286712A15A62431005DE3D5 /* ICBProtocol.xcodeproj */;
+			containerPortal = C2F19A0216404B02006D48A4 /* DebugKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C2F19726163F40B1006D48A4;
+			remoteInfo = "DebugKitLibrary (OS X)Tests";
+		};
+		C2F19A1616404B03006D48A4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C2F19A0216404B02006D48A4 /* DebugKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C2F1994F163F8B2E006D48A4;
+			remoteInfo = DebugKitFramework;
+		};
+		C2F19A1816404B03006D48A4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C2F19A0216404B02006D48A4 /* DebugKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C2F19960163F8B2E006D48A4;
+			remoteInfo = DebugKitFrameworkTests;
+		};
+		C2F19A1A16404B0B006D48A4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C2F19A0216404B02006D48A4 /* DebugKit.xcodeproj */;
 			proxyType = 1;
-			remoteGlobalIDString = C293AF2615A415D4003FDA51;
-			remoteInfo = ICBProtocol;
+			remoteGlobalIDString = C2F1994E163F8B2E006D48A4;
+			remoteInfo = DebugKitFramework;
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		C28670F115A62418005DE3D5 /* Blamph.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Blamph.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C28670F515A62418005DE3D5 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		C28670F715A62418005DE3D5 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		C28670F915A62418005DE3D5 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		C28670FB15A62418005DE3D5 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
-		C28670FF15A62418005DE3D5 /* Blamph-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Blamph-Info.plist"; sourceTree = "<group>"; };
-		C286710115A62418005DE3D5 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		C286710315A62418005DE3D5 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		C286710515A62418005DE3D5 /* Blamph-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Blamph-Prefix.pch"; sourceTree = "<group>"; };
-		C286710615A62418005DE3D5 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		C286710715A62418005DE3D5 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		C286710A15A62418005DE3D5 /* Blamph.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Blamph.xcdatamodel; sourceTree = "<group>"; };
-		C286711115A62418005DE3D5 /* BlamphTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BlamphTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C286711215A62418005DE3D5 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
-		C286711B15A62418005DE3D5 /* BlamphTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "BlamphTests-Info.plist"; sourceTree = "<group>"; };
-		C286711D15A62418005DE3D5 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		C286711F15A62418005DE3D5 /* BlamphTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BlamphTests.h; sourceTree = "<group>"; };
-		C286712015A62418005DE3D5 /* BlamphTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BlamphTests.m; sourceTree = "<group>"; };
-		C286712A15A62431005DE3D5 /* ICBProtocol.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ICBProtocol.xcodeproj; path = ../../protocol/ICBProtocol/ICBProtocol.xcodeproj; sourceTree = "<group>"; };
-		C286713E15A62441005DE3D5 /* DebugKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = DebugKit.xcodeproj; path = ../../../DebugKit/DebugKit.xcodeproj; sourceTree = "<group>"; };
+		C2F1953D163F2628006D48A4 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = Library/Frameworks/Cocoa.framework; sourceTree = DEVELOPER_DIR; };
+		C2F19540163F2628006D48A4 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		C2F19541163F2628006D48A4 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		C2F19542163F2628006D48A4 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		C2F19572163F26E3006D48A4 /* Blamph.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Blamph.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C2F19577163F26E3006D48A4 /* Blamph-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Blamph-Info.plist"; sourceTree = "<group>"; };
+		C2F19579163F26E3006D48A4 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		C2F1957B163F26E3006D48A4 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		C2F1957D163F26E3006D48A4 /* Blamph-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Blamph-Prefix.pch"; sourceTree = "<group>"; };
+		C2F1957F163F26E3006D48A4 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
+		C2F19581163F26E3006D48A4 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		C2F19582163F26E3006D48A4 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		C2F19585163F26E3006D48A4 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		C2F1958C163F26E3006D48A4 /* BlamphTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BlamphTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		C2F19593163F26E3006D48A4 /* BlamphTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "BlamphTests-Info.plist"; sourceTree = "<group>"; };
+		C2F19595163F26E3006D48A4 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		C2F19597163F26E3006D48A4 /* BlamphTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BlamphTests.h; sourceTree = "<group>"; };
+		C2F19598163F26E3006D48A4 /* BlamphTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BlamphTests.m; sourceTree = "<group>"; };
+		C2F195AD163F2C8B006D48A4 /* ICBClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ICBClient.h; sourceTree = "<group>"; };
+		C2F195AE163F2C8B006D48A4 /* ICBClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ICBClient.m; sourceTree = "<group>"; };
+		C2F1963E163F33F9006D48A4 /* Blamph.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Blamph.entitlements; sourceTree = "<group>"; };
+		C2F199CE16404A64006D48A4 /* BeepPacket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BeepPacket.h; sourceTree = "<group>"; };
+		C2F199CF16404A64006D48A4 /* BeepPacket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BeepPacket.m; sourceTree = "<group>"; };
+		C2F199D016404A64006D48A4 /* ErrorPacket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ErrorPacket.h; sourceTree = "<group>"; };
+		C2F199D116404A64006D48A4 /* ErrorPacket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ErrorPacket.m; sourceTree = "<group>"; };
+		C2F199D216404A64006D48A4 /* ExitPacket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExitPacket.h; sourceTree = "<group>"; };
+		C2F199D316404A64006D48A4 /* ExitPacket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExitPacket.m; sourceTree = "<group>"; };
+		C2F199D416404A64006D48A4 /* ICBPacket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ICBPacket.h; sourceTree = "<group>"; };
+		C2F199D516404A64006D48A4 /* ICBPacket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ICBPacket.m; sourceTree = "<group>"; };
+		C2F199D616404A64006D48A4 /* ICBProtocol-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "ICBProtocol-Info.plist"; sourceTree = "<group>"; };
+		C2F199D716404A64006D48A4 /* ICBProtocol-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ICBProtocol-Prefix.pch"; sourceTree = "<group>"; };
+		C2F199D816404A64006D48A4 /* ICBProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ICBProtocol.h; sourceTree = "<group>"; };
+		C2F199D916404A64006D48A4 /* ICBProtocol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ICBProtocol.m; sourceTree = "<group>"; };
+		C2F199DA16404A64006D48A4 /* LoginPacket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginPacket.h; sourceTree = "<group>"; };
+		C2F199DB16404A64006D48A4 /* LoginPacket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginPacket.m; sourceTree = "<group>"; };
+		C2F199DC16404A64006D48A4 /* OpenPacket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenPacket.h; sourceTree = "<group>"; };
+		C2F199DD16404A64006D48A4 /* OpenPacket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenPacket.m; sourceTree = "<group>"; };
+		C2F199DE16404A64006D48A4 /* PersonalPacket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PersonalPacket.h; sourceTree = "<group>"; };
+		C2F199DF16404A64006D48A4 /* PersonalPacket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PersonalPacket.m; sourceTree = "<group>"; };
+		C2F199E016404A64006D48A4 /* PingPacket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PingPacket.h; sourceTree = "<group>"; };
+		C2F199E116404A64006D48A4 /* PingPacket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PingPacket.m; sourceTree = "<group>"; };
+		C2F199E216404A64006D48A4 /* PongPacket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PongPacket.h; sourceTree = "<group>"; };
+		C2F199E316404A64006D48A4 /* PongPacket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PongPacket.m; sourceTree = "<group>"; };
+		C2F199E416404A64006D48A4 /* ProtocolPacket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProtocolPacket.h; sourceTree = "<group>"; };
+		C2F199E516404A64006D48A4 /* ProtocolPacket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProtocolPacket.m; sourceTree = "<group>"; };
+		C2F199E616404A64006D48A4 /* StatusPacket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatusPacket.h; sourceTree = "<group>"; };
+		C2F199E716404A64006D48A4 /* StatusPacket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatusPacket.m; sourceTree = "<group>"; };
+		C2F19A0216404B02006D48A4 /* DebugKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = DebugKit.xcodeproj; path = ../../../DebugKit/DebugKit.xcodeproj; sourceTree = "<group>"; };
+		C2F19A1D16404BC0006D48A4 /* CommandPacket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommandPacket.h; sourceTree = "<group>"; };
+		C2F19A1E16404BC0006D48A4 /* CommandPacket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommandPacket.m; sourceTree = "<group>"; };
+		C2F19A2016404BDC006D48A4 /* CommandOutputPacket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommandOutputPacket.h; sourceTree = "<group>"; };
+		C2F19A2116404BDC006D48A4 /* CommandOutputPacket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommandOutputPacket.m; sourceTree = "<group>"; };
+		C2F19A2316404C2F006D48A4 /* ServerDefinition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServerDefinition.h; sourceTree = "<group>"; };
+		C2F19A2416404C2F006D48A4 /* ServerDefinition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ServerDefinition.m; sourceTree = "<group>"; };
+		C2F19A6716449B5B006D48A4 /* DateTimeUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DateTimeUtils.h; sourceTree = "<group>"; };
+		C2F19A6816449B5B006D48A4 /* DateTimeUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DateTimeUtils.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		C28670EE15A62418005DE3D5 /* Frameworks */ = {
+		C2F1956F163F26E3006D48A4 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C286715115A62458005DE3D5 /* libDebugKitLibrary.a in Frameworks */,
-				C286715215A62458005DE3D5 /* libICBProtocol.a in Frameworks */,
-				C28670F615A62418005DE3D5 /* UIKit.framework in Frameworks */,
-				C28670F815A62418005DE3D5 /* Foundation.framework in Frameworks */,
-				C28670FA15A62418005DE3D5 /* CoreGraphics.framework in Frameworks */,
-				C28670FC15A62418005DE3D5 /* CoreData.framework in Frameworks */,
+				C2F19A1C16404B13006D48A4 /* DebugKitFramework.framework in Frameworks */,
+				C2F19574163F26E3006D48A4 /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		C286710D15A62418005DE3D5 /* Frameworks */ = {
+		C2F19588163F26E3006D48A4 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C286711315A62418005DE3D5 /* SenTestingKit.framework in Frameworks */,
-				C286711415A62418005DE3D5 /* UIKit.framework in Frameworks */,
-				C286711515A62418005DE3D5 /* Foundation.framework in Frameworks */,
-				C286711615A62418005DE3D5 /* CoreData.framework in Frameworks */,
+				C2F1958D163F26E3006D48A4 /* SenTestingKit.framework in Frameworks */,
+				C2F1958E163F26E3006D48A4 /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -145,10 +199,10 @@
 		C28670E615A62418005DE3D5 = {
 			isa = PBXGroup;
 			children = (
-				C286713E15A62441005DE3D5 /* DebugKit.xcodeproj */,
-				C286712A15A62431005DE3D5 /* ICBProtocol.xcodeproj */,
-				C28670FD15A62418005DE3D5 /* Blamph */,
-				C286711915A62418005DE3D5 /* BlamphTests */,
+				C2F19A0216404B02006D48A4 /* DebugKit.xcodeproj */,
+				C2F199CD16404A64006D48A4 /* ICBProtocol */,
+				C2F19575163F26E3006D48A4 /* Blamph */,
+				C2F19591163F26E3006D48A4 /* BlamphTests */,
 				C28670F415A62418005DE3D5 /* Frameworks */,
 				C28670F215A62418005DE3D5 /* Products */,
 			);
@@ -157,8 +211,8 @@
 		C28670F215A62418005DE3D5 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				C28670F115A62418005DE3D5 /* Blamph.app */,
-				C286711115A62418005DE3D5 /* BlamphTests.octest */,
+				C2F19572163F26E3006D48A4 /* Blamph.app */,
+				C2F1958C163F26E3006D48A4 /* BlamphTests.octest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -171,67 +225,118 @@
 				C28670F915A62418005DE3D5 /* CoreGraphics.framework */,
 				C28670FB15A62418005DE3D5 /* CoreData.framework */,
 				C286711215A62418005DE3D5 /* SenTestingKit.framework */,
+				C2F1953D163F2628006D48A4 /* Cocoa.framework */,
+				C2F1953F163F2628006D48A4 /* Other Frameworks */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		C28670FD15A62418005DE3D5 /* Blamph */ = {
+		C2F1953F163F2628006D48A4 /* Other Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				C286710615A62418005DE3D5 /* AppDelegate.h */,
-				C286710715A62418005DE3D5 /* AppDelegate.m */,
-				C286710915A62418005DE3D5 /* Blamph.xcdatamodeld */,
-				C28670FE15A62418005DE3D5 /* Supporting Files */,
+				C2F19540163F2628006D48A4 /* AppKit.framework */,
+				C2F19541163F2628006D48A4 /* CoreData.framework */,
+				C2F19542163F2628006D48A4 /* Foundation.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		C2F19575163F26E3006D48A4 /* Blamph */ = {
+			isa = PBXGroup;
+			children = (
+				C2F19576163F26E3006D48A4 /* Supporting Files */,
+				C2F19581163F26E3006D48A4 /* AppDelegate.h */,
+				C2F19582163F26E3006D48A4 /* AppDelegate.m */,
+				C2F195AD163F2C8B006D48A4 /* ICBClient.h */,
+				C2F195AE163F2C8B006D48A4 /* ICBClient.m */,
+				C2F19A2316404C2F006D48A4 /* ServerDefinition.h */,
+				C2F19A2416404C2F006D48A4 /* ServerDefinition.m */,
+				C2F19A6716449B5B006D48A4 /* DateTimeUtils.h */,
+				C2F19A6816449B5B006D48A4 /* DateTimeUtils.m */,
 			);
 			path = Blamph;
 			sourceTree = "<group>";
 		};
-		C28670FE15A62418005DE3D5 /* Supporting Files */ = {
+		C2F19576163F26E3006D48A4 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				C28670FF15A62418005DE3D5 /* Blamph-Info.plist */,
-				C286710015A62418005DE3D5 /* InfoPlist.strings */,
-				C286710315A62418005DE3D5 /* main.m */,
-				C286710515A62418005DE3D5 /* Blamph-Prefix.pch */,
+				C2F1963E163F33F9006D48A4 /* Blamph.entitlements */,
+				C2F19577163F26E3006D48A4 /* Blamph-Info.plist */,
+				C2F1957D163F26E3006D48A4 /* Blamph-Prefix.pch */,
+				C2F19578163F26E3006D48A4 /* InfoPlist.strings */,
+				C2F1957B163F26E3006D48A4 /* main.m */,
+				C2F19584163F26E3006D48A4 /* MainMenu.xib */,
+				C2F1957E163F26E3006D48A4 /* Credits.rtf */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		C286711915A62418005DE3D5 /* BlamphTests */ = {
+		C2F19591163F26E3006D48A4 /* BlamphTests */ = {
 			isa = PBXGroup;
 			children = (
-				C286711F15A62418005DE3D5 /* BlamphTests.h */,
-				C286712015A62418005DE3D5 /* BlamphTests.m */,
-				C286711A15A62418005DE3D5 /* Supporting Files */,
+				C2F19597163F26E3006D48A4 /* BlamphTests.h */,
+				C2F19598163F26E3006D48A4 /* BlamphTests.m */,
+				C2F19592163F26E3006D48A4 /* Supporting Files */,
 			);
 			path = BlamphTests;
 			sourceTree = "<group>";
 		};
-		C286711A15A62418005DE3D5 /* Supporting Files */ = {
+		C2F19592163F26E3006D48A4 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				C286711B15A62418005DE3D5 /* BlamphTests-Info.plist */,
-				C286711C15A62418005DE3D5 /* InfoPlist.strings */,
+				C2F19593163F26E3006D48A4 /* BlamphTests-Info.plist */,
+				C2F19594163F26E3006D48A4 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		C286712B15A62431005DE3D5 /* Products */ = {
+		C2F199CD16404A64006D48A4 /* ICBProtocol */ = {
 			isa = PBXGroup;
 			children = (
-				C286713715A62431005DE3D5 /* libICBProtocol.a */,
-				C286713915A62431005DE3D5 /* ICBProtocolTests.octest */,
+				C2F199CE16404A64006D48A4 /* BeepPacket.h */,
+				C2F199CF16404A64006D48A4 /* BeepPacket.m */,
+				C2F19A2016404BDC006D48A4 /* CommandOutputPacket.h */,
+				C2F19A2116404BDC006D48A4 /* CommandOutputPacket.m */,
+				C2F19A1D16404BC0006D48A4 /* CommandPacket.h */,
+				C2F19A1E16404BC0006D48A4 /* CommandPacket.m */,
+				C2F199D016404A64006D48A4 /* ErrorPacket.h */,
+				C2F199D116404A64006D48A4 /* ErrorPacket.m */,
+				C2F199D216404A64006D48A4 /* ExitPacket.h */,
+				C2F199D316404A64006D48A4 /* ExitPacket.m */,
+				C2F199D416404A64006D48A4 /* ICBPacket.h */,
+				C2F199D516404A64006D48A4 /* ICBPacket.m */,
+				C2F199D616404A64006D48A4 /* ICBProtocol-Info.plist */,
+				C2F199D716404A64006D48A4 /* ICBProtocol-Prefix.pch */,
+				C2F199D816404A64006D48A4 /* ICBProtocol.h */,
+				C2F199D916404A64006D48A4 /* ICBProtocol.m */,
+				C2F199DA16404A64006D48A4 /* LoginPacket.h */,
+				C2F199DB16404A64006D48A4 /* LoginPacket.m */,
+				C2F199DC16404A64006D48A4 /* OpenPacket.h */,
+				C2F199DD16404A64006D48A4 /* OpenPacket.m */,
+				C2F199DE16404A64006D48A4 /* PersonalPacket.h */,
+				C2F199DF16404A64006D48A4 /* PersonalPacket.m */,
+				C2F199E016404A64006D48A4 /* PingPacket.h */,
+				C2F199E116404A64006D48A4 /* PingPacket.m */,
+				C2F199E216404A64006D48A4 /* PongPacket.h */,
+				C2F199E316404A64006D48A4 /* PongPacket.m */,
+				C2F199E416404A64006D48A4 /* ProtocolPacket.h */,
+				C2F199E516404A64006D48A4 /* ProtocolPacket.m */,
+				C2F199E616404A64006D48A4 /* StatusPacket.h */,
+				C2F199E716404A64006D48A4 /* StatusPacket.m */,
 			);
-			name = Products;
+			name = ICBProtocol;
+			path = ../../protocol/ICBProtocol/ICBProtocol;
 			sourceTree = "<group>";
 		};
-		C286713F15A62441005DE3D5 /* Products */ = {
+		C2F19A0316404B02006D48A4 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				C286714615A62442005DE3D5 /* DebugKitFramework.framework */,
-				C286714815A62442005DE3D5 /* DebugKitTests.octest */,
-				C286714A15A62442005DE3D5 /* libDebugKitLibrary.a */,
-				C286714C15A62442005DE3D5 /* DebugKitLibraryTests.octest */,
+				C2F19A0F16404B03006D48A4 /* libDebugKit.a */,
+				C2F19A1116404B03006D48A4 /* DebugKitLibraryTests.octest */,
+				C2F19A1316404B03006D48A4 /* libDebugKit.a */,
+				C2F19A1516404B03006D48A4 /* DebugKitLibrary (OS X)Tests.octest */,
+				C2F19A1716404B03006D48A4 /* DebugKitFramework.framework */,
+				C2F19A1916404B03006D48A4 /* DebugKitFrameworkTests.octest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -239,42 +344,41 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		C28670F015A62418005DE3D5 /* Blamph */ = {
+		C2F19571163F26E3006D48A4 /* Blamph */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = C286712415A62418005DE3D5 /* Build configuration list for PBXNativeTarget "Blamph" */;
+			buildConfigurationList = C2F1959A163F26E3006D48A4 /* Build configuration list for PBXNativeTarget "Blamph" */;
 			buildPhases = (
-				C28670ED15A62418005DE3D5 /* Sources */,
-				C28670EE15A62418005DE3D5 /* Frameworks */,
-				C28670EF15A62418005DE3D5 /* Resources */,
+				C2F1956E163F26E3006D48A4 /* Sources */,
+				C2F1956F163F26E3006D48A4 /* Frameworks */,
+				C2F19570163F26E3006D48A4 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				C286714E15A6244E005DE3D5 /* PBXTargetDependency */,
-				C286715015A6244E005DE3D5 /* PBXTargetDependency */,
+				C2F19A1B16404B0B006D48A4 /* PBXTargetDependency */,
 			);
 			name = Blamph;
 			productName = Blamph;
-			productReference = C28670F115A62418005DE3D5 /* Blamph.app */;
+			productReference = C2F19572163F26E3006D48A4 /* Blamph.app */;
 			productType = "com.apple.product-type.application";
 		};
-		C286711015A62418005DE3D5 /* BlamphTests */ = {
+		C2F1958B163F26E3006D48A4 /* BlamphTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = C286712715A62418005DE3D5 /* Build configuration list for PBXNativeTarget "BlamphTests" */;
+			buildConfigurationList = C2F1959D163F26E3006D48A4 /* Build configuration list for PBXNativeTarget "BlamphTests" */;
 			buildPhases = (
-				C286710C15A62418005DE3D5 /* Sources */,
-				C286710D15A62418005DE3D5 /* Frameworks */,
-				C286710E15A62418005DE3D5 /* Resources */,
-				C286710F15A62418005DE3D5 /* ShellScript */,
+				C2F19587163F26E3006D48A4 /* Sources */,
+				C2F19588163F26E3006D48A4 /* Frameworks */,
+				C2F19589163F26E3006D48A4 /* Resources */,
+				C2F1958A163F26E3006D48A4 /* ShellScript */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				C286711815A62418005DE3D5 /* PBXTargetDependency */,
+				C2F19590163F26E3006D48A4 /* PBXTargetDependency */,
 			);
 			name = BlamphTests;
 			productName = BlamphTests;
-			productReference = C286711115A62418005DE3D5 /* BlamphTests.octest */;
+			productReference = C2F1958C163F26E3006D48A4 /* BlamphTests.octest */;
 			productType = "com.apple.product-type.bundle";
 		};
 /* End PBXNativeTarget section */
@@ -298,89 +402,88 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = C286713F15A62441005DE3D5 /* Products */;
-					ProjectRef = C286713E15A62441005DE3D5 /* DebugKit.xcodeproj */;
-				},
-				{
-					ProductGroup = C286712B15A62431005DE3D5 /* Products */;
-					ProjectRef = C286712A15A62431005DE3D5 /* ICBProtocol.xcodeproj */;
+					ProductGroup = C2F19A0316404B02006D48A4 /* Products */;
+					ProjectRef = C2F19A0216404B02006D48A4 /* DebugKit.xcodeproj */;
 				},
 			);
 			projectRoot = "";
 			targets = (
-				C28670F015A62418005DE3D5 /* Blamph */,
-				C286711015A62418005DE3D5 /* BlamphTests */,
+				C2F19571163F26E3006D48A4 /* Blamph */,
+				C2F1958B163F26E3006D48A4 /* BlamphTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		C286713715A62431005DE3D5 /* libICBProtocol.a */ = {
+		C2F19A0F16404B03006D48A4 /* libDebugKit.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
-			path = libICBProtocol.a;
-			remoteRef = C286713615A62431005DE3D5 /* PBXContainerItemProxy */;
+			path = libDebugKit.a;
+			remoteRef = C2F19A0E16404B03006D48A4 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		C286713915A62431005DE3D5 /* ICBProtocolTests.octest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = ICBProtocolTests.octest;
-			remoteRef = C286713815A62431005DE3D5 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		C286714615A62442005DE3D5 /* DebugKitFramework.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = DebugKitFramework.framework;
-			remoteRef = C286714515A62442005DE3D5 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		C286714815A62442005DE3D5 /* DebugKitTests.octest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			name = DebugKitTests.octest;
-			path = DebugKitFrameworkTests.octest;
-			remoteRef = C286714715A62442005DE3D5 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		C286714A15A62442005DE3D5 /* libDebugKitLibrary.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libDebugKitLibrary.a;
-			remoteRef = C286714915A62442005DE3D5 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		C286714C15A62442005DE3D5 /* DebugKitLibraryTests.octest */ = {
+		C2F19A1116404B03006D48A4 /* DebugKitLibraryTests.octest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
 			path = DebugKitLibraryTests.octest;
-			remoteRef = C286714B15A62442005DE3D5 /* PBXContainerItemProxy */;
+			remoteRef = C2F19A1016404B03006D48A4 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C2F19A1316404B03006D48A4 /* libDebugKit.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libDebugKit.a;
+			remoteRef = C2F19A1216404B03006D48A4 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C2F19A1516404B03006D48A4 /* DebugKitLibrary (OS X)Tests.octest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "DebugKitLibrary (OS X)Tests.octest";
+			remoteRef = C2F19A1416404B03006D48A4 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C2F19A1716404B03006D48A4 /* DebugKitFramework.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = DebugKitFramework.framework;
+			remoteRef = C2F19A1616404B03006D48A4 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C2F19A1916404B03006D48A4 /* DebugKitFrameworkTests.octest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = DebugKitFrameworkTests.octest;
+			remoteRef = C2F19A1816404B03006D48A4 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
-		C28670EF15A62418005DE3D5 /* Resources */ = {
+		C2F19570163F26E3006D48A4 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C286710215A62418005DE3D5 /* InfoPlist.strings in Resources */,
+				C2F1957A163F26E3006D48A4 /* InfoPlist.strings in Resources */,
+				C2F19580163F26E3006D48A4 /* Credits.rtf in Resources */,
+				C2F19586163F26E3006D48A4 /* MainMenu.xib in Resources */,
+				C2F199F016404A64006D48A4 /* ICBProtocol-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		C286710E15A62418005DE3D5 /* Resources */ = {
+		C2F19589163F26E3006D48A4 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C286711E15A62418005DE3D5 /* InfoPlist.strings in Resources */,
+				C2F19596163F26E3006D48A4 /* InfoPlist.strings in Resources */,
+				C2F199F116404A64006D48A4 /* ICBProtocol-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		C286710F15A62418005DE3D5 /* ShellScript */ = {
+		C2F1958A163F26E3006D48A4 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -396,57 +499,96 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		C28670ED15A62418005DE3D5 /* Sources */ = {
+		C2F1956E163F26E3006D48A4 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C286710415A62418005DE3D5 /* main.m in Sources */,
-				C286710815A62418005DE3D5 /* AppDelegate.m in Sources */,
-				C286710B15A62418005DE3D5 /* Blamph.xcdatamodeld in Sources */,
+				C2F1957C163F26E3006D48A4 /* main.m in Sources */,
+				C2F19583163F26E3006D48A4 /* AppDelegate.m in Sources */,
+				C2F195AF163F2C8B006D48A4 /* ICBClient.m in Sources */,
+				C2F199E816404A64006D48A4 /* BeepPacket.m in Sources */,
+				C2F199EA16404A64006D48A4 /* ErrorPacket.m in Sources */,
+				C2F199EC16404A64006D48A4 /* ExitPacket.m in Sources */,
+				C2F199EE16404A64006D48A4 /* ICBPacket.m in Sources */,
+				C2F199F216404A64006D48A4 /* ICBProtocol.m in Sources */,
+				C2F199F416404A64006D48A4 /* LoginPacket.m in Sources */,
+				C2F199F616404A64006D48A4 /* OpenPacket.m in Sources */,
+				C2F199F816404A64006D48A4 /* PersonalPacket.m in Sources */,
+				C2F199FA16404A64006D48A4 /* PingPacket.m in Sources */,
+				C2F199FC16404A64006D48A4 /* PongPacket.m in Sources */,
+				C2F199FE16404A64006D48A4 /* ProtocolPacket.m in Sources */,
+				C2F19A0016404A64006D48A4 /* StatusPacket.m in Sources */,
+				C2F19A1F16404BC0006D48A4 /* CommandPacket.m in Sources */,
+				C2F19A2216404BDC006D48A4 /* CommandOutputPacket.m in Sources */,
+				C2F19A2516404C2F006D48A4 /* ServerDefinition.m in Sources */,
+				C2F19A6916449B5B006D48A4 /* DateTimeUtils.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		C286710C15A62418005DE3D5 /* Sources */ = {
+		C2F19587163F26E3006D48A4 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C286712115A62418005DE3D5 /* BlamphTests.m in Sources */,
+				C2F19599163F26E3006D48A4 /* BlamphTests.m in Sources */,
+				C2F199E916404A64006D48A4 /* BeepPacket.m in Sources */,
+				C2F199EB16404A64006D48A4 /* ErrorPacket.m in Sources */,
+				C2F199ED16404A64006D48A4 /* ExitPacket.m in Sources */,
+				C2F199EF16404A64006D48A4 /* ICBPacket.m in Sources */,
+				C2F199F316404A64006D48A4 /* ICBProtocol.m in Sources */,
+				C2F199F516404A64006D48A4 /* LoginPacket.m in Sources */,
+				C2F199F716404A64006D48A4 /* OpenPacket.m in Sources */,
+				C2F199F916404A64006D48A4 /* PersonalPacket.m in Sources */,
+				C2F199FB16404A64006D48A4 /* PingPacket.m in Sources */,
+				C2F199FD16404A64006D48A4 /* PongPacket.m in Sources */,
+				C2F199FF16404A64006D48A4 /* ProtocolPacket.m in Sources */,
+				C2F19A0116404A64006D48A4 /* StatusPacket.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		C286711815A62418005DE3D5 /* PBXTargetDependency */ = {
+		C2F19590163F26E3006D48A4 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = C28670F015A62418005DE3D5 /* Blamph */;
-			targetProxy = C286711715A62418005DE3D5 /* PBXContainerItemProxy */;
+			target = C2F19571163F26E3006D48A4 /* Blamph */;
+			targetProxy = C2F1958F163F26E3006D48A4 /* PBXContainerItemProxy */;
 		};
-		C286714E15A6244E005DE3D5 /* PBXTargetDependency */ = {
+		C2F19A1B16404B0B006D48A4 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			name = DebugKitLibrary;
-			targetProxy = C286714D15A6244E005DE3D5 /* PBXContainerItemProxy */;
-		};
-		C286715015A6244E005DE3D5 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = ICBProtocol;
-			targetProxy = C286714F15A6244E005DE3D5 /* PBXContainerItemProxy */;
+			name = DebugKitFramework;
+			targetProxy = C2F19A1A16404B0B006D48A4 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		C286710015A62418005DE3D5 /* InfoPlist.strings */ = {
+		C2F19578163F26E3006D48A4 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
-				C286710115A62418005DE3D5 /* en */,
+				C2F19579163F26E3006D48A4 /* en */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
-		C286711C15A62418005DE3D5 /* InfoPlist.strings */ = {
+		C2F1957E163F26E3006D48A4 /* Credits.rtf */ = {
 			isa = PBXVariantGroup;
 			children = (
-				C286711D15A62418005DE3D5 /* en */,
+				C2F1957F163F26E3006D48A4 /* en */,
+			);
+			name = Credits.rtf;
+			sourceTree = "<group>";
+		};
+		C2F19584163F26E3006D48A4 /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C2F19585163F26E3006D48A4 /* en */,
+			);
+			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+		C2F19594163F26E3006D48A4 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C2F19595163F26E3006D48A4 /* en */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -511,57 +653,107 @@
 			};
 			name = Release;
 		};
-		C286712515A62418005DE3D5 /* Debug */ = {
+		C2F1959B163F26E3006D48A4 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_ENTITLEMENTS = Blamph/Blamph.entitlements;
+				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SYSTEM_APPS_DIR)/Xcode.app/Contents/Developer/Library/Frameworks\"",
+				);
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Blamph/Blamph-Prefix.pch";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				HEADER_SEARCH_PATHS = "$(BUILT_PRODUCTS_DIR)/usr/local/include";
 				INFOPLIST_FILE = "Blamph/Blamph-Info.plist";
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
 		};
-		C286712615A62418005DE3D5 /* Release */ = {
+		C2F1959C163F26E3006D48A4 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_ENTITLEMENTS = Blamph/Blamph.entitlements;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SYSTEM_APPS_DIR)/Xcode.app/Contents/Developer/Library/Frameworks\"",
+				);
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Blamph/Blamph-Prefix.pch";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				HEADER_SEARCH_PATHS = "$(BUILT_PRODUCTS_DIR)/usr/local/include";
 				INFOPLIST_FILE = "Blamph/Blamph-Info.plist";
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
 		};
-		C286712815A62418005DE3D5 /* Debug */ = {
+		C2F1959E163F26E3006D48A4 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Blamph.app/Blamph";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
-				);
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Blamph.app/Contents/MacOS/Blamph";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = "\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"";
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Blamph/Blamph-Prefix.pch";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				INFOPLIST_FILE = "BlamphTests/BlamphTests-Info.plist";
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = octest;
 			};
 			name = Debug;
 		};
-		C286712915A62418005DE3D5 /* Release */ = {
+		C2F1959F163F26E3006D48A4 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Blamph.app/Blamph";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
-				);
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Blamph.app/Contents/MacOS/Blamph";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				FRAMEWORK_SEARCH_PATHS = "\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"";
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Blamph/Blamph-Prefix.pch";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				INFOPLIST_FILE = "BlamphTests/BlamphTests-Info.plist";
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = octest;
 			};
@@ -579,36 +771,25 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		C286712415A62418005DE3D5 /* Build configuration list for PBXNativeTarget "Blamph" */ = {
+		C2F1959A163F26E3006D48A4 /* Build configuration list for PBXNativeTarget "Blamph" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				C286712515A62418005DE3D5 /* Debug */,
-				C286712615A62418005DE3D5 /* Release */,
+				C2F1959B163F26E3006D48A4 /* Debug */,
+				C2F1959C163F26E3006D48A4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
-		C286712715A62418005DE3D5 /* Build configuration list for PBXNativeTarget "BlamphTests" */ = {
+		C2F1959D163F26E3006D48A4 /* Build configuration list for PBXNativeTarget "BlamphTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				C286712815A62418005DE3D5 /* Debug */,
-				C286712915A62418005DE3D5 /* Release */,
+				C2F1959E163F26E3006D48A4 /* Debug */,
+				C2F1959F163F26E3006D48A4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCVersionGroup section */
-		C286710915A62418005DE3D5 /* Blamph.xcdatamodeld */ = {
-			isa = XCVersionGroup;
-			children = (
-				C286710A15A62418005DE3D5 /* Blamph.xcdatamodel */,
-			);
-			currentVersion = C286710A15A62418005DE3D5 /* Blamph.xcdatamodel */;
-			path = Blamph.xcdatamodeld;
-			sourceTree = "<group>";
-			versionGroupType = wrapper.xcdatamodel;
-		};
-/* End XCVersionGroup section */
 	};
 	rootObject = C28670E815A62418005DE3D5 /* Project object */;
 }
