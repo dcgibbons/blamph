@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import "ClientCommand.h"
 #import "ServerDefinition.h"
 #import "DateTimeUtils.h"
 
@@ -18,12 +19,15 @@
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
     servers = [NSMutableArray arrayWithObjects:
+
                [[ServerDefinition alloc] initWithName:@"localhost"
                                           andHostname:@"localhost"
                                               andPort:7326],
+
                [[ServerDefinition alloc] initWithName:@"default"
                                           andHostname:@"default.icb.net"
                                               andPort:7326],
+
                nil];
     
     [self.window makeFirstResponder:self.inputTextField];
@@ -39,94 +43,40 @@
         if (cmd == nil || [cmd length] == 0)
             return TRUE;
         
+        // if the input isn't prefixed with the command character just send
+        // the text as an open message
         if ([cmd characterAtIndex:0] != '/')
         {
-            [self sendOpenMessage:cmd];
+            [client sendOpenMessage:cmd];
         }
+        
+        // check if they escaped the / with another and send it as an open
+        // message
         else if ([cmd characterAtIndex:1] == '/')
         {
-            [self sendOpenMessage:[cmd substringFromIndex:1]];
+            [client sendOpenMessage:[cmd substringFromIndex:1]];
         }
+        
+        // otherwise, we've got command! see if a ClientCommand has been
+        // defined and process it that way, otherwise send a personal message
+        // to the Server for any other processing
         else
         {
-            [self sendPersonalMessage:@"server" withMsg:[cmd substringFromIndex:1]];
+            cmd = [cmd substringFromIndex:1];
+            ClientCommand *command = [ClientCommand commandWithString:cmd];
+            if (!command)
+            {
+                [client sendPersonalMessage:@"server"
+                                    withMsg:cmd];
+            }
+            else
+            {
+                [command processCommandWithClient:client];
+            }
         }
     }
     
     return YES;
-}
-
-- (NSString *)removeControlCharacters:(NSString *)s
-{
-    const NSUInteger n = [s length];
-    NSMutableString *t = [NSMutableString stringWithCapacity:n];
-    char c;
-    for (NSUInteger i = 0; i < n; i++)
-    {
-        c = [s characterAtIndex:i];
-        if (isspace(c))
-            [t appendFormat:@"%c", c];
-        else if (!iscntrl(c))
-            [t appendFormat:@"%c", c];
-    }
-    return t;
-}
-
-- (void)sendOpenMessage:(NSString *)msg
-{
-    NSString *current;
-    NSString *remaining = [self removeControlCharacters:msg];
-    do {
-        if ([remaining length] > MAX_OPEN_MESSAGE_SIZE)
-        {
-            current = [remaining substringToIndex:MAX_OPEN_MESSAGE_SIZE];
-            NSRange range = [current rangeOfCharacterFromSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]
-                                                     options:NSBackwardsSearch];
-            if (range.location != NSNotFound)
-            {
-                current = [current substringWithRange:NSMakeRange(0, range.location + 1)];
-            }
-            remaining = [remaining substringFromIndex:[current length]];
-        }
-        else
-        {
-            current = remaining;
-            remaining = @"";
-        }
-        
-        OpenPacket *p = [[OpenPacket alloc] initWithText:current];
-        [client sendPacket:p];
-    } while ([remaining length] > 0);
-}
-
-- (void)sendPersonalMessage:(NSString *)nick withMsg:(NSString *)msg
-{
-    NSString *current;
-    NSString *remaining = [self removeControlCharacters:msg];
-    do {
-        if ([remaining length] > MAX_PERSONAL_MESSAGE_SIZE)
-        {
-            current = [remaining substringToIndex:MAX_PERSONAL_MESSAGE_SIZE];
-            NSRange range = [current rangeOfCharacterFromSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]
-                                                     options:NSBackwardsSearch];
-            if (range.location != NSNotFound)
-            {
-                current = [current substringWithRange:NSMakeRange(0, range.location + 1)];
-            }
-            remaining = [remaining substringFromIndex:[current length]];
-        }
-        else
-        {
-            current = remaining;
-            remaining = @"";
-        }
-        
-        NSString *s = [NSString stringWithFormat:@"%@ %@", nick, current];
-        CommandPacket *p = [[CommandPacket alloc] initWithCommand:@"m" optionalArgs:s];
-        [client sendPacket:p];
-    } while ([remaining length] > 0);
-    
-    // TODO: add outgoing username to history
 }
 
 - (IBAction)connect:(id)sender
@@ -267,7 +217,7 @@
     NSString *s = [NSString stringWithFormat:@"[=Beep!=] %@ has sent you a beep\n", p.nick];
 
     NSMutableAttributedString *as = [[NSMutableAttributedString alloc] initWithString:s];
-    [as addAttribute:NSLinkAttributeName value:p.nick range:NSMakeRange(11, [p.nick length])];
+    [as addAttribute:NSLinkAttributeName value:p.nick range:NSMakeRange(10, [p.nick length])];
     
     [textStorage appendAttributedString:as];
     [textStorage setFont:[NSFont fontWithName:@"Monaco" size:12.0f]];

@@ -60,6 +60,10 @@
 - (void)handleInputStream:(NSInputStream *)stream;
 - (void)handleOutputStream:(NSOutputStream *)stream;
 
+- (void)sendOpenMessage:(NSString *)msg;
+- (void)sendPersonalMessage:(NSString *)nick withMsg:(NSString *)msg;
+- (void)sendWriteMessage:(NSString *)nick withMsg:(NSString *)msg;
+
 @property (nonatomic, readonly) NSArray *groups;
 @property (nonatomic, readonly) NSArray *users;
 

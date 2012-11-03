@@ -187,6 +187,106 @@
     [self flushOutputQueue];
 }
 
+- (NSString *)removeControlCharacters:(NSString *)s
+{
+    const NSUInteger n = [s length];
+    NSMutableString *t = [NSMutableString stringWithCapacity:n];
+    char c;
+    for (NSUInteger i = 0; i < n; i++)
+    {
+        c = [s characterAtIndex:i];
+        if (isspace(c))
+            [t appendFormat:@"%c", c];
+        else if (!iscntrl(c))
+            [t appendFormat:@"%c", c];
+    }
+    return t;
+}
+
+- (void)sendOpenMessage:(NSString *)msg
+{
+    NSString *current;
+    NSString *remaining = [self removeControlCharacters:msg];
+    do {
+        if ([remaining length] > MAX_OPEN_MESSAGE_SIZE)
+        {
+            current = [remaining substringToIndex:MAX_OPEN_MESSAGE_SIZE];
+            NSRange range = [current rangeOfCharacterFromSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]
+                                                     options:NSBackwardsSearch];
+            if (range.location != NSNotFound)
+            {
+                current = [current substringWithRange:NSMakeRange(0, range.location + 1)];
+            }
+            remaining = [remaining substringFromIndex:[current length]];
+        }
+        else
+        {
+            current = remaining;
+            remaining = @"";
+        }
+        
+        OpenPacket *p = [[OpenPacket alloc] initWithText:current];
+        [self sendPacket:p];
+    } while ([remaining length] > 0);
+}
+
+- (void)sendPersonalMessage:(NSString *)nick withMsg:(NSString *)msg
+{
+    NSString *current;
+    NSString *remaining = [self removeControlCharacters:msg];
+    do {
+        if ([remaining length] > MAX_PERSONAL_MESSAGE_SIZE)
+        {
+            current = [remaining substringToIndex:MAX_PERSONAL_MESSAGE_SIZE];
+            NSRange range = [current rangeOfCharacterFromSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]
+                                                     options:NSBackwardsSearch];
+            if (range.location != NSNotFound)
+            {
+                current = [current substringWithRange:NSMakeRange(0, range.location + 1)];
+            }
+            remaining = [remaining substringFromIndex:[current length]];
+        }
+        else
+        {
+            current = remaining;
+            remaining = @"";
+        }
+        
+        NSString *s = [NSString stringWithFormat:@"%@ %@", nick, current];
+        CommandPacket *p = [[CommandPacket alloc] initWithCommand:@"m" optionalArgs:s];
+        [self sendPacket:p];
+    } while ([remaining length] > 0);
+    
+    // TODO: add outgoing username to history
+}
+
+- (void)sendWriteMessage:(NSString *)nick withMsg:(NSString *)msg
+{
+    NSString *current;
+    NSString *remaining = [self removeControlCharacters:msg];
+    do {
+        if ([remaining length] > MAX_WRITE_MESSAGE_SIZE)
+        {
+            current = [remaining substringToIndex:MAX_WRITE_MESSAGE_SIZE];
+            NSRange range = [current rangeOfCharacterFromSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]
+                                                     options:NSBackwardsSearch];
+            if (range.location != NSNotFound)
+            {
+                current = [current substringWithRange:NSMakeRange(0, range.location + 1)];
+            }
+            remaining = [remaining substringFromIndex:[current length]];
+        }
+        else
+        {
+            current = remaining;
+            remaining = @"";
+        }
+        
+        CommandPacket *p = [[CommandPacket alloc] initWithCommand:@"write" optionalArgs:[NSString stringWithFormat:@"%@ %@", nick, current]];
+        [self sendPacket:p];
+    } while ([remaining length] > 0);
+}
+
 - (void)flushOutputQueue
 {
     if ([ostream hasSpaceAvailable])

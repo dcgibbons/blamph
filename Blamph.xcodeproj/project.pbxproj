@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C24330AC1645958A0039A005 /* ClientCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = C24330AB1645958A0039A005 /* ClientCommand.m */; };
+		C24330D31645B3780039A005 /* WriteMessageCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = C24330D21645B3780039A005 /* WriteMessageCommand.m */; };
+		C24330D61645B7950039A005 /* MessageCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = C24330D51645B7950039A005 /* MessageCommand.m */; };
+		C24330E91645BBC60039A005 /* GenericCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = C24330E81645BBC60039A005 /* GenericCommand.m */; };
 		C2F19574163F26E3006D48A4 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2F1953D163F2628006D48A4 /* Cocoa.framework */; };
 		C2F1957A163F26E3006D48A4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C2F19578163F26E3006D48A4 /* InfoPlist.strings */; };
 		C2F1957C163F26E3006D48A4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C2F1957B163F26E3006D48A4 /* main.m */; };
@@ -111,6 +115,14 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		C24330AA1645958A0039A005 /* ClientCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClientCommand.h; sourceTree = "<group>"; };
+		C24330AB1645958A0039A005 /* ClientCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClientCommand.m; sourceTree = "<group>"; };
+		C24330D11645B3780039A005 /* WriteMessageCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WriteMessageCommand.h; sourceTree = "<group>"; };
+		C24330D21645B3780039A005 /* WriteMessageCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WriteMessageCommand.m; sourceTree = "<group>"; };
+		C24330D41645B7950039A005 /* MessageCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageCommand.h; sourceTree = "<group>"; };
+		C24330D51645B7950039A005 /* MessageCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageCommand.m; sourceTree = "<group>"; };
+		C24330E71645BBC60039A005 /* GenericCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GenericCommand.h; sourceTree = "<group>"; };
+		C24330E81645BBC60039A005 /* GenericCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GenericCommand.m; sourceTree = "<group>"; };
 		C28670F515A62418005DE3D5 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		C28670F715A62418005DE3D5 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		C28670F915A62418005DE3D5 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -247,12 +259,20 @@
 				C2F19576163F26E3006D48A4 /* Supporting Files */,
 				C2F19581163F26E3006D48A4 /* AppDelegate.h */,
 				C2F19582163F26E3006D48A4 /* AppDelegate.m */,
-				C2F195AD163F2C8B006D48A4 /* ICBClient.h */,
-				C2F195AE163F2C8B006D48A4 /* ICBClient.m */,
-				C2F19A2316404C2F006D48A4 /* ServerDefinition.h */,
-				C2F19A2416404C2F006D48A4 /* ServerDefinition.m */,
+				C24330AA1645958A0039A005 /* ClientCommand.h */,
+				C24330AB1645958A0039A005 /* ClientCommand.m */,
 				C2F19A6716449B5B006D48A4 /* DateTimeUtils.h */,
 				C2F19A6816449B5B006D48A4 /* DateTimeUtils.m */,
+				C2F195AD163F2C8B006D48A4 /* ICBClient.h */,
+				C2F195AE163F2C8B006D48A4 /* ICBClient.m */,
+				C24330E71645BBC60039A005 /* GenericCommand.h */,
+				C24330E81645BBC60039A005 /* GenericCommand.m */,
+				C24330D41645B7950039A005 /* MessageCommand.h */,
+				C24330D51645B7950039A005 /* MessageCommand.m */,
+				C2F19A2316404C2F006D48A4 /* ServerDefinition.h */,
+				C2F19A2416404C2F006D48A4 /* ServerDefinition.m */,
+				C24330D11645B3780039A005 /* WriteMessageCommand.h */,
+				C24330D21645B3780039A005 /* WriteMessageCommand.m */,
 			);
 			path = Blamph;
 			sourceTree = "<group>";
@@ -522,6 +542,10 @@
 				C2F19A2216404BDC006D48A4 /* CommandOutputPacket.m in Sources */,
 				C2F19A2516404C2F006D48A4 /* ServerDefinition.m in Sources */,
 				C2F19A6916449B5B006D48A4 /* DateTimeUtils.m in Sources */,
+				C24330AC1645958A0039A005 /* ClientCommand.m in Sources */,
+				C24330D31645B3780039A005 /* WriteMessageCommand.m in Sources */,
+				C24330D61645B7950039A005 /* MessageCommand.m in Sources */,
+				C24330E91645BBC60039A005 /* GenericCommand.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
