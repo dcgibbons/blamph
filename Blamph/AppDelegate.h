@@ -23,7 +23,6 @@
 
 - (IBAction)connect:(id)sender;
 - (IBAction)disconnect:(id)sender;
-- (IBAction)makeKeyAndOrderFront:(id)sender;
 - (void)clientNotify:(NSNotification *)notification;
 - (void)handlePacket:(NSNotification *)notification;
 

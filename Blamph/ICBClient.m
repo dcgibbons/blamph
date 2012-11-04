@@ -32,7 +32,7 @@
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
         CFReadStreamRef readStream = NULL;
         CFWriteStreamRef writeStream = NULL;
-        CFStreamCreatePairWithSocketToHost(kCFAllocatorDefault, (CFStringRef)@"localhost", 7326, &readStream, &writeStream);
+        CFStreamCreatePairWithSocketToHost(kCFAllocatorDefault, (CFStringRef)@"default.icb.net", 7326, &readStream, &writeStream);
         if (readStream && writeStream) {
             CFReadStreamSetProperty(readStream, kCFStreamPropertyShouldCloseNativeSocket, kCFBooleanTrue);
             CFWriteStreamSetProperty(writeStream, kCFStreamPropertyShouldCloseNativeSocket, kCFBooleanTrue);
@@ -83,7 +83,6 @@
     }
     else if ([packet isKindOfClass:[PingPacket class]])
     {
-        // TODO
     }
     else if ([packet isKindOfClass:[ProtocolPacket class]])
     {
@@ -142,6 +141,7 @@
 - (void)handleLoginPacket:(LoginPacket *)packet
 {
     DLog(@"Login OK");
+
 //    DLog(@"Login OK - sending who command");
 //    // TODO: reconnectNeeded = false
 //    
@@ -153,10 +153,12 @@
     [chatUsers removeAllObjects];
 
     // TODO: make echoback optional?
-    CommandPacket *p = [[CommandPacket alloc] initWithCommand:@"echoback" optionalArgs:@"verbose"];
+    CommandPacket *p = [[CommandPacket alloc] initWithCommand:@"echoback"
+                                                 optionalArgs:@"verbose"];
     [self sendPacket:p];
     
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"ICBClient:loginOK" object:self];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"ICBClient:loginOK"
+                                                        object:self];
 }
 
 - (void)handleProtocolPacket:(ProtocolPacket *)packet

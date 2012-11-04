@@ -111,11 +111,6 @@
     // TODO
 }
 
-- (IBAction)makeKeyAndOrderFront:(id)sender
-{
-    // TODO
-}
-
 - (void)handlePacket:(NSNotification *)notification
 {
     const ICBPacket *packet = [notification object];
@@ -277,26 +272,47 @@
 
     NSString *s = nil;
     
-    if ([p.outputType compare:@"wh"] == NSOrderedSame)
+    if ([p.outputType compare:@"gh"] == NSOrderedSame)
     {
-        s = @"\t\tNickname\tIdle\tSign-on\tAccount\n";
+        s = @"Group     ## S  Moderator    \n";
+        [textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:s]];
+    }
+    else if ([p.outputType compare:@"wh"] == NSOrderedSame)
+    {
+        s = @"   Nickname      Idle      Sign-on  Account\n";
+        [textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:s]];
     }
     else if ([p.outputType compare:@"wl"] == NSOrderedSame)
     {
         NSMutableString *ms = [NSMutableString stringWithCapacity:80];
-        [ms appendFormat:@"\t%c\t", [p isModerator] ? '*' : ' '];
-        [ms appendFormat:@"%@\t", [p nickname]];
-        [ms appendFormat:@"%@\t", [self formatElapsedTime:[p idleTime]]];
-        [ms appendFormat:@"%@\t", [self formatEventTime:[p signOnTime]]];
+        [ms appendFormat:@"%c", [p isModerator] ? '*' : ' '];
+        
+        NSString *nickname = [p nickname];
+        [ms appendFormat:@"%@", nickname];
+        NSUInteger pad = 12 - [nickname length];
+        if (pad > 0)
+        {
+            [ms appendString:[@"" stringByPaddingToLength:pad
+                                               withString:@" "
+                                          startingAtIndex:0]];
+        }
+
+        [ms appendFormat:@" %@ ", [self formatElapsedTime:[p idleTime]]];
+        [ms appendFormat:@"%@ ", [self formatEventTime:[p signOnTime]]];
         [ms appendFormat:@"%@@%@\n", p.username, p.hostname];
         s = ms;
         NSLog(@"wl=%@", s);
+        
+        NSMutableAttributedString *as = [[NSMutableAttributedString alloc] initWithString:s];
+        [as addAttribute:NSLinkAttributeName value:[p nickname] range:NSMakeRange(1, [[p nickname] length])];
+        [textStorage appendAttributedString:as];
     }
     else
     {
         s = [NSString stringWithFormat:@"%@\n", p.output];
+        [textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:s]];
     }
-    [textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:s]];
+    
     [textStorage setFont:[NSFont fontWithName:@"Monaco" size:12.0f]];
 }
 

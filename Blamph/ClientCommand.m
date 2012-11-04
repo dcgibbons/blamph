@@ -158,14 +158,11 @@ static NSArray *commands = nil;
         NSString *commandName = [d objectForKey:@"command"];
         NSString *aliasName = [d objectForKey:@"alias"];
         
-        DLog("looking for client command with name of %@ or alias of %@, arg0=%@",
-             commandName, aliasName, cmdName);
         if ([cmdName compare:commandName options:NSCaseInsensitiveSearch] == NSOrderedSame ||
             [cmdName compare:aliasName options:NSCaseInsensitiveSearch] == NSOrderedSame)
         {
             NSString *className = [d objectForKey:@"class"];
             NSString *genericCommandName = [d objectForKey:@"commandName"];
-            DLog(@"found command, className=%@", className);
             command = [[NSClassFromString(className) alloc] initWithCommandName:genericCommandName
                                                                         andArgs:[args subarrayWithRange:NSMakeRange(1, [args count] - 1)]];
             *stop = TRUE;
@@ -178,7 +175,6 @@ static NSArray *commands = nil;
 
     [commands enumerateObjectsUsingBlock:findCommand];
 
-    DLog(@"client command=%@", command);
     return command;
 }
 

@@ -13,8 +13,38 @@
 
 + (NSString *)formatElapsedTime:(NSTimeInterval)elapsedTime
 {
-    NSString *s = @"       - ";
+//    if (elapsedTime < 60) {
+//        buffer.append("       - ");
+//    } else {
+//        long hours = elapsedTime / 3600;
+//        if (hours > 0) {
+//            NumberFormat nf = NumberFormat.getNumberInstance();
+//            FieldPosition fp = new FieldPosition(NumberFormat.INTEGER_FIELD);
+//            nf.setMaximumIntegerDigits(3);
+//            String h = nf.format(hours, new StringBuffer(), fp).toString();
+//            buffer.append(StringUtils.repeatString(" ", 3 - fp.getEndIndex()))
+//            .append(h)
+//            .append("h ");
+//            elapsedTime -= 3600 * hours;
+//        } else {
+//            buffer.append("     ");
+//        }
+//        
+//        long minutes = elapsedTime / 60;
+//        if (minutes < 10) {
+//            buffer.append(' ');
+//        }
+//        buffer.append(minutes).append("m");
+//    }
+//    
+//    return buffer.toString();
+    
+    NSString *s = nil;
     if (elapsedTime < 60)
+    {
+        s = @"       -";
+    }
+    else
     {
         NSString *hoursStr = @"     ";
         NSUInteger hours = elapsedTime / 3600;
@@ -25,7 +55,7 @@
         }
         
         NSUInteger minutes = elapsedTime / 60;
-        NSString *minutesStr = (minutes < 10) ? @" " : [NSString stringWithFormat:@"%lum", minutes];
+        NSString *minutesStr = [NSString stringWithFormat:@"%2lum", minutes];
         
         s = [NSString stringWithFormat:@"%@%@", hoursStr, minutesStr];
     }
@@ -41,24 +71,25 @@
     CFDateFormatterRef dateFormatter = CFDateFormatterCreate(NULL, currentLocale, kCFDateFormatterNoStyle, kCFDateFormatterShortStyle);
     
     CFStringRef formattedString = CFDateFormatterCreateStringWithDate(NULL, dateFormatter, (__bridge CFDateRef)dateTime);
-    CFShow(formattedString);
+    NSString *dateStr = (__bridge NSString *)(formattedString);
+    NSUInteger pad = 8 - [dateStr length];
+    if (pad > 0)
+    {
+        DLog(@"padding=%lu", pad);
+        dateStr = [NSString stringWithFormat:@"%@%@", [@"" stringByPaddingToLength:pad withString:@" " startingAtIndex:0], dateStr];
+    }
     
     NSDate *now = [NSDate date];
-    NSUInteger days = ([dateTime timeIntervalSince1970] -  [now timeIntervalSince1970]) / 86400000L; // milliseconds in a day
+    NSUInteger days = ([now timeIntervalSince1970] - [dateTime timeIntervalSince1970]) / 86400.0; // seconds in a day
+    DLog(@"now=%f event=%f days=%lu", [now timeIntervalSince1970], [dateTime timeIntervalSince1970], days);
     NSString *daysStr = @"    ";
     if (days > 0)
     {
-        CFNumberFormatterRef numberFormatter = CFNumberFormatterCreate(NULL, currentLocale, kCFNumberFormatterNoStyle);
-        CFStringRef formatString = CFSTR("###+");
-        CFNumberFormatterSetFormat(numberFormatter, formatString);
-        CFStringRef formattedNumberString = CFNumberFormatterCreateStringWithValue(NULL, numberFormatter, kCFNumberLongType,
-                                                                                   &days);
-        daysStr = (__bridge NSString *)formattedNumberString;
+        daysStr = [NSString stringWithFormat:@"%3lu+", days];
     }
     
-    NSString *s = [NSString stringWithFormat:@"%@%@", daysStr, formattedString];
+    NSString *s = [NSString stringWithFormat:@"%@%@", daysStr, dateStr];
     
-    DLog(@"eventTime=%@", s);
     return s;
 }
 
