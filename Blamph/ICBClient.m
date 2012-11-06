@@ -32,7 +32,7 @@
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
         CFReadStreamRef readStream = NULL;
         CFWriteStreamRef writeStream = NULL;
-        CFStreamCreatePairWithSocketToHost(kCFAllocatorDefault, (CFStringRef)@"default.icb.net", 7326, &readStream, &writeStream);
+        CFStreamCreatePairWithSocketToHost(kCFAllocatorDefault, (CFStringRef)@"localhost", 7326, &readStream, &writeStream);
         if (readStream && writeStream) {
             CFReadStreamSetProperty(readStream, kCFStreamPropertyShouldCloseNativeSocket, kCFBooleanTrue);
             CFWriteStreamSetProperty(writeStream, kCFStreamPropertyShouldCloseNativeSocket, kCFBooleanTrue);
@@ -70,7 +70,6 @@
 - (void)handlePacket:(NSNotification *)notification
 {
     ICBPacket *packet = [notification object];
-    DLog("handlePacket: packet received! %@", packet);
     packetsReceived++;
     
     if ([packet isKindOfClass:[CommandOutputPacket class]])
@@ -96,7 +95,6 @@
 
 - (void)handleCommandOutputPacket:(CommandOutputPacket *)packet
 {
-    DLog(@"CommandOutputPacket!\n%@", [[packet data] hexDump]);
     NSString *outputType = [packet outputType];
     
     if (clientState == kParsingWhoListing)
@@ -107,7 +105,6 @@
         }
         else if ([outputType compare:@"wg"] == 0)
         {
-            DLog(@"WTF?!");
         }
         else if ([outputType compare:@"wh"] == 0)
         {
@@ -182,7 +179,6 @@
 - (void)sendPacket:(ICBPacket *)packet
 {
     NSData *data = [packet data];
-    DLog(@"Sending Packet!!!\n%@", [data hexDump]);
     packetsSent++;
     
     [outputQueue insertObject:data atIndex:0];
@@ -299,13 +295,9 @@
             [outputQueue removeLastObject];
             
             uint8_t l = [data length];
-            DLog(@"trying to write %u bytes, hasSpaceAvailable=%d", l,
-                 [ostream hasSpaceAvailable]);
             NSInteger written = [ostream write:&l maxLength:sizeof(l)];
-            DLog(@"wrote %ld bytes", written);
             NSAssert(written == sizeof(l), @"unable to write packet length");
             written = [ostream write:[data bytes] maxLength:l];
-            DLog(@"wrote %ld bytes", written);
             NSAssert(written == l, @"unable to write packet data");
         }
     }
@@ -323,15 +315,12 @@
             NSInteger len = [stream read:&packetLength maxLength:sizeof(packetLength)];
             if (len < 0)
             {
-                DLog(@"Error reading from input stream!");
             }
             else if (len == 0)
             {
-                DLog(@"0 bytes read from input stream!");
             }
             else
             {
-                DLog(@"new packet detected, packetLength=%u", packetLength);
                 bytesReceived += len;
                 bufferPos = 0;
                 readState = kReadingPacket;
@@ -342,15 +331,12 @@
             NSInteger len = [stream read:&packetBuffer[bufferPos] maxLength:packetLength - bufferPos];
             if (len < 0)
             {
-                DLog(@"Error reading from input stream!");
             }
             else if (len == 0)
             {
-                DLog(@"0 bytes read from input stream!");
             }
             else
             {
-                DLog(@"%ld bytes read from input stream!", len);
                 bytesReceived += len;
                 bufferPos += len;
                 if (bufferPos < packetLength)
@@ -372,7 +358,6 @@
 
 - (void)handleOutputStream:(NSOutputStream *)stream
 {
-    NSLog(@"handleOutputStream: hasSpaceAvailable=%d", [stream hasSpaceAvailable]);
     [self flushOutputQueue];
 }
 
@@ -380,30 +365,24 @@
 
 - (void)stream:(NSStream *)theStream handleEvent:(NSStreamEvent)streamEvent
 {
-    DLog(@"stream=%@ handleEvent=%lu", theStream, streamEvent);
     switch (streamEvent) {
         case NSStreamEventOpenCompleted:
-            DLog(@"NSStreamEventOpenCompleted");
             readState = kWaitingForPacket;
             clientState = kReady;
             break;
             
         case NSStreamEventHasBytesAvailable:
-            DLog(@"NSStreamEventHasBytesAvailable");
             [self handleInputStream:(NSInputStream *)theStream];
             break;
             
         case NSStreamEventHasSpaceAvailable:
-            DLog(@"NSStreamEventHasSpaceAvailable");
             [self handleOutputStream:(NSOutputStream *)theStream];
             break;
             
         case NSStreamEventErrorOccurred:
-            DLog(@"NSStreamEventErrorOccurred");
             break;
             
         case NSStreamEventEndEncountered:
-            DLog(@"NSStreamEventEndEncountered");
             break;
             
         default:

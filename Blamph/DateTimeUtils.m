@@ -13,32 +13,6 @@
 
 + (NSString *)formatElapsedTime:(NSTimeInterval)elapsedTime
 {
-//    if (elapsedTime < 60) {
-//        buffer.append("       - ");
-//    } else {
-//        long hours = elapsedTime / 3600;
-//        if (hours > 0) {
-//            NumberFormat nf = NumberFormat.getNumberInstance();
-//            FieldPosition fp = new FieldPosition(NumberFormat.INTEGER_FIELD);
-//            nf.setMaximumIntegerDigits(3);
-//            String h = nf.format(hours, new StringBuffer(), fp).toString();
-//            buffer.append(StringUtils.repeatString(" ", 3 - fp.getEndIndex()))
-//            .append(h)
-//            .append("h ");
-//            elapsedTime -= 3600 * hours;
-//        } else {
-//            buffer.append("     ");
-//        }
-//        
-//        long minutes = elapsedTime / 60;
-//        if (minutes < 10) {
-//            buffer.append(' ');
-//        }
-//        buffer.append(minutes).append("m");
-//    }
-//    
-//    return buffer.toString();
-    
     NSString *s = nil;
     if (elapsedTime < 60)
     {
@@ -60,7 +34,6 @@
         s = [NSString stringWithFormat:@"%@%@", hoursStr, minutesStr];
     }
     
-    DLog("elapsedTime=%@", s);
     return s;
 }
 
@@ -75,13 +48,11 @@
     NSUInteger pad = 8 - [dateStr length];
     if (pad > 0)
     {
-        DLog(@"padding=%lu", pad);
         dateStr = [NSString stringWithFormat:@"%@%@", [@"" stringByPaddingToLength:pad withString:@" " startingAtIndex:0], dateStr];
     }
     
     NSDate *now = [NSDate date];
     NSUInteger days = ([now timeIntervalSince1970] - [dateTime timeIntervalSince1970]) / 86400.0; // seconds in a day
-    DLog(@"now=%f event=%f days=%lu", [now timeIntervalSince1970], [dateTime timeIntervalSince1970], days);
     NSString *daysStr = @"    ";
     if (days > 0)
     {

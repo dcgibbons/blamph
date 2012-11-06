@@ -9,18 +9,21 @@
 #import <Cocoa/Cocoa.h>
 #import "ICBClient.h"
 
-@interface AppDelegate : NSObject <NSApplicationDelegate, NSTextFieldDelegate>
+@interface AppDelegate : NSObject
+    <NSApplicationDelegate, NSTextViewDelegate, NSTextViewDelegate>
 {
     NSMutableArray *servers;
     ICBClient *client;
 }
 
-@property (nonatomic, retain) IBOutlet NSTextField *inputTextField;
+@property (nonatomic, retain) IBOutlet NSTextView *inputTextView;
 @property (nonatomic, retain) IBOutlet NSTextView *outputTextView;
 @property (assign) IBOutlet NSWindow *window;
 
-- (BOOL)control:(NSControl *)control textShouldEndEditing:(NSText *)fieldEditor;
 
+- (void)submitTextInput:(NSString *)input;
+- (BOOL)textView:(NSTextView *)aTextView clickedOnLink:(id)link atIndex:(NSUInteger)charIndex;
+- (void)controlTextDidChange:(NSNotification *)obj;
 - (IBAction)connect:(id)sender;
 - (IBAction)disconnect:(id)sender;
 - (void)clientNotify:(NSNotification *)notification;
