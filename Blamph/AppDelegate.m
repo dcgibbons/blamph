@@ -13,7 +13,7 @@
 
 @implementation AppDelegate
 
-@synthesize inputTextField;
+@synthesize inputTextView;
 @synthesize outputTextView;
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
@@ -30,53 +30,120 @@
 
                nil];
     
-    [self.window makeFirstResponder:self.inputTextField];
+    [self.window makeFirstResponder:self.inputTextView];
 }
 
-- (BOOL)control:(NSControl *)control textShouldEndEditing:(NSText *)fieldEditor
+- (BOOL)textView:(NSTextView *)aTextView doCommandBySelector:(SEL)aSelector
 {
-    if (control == self.inputTextField)
+    if (aTextView != inputTextView)
+        return NO;
+    
+    if (aSelector == @selector(insertNewline:))
     {
-        NSString *cmd = self.inputTextField.stringValue;
-        [self.inputTextField setStringValue:@""];
-        
-        if (cmd == nil || [cmd length] == 0)
-            return TRUE;
-        
-        // if the input isn't prefixed with the command character just send
-        // the text as an open message
-        if ([cmd characterAtIndex:0] != '/')
-        {
-            [client sendOpenMessage:cmd];
-        }
-        
-        // check if they escaped the / with another and send it as an open
-        // message
-        else if ([cmd characterAtIndex:1] == '/')
-        {
-            [client sendOpenMessage:[cmd substringFromIndex:1]];
-        }
-        
-        // otherwise, we've got command! see if a ClientCommand has been
-        // defined and process it that way, otherwise send a personal message
-        // to the Server for any other processing
-        else
-        {
-            cmd = [cmd substringFromIndex:1];
-            ClientCommand *command = [ClientCommand commandWithString:cmd];
-            if (!command)
-            {
-                [client sendPersonalMessage:@"server"
-                                    withMsg:cmd];
-            }
-            else
-            {
-                [command processCommandWithClient:client];
-            }
-        }
+        NSString *text = [[aTextView textStorage] string];
+        DLog(@"textview text=%@", text);
+        [self submitTextInput:text];
+        [aTextView selectAll:nil];
+        [aTextView delete:nil];
+        return YES;
+    }
+    return NO;
+}
+
+//- (void)textDidEndEditing:(NSNotification *)aNotification
+//{
+//    DLog(@"textDidEndEditing!!! aNotification=%@", aNotification);
+//    DLog(@"inputTextView.string=%@", inputTextView.string);
+//}
+//
+- (void)submitTextInput:(NSString *)cmd
+{
+    
+    if (cmd == nil || [cmd length] == 0)
+        return;
+    
+    // if the input isn't prefixed with the command character just send
+    // the text as an open message
+    if ([cmd characterAtIndex:0] != '/')
+    {
+        [client sendOpenMessage:cmd];
     }
     
-    return YES;
+    // check if they escaped the / with another and send it as an open
+    // message
+    else if ([cmd characterAtIndex:1] == '/')
+    {
+        [client sendOpenMessage:[cmd substringFromIndex:1]];
+    }
+    
+    // otherwise, we've got command! see if a ClientCommand has been
+    // defined and process it that way, otherwise send a personal message
+    // to the Server for any other processing
+    else
+    {
+        cmd = [cmd substringFromIndex:1];
+        ClientCommand *command = [ClientCommand commandWithString:cmd];
+        if (!command)
+        {
+            [client sendPersonalMessage:@"server"
+                                withMsg:cmd];
+        }
+        else
+        {
+            [command processCommandWithClient:client];
+        }
+    }
+}
+
+- (BOOL)textView:(NSTextView *)aTextView clickedOnLink:(id)link atIndex:(NSUInteger)charIndex
+{
+    NSError *error = NULL;
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"(\\S*)\\s*(\\S*)(.*)"
+                                                                           options:NSRegularExpressionCaseInsensitive
+                                                                             error:&error];
+    NSString *nickname = link;
+    
+    NSTextStorage *storage = [self.inputTextView textStorage];
+    [storage beginEditing];
+    
+    NSString *inputText = [storage string];
+    DLog(@"inputText=%@", inputText);
+    NSString *newText;
+
+    DLog(@"textView clickedOnLink, inputField=%@", self.inputTextView.string);
+    
+    if ([inputText length] > 0 && [inputText characterAtIndex:0] == '/')
+    {
+        DLog(@"looking for input text matches!");
+        NSArray *matches = [regex matchesInString:inputText
+                                          options:0
+                                            range:NSMakeRange(1, [inputText length] - 1)];
+        if ([matches count] > 0)
+        {
+            NSTextCheckingResult *match = [matches objectAtIndex:0];
+            NSRange commandRange = [match rangeAtIndex:1];
+            NSRange argsRange = [match rangeAtIndex:2];
+            NSString *command = [inputText substringWithRange:commandRange];
+            NSString *args = [inputText substringWithRange:argsRange];
+            DLog(@"match command=%@ args=%@", command, args);
+            newText = [NSString stringWithFormat:@"/%@ %@ %@", command, nickname, args];
+        }
+    }
+    else
+    {
+        DLog(@"input text did not start with /");
+        newText = [NSString stringWithFormat:@"/m %@ %@", nickname, inputText];
+    }
+    
+    [self.inputTextView selectAll:nil];
+    [self.inputTextView setString:newText];
+    [storage endEditing];
+    
+    NSRange range = NSMakeRange(storage.length - 1, 1);
+    [self.inputTextView scrollRangeToVisible:range];
+    [self.window makeFirstResponder:self.inputTextView];
+    
+    return TRUE;
 }
 
 - (IBAction)connect:(id)sender
@@ -87,7 +154,6 @@
     ServerDefinition *serverDefinition = (ServerDefinition *)[servers objectAtIndex:server];
     if (serverDefinition != nil)
     {
-        NSLog(@"Ready to connect as user %@ to server %@", nickname, serverDefinition);
         //MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         //hud.labelText = @"Connecting";
         
@@ -170,7 +236,6 @@
     (NULL, currentLocale, kCFDateFormatterNoStyle, kCFDateFormatterShortStyle);
     
     CFStringRef formattedString = CFDateFormatterCreateStringWithDate(NULL, dateFormatter, date);
-    CFShow(formattedString);
     
     const NSTextStorage *textStorage = self.outputTextView.textStorage;
     
@@ -186,7 +251,8 @@
     NSString *s = [NSString stringWithFormat:@"<%@> %@\n", p.nick, p.text];
     
     NSMutableAttributedString *as = [[NSMutableAttributedString alloc] initWithString:s];
-    [as addAttribute:NSLinkAttributeName value:p.nick range:NSMakeRange(1, [p.nick length])];
+    [as addAttribute:NSLinkAttributeName value:p.nick
+               range:NSMakeRange(1, [p.nick length])];
     
     [textStorage appendAttributedString:as];
     [textStorage setFont:[NSFont fontWithName:@"Monaco" size:12.0f]];
@@ -301,10 +367,10 @@
         [ms appendFormat:@"%@ ", [self formatEventTime:[p signOnTime]]];
         [ms appendFormat:@"%@@%@\n", p.username, p.hostname];
         s = ms;
-        NSLog(@"wl=%@", s);
         
         NSMutableAttributedString *as = [[NSMutableAttributedString alloc] initWithString:s];
-        [as addAttribute:NSLinkAttributeName value:[p nickname] range:NSMakeRange(1, [[p nickname] length])];
+        [as addAttribute:NSLinkAttributeName value:[p nickname]
+                   range:NSMakeRange(1, [[p nickname] length])];
         [textStorage appendAttributedString:as];
     }
     else
@@ -332,7 +398,6 @@
     {
         //        [MBProgressHUD hideHUDForView:self.view animated:YES];
         //        [self performSegueWithIdentifier:@"connectSegue" sender:self];
-        NSLog(@"login ok!!");
     }
 }
 
