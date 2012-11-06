@@ -18,6 +18,16 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
+    backgroundColor = [NSColor whiteColor];
+    openTextColor = [NSColor blackColor];
+    openNickColor = [NSColor blueColor];
+    personalTextColor = [NSColor darkGrayColor];
+    personalNickColor = [NSColor lightGrayColor];
+    commandTextColor = [NSColor blackColor];
+    errorTextColor = [NSColor redColor];
+    statusHeaderColor = [NSColor orangeColor];
+    statusTextColor = [NSColor blackColor];
+    
     servers = [NSMutableArray arrayWithObjects:
 
                [[ServerDefinition alloc] initWithName:@"localhost"
@@ -30,7 +40,8 @@
 
                nil];
 
-    [self.outputTextView setAutomaticLinkDetectionEnabled:TRUE];
+    [self.outputTextView setBackgroundColor:backgroundColor];
+    [self.outputTextView setTextColor:commandTextColor];
     
     [self.window makeFirstResponder:self.inputTextView];
 }
@@ -91,9 +102,18 @@
 }
 
 - (void)displayText:(NSString *)text
+     withForeground:(NSColor *)foreground
+      andBackground:(NSColor *)background
 {
     const NSTextStorage *textStorage = self.outputTextView.textStorage;
+
     NSMutableAttributedString *as = [[NSMutableAttributedString alloc] initWithString:text];
+    [as addAttribute:NSBackgroundColorAttributeName
+               value:background
+               range:NSMakeRange(0, [text length])];
+    [as addAttribute:NSForegroundColorAttributeName
+               value:foreground
+               range:NSMakeRange(0, [text length])];
     
     NSError *error = NULL;
     NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"(?s)((?:\\w+://|\\bwww\\.[^.])\\S+)"
@@ -281,7 +301,19 @@
     CFStringRef formattedString = CFDateFormatterCreateStringWithDate(NULL, dateFormatter, date);
     
     const NSTextStorage *textStorage = self.outputTextView.textStorage;
-    [[textStorage mutableString] appendFormat:@"%@ ", formattedString];
+
+    NSString *s = [NSString stringWithFormat:@"%@ ", formattedString];
+    NSMutableAttributedString *as = [[NSMutableAttributedString alloc]
+                                     initWithString:s];
+    [as addAttribute:NSBackgroundColorAttributeName
+               value:backgroundColor
+               range:NSMakeRange(0, [as length])];
+    [as addAttribute:NSForegroundColorAttributeName
+               value:openTextColor
+               range:NSMakeRange(0, [as length])];
+    
+    [textStorage appendAttributedString:as];
+    
 }
 
 - (void)displayOpenPacket:(OpenPacket *)p
@@ -293,9 +325,18 @@
     NSMutableAttributedString *as = [[NSMutableAttributedString alloc] initWithString:s];
     [as addAttribute:NSLinkAttributeName value:p.nick
                range:NSMakeRange(1, [p.nick length])];
-    
+    [as addAttribute:NSBackgroundColorAttributeName
+               value:backgroundColor
+               range:NSMakeRange(0, [p.nick length] + 2)];
+    [as addAttribute:NSForegroundColorAttributeName
+               value:openNickColor
+               range:NSMakeRange(0, [p.nick length] + 2)];
+
     [textStorage appendAttributedString:as];
-    [self displayText:[NSString stringWithFormat:@" %@\n", p.text]];
+    
+    [self displayText:[NSString stringWithFormat:@" %@\n", p.text]
+       withForeground:openTextColor
+        andBackground:backgroundColor];
 }
 
 - (void)displayPersonalPacket:(PersonalPacket *)p
@@ -305,10 +346,20 @@
     NSString *s = [NSString stringWithFormat:@"<*%@*>", p.nick];
     
     NSMutableAttributedString *as = [[NSMutableAttributedString alloc] initWithString:s];
-    [as addAttribute:NSLinkAttributeName value:p.nick range:NSMakeRange(2, [p.nick length])];
+    [as addAttribute:NSLinkAttributeName
+               value:p.nick
+               range:NSMakeRange(2, [p.nick length])];
+    [as addAttribute:NSBackgroundColorAttributeName
+               value:backgroundColor
+               range:NSMakeRange(0, [p.nick length] + 4)];
+    [as addAttribute:NSForegroundColorAttributeName
+               value:personalNickColor
+               range:NSMakeRange(0, [p.nick length] + 4)];
     
     [textStorage appendAttributedString:as];
-    [self displayText:[NSString stringWithFormat:@" %@\n", p.text]];
+    [self displayText:[NSString stringWithFormat:@" %@\n", p.text]
+       withForeground:personalTextColor
+        andBackground:backgroundColor];
 }
 
 - (void)displayBeepPacket:(BeepPacket *)p
@@ -316,11 +367,23 @@
     const NSTextStorage *textStorage = self.outputTextView.textStorage;
 
     NSString *s = [NSString stringWithFormat:@"[=Beep!=] %@ has sent you a beep\n", p.nick];
+    const NSUInteger headerLength = 10; // [=Beep=]<space> == 10
+    const NSUInteger textLength = [s length];
+    const NSUInteger nickLength = [p.nick length];
 
     NSMutableAttributedString *as = [[NSMutableAttributedString alloc] initWithString:s];
+    [as addAttribute:NSBackgroundColorAttributeName
+               value:backgroundColor
+               range:NSMakeRange(0, textLength)];
+    [as addAttribute:NSForegroundColorAttributeName
+               value:statusHeaderColor
+               range:NSMakeRange(0, headerLength)];
     [as addAttribute:NSLinkAttributeName
                value:p.nick
-               range:NSMakeRange(10, [p.nick length])];
+               range:NSMakeRange(headerLength, nickLength)];
+    [as addAttribute:NSForegroundColorAttributeName
+               value:statusTextColor
+               range:NSMakeRange(headerLength + nickLength, textLength - nickLength - headerLength)];
     
     [textStorage appendAttributedString:as];
     
@@ -330,32 +393,98 @@
 - (void)displayExitPacket:(ExitPacket *)p
 {
     const NSTextStorage *textStorage = self.outputTextView.textStorage;
-    [[textStorage mutableString] appendString:@"[=Disconnected=]\n"];
+    
+    NSMutableAttributedString *as = [[NSMutableAttributedString alloc]
+                                     initWithString:@"[=Disconnected=]\n"];
+
+    [as addAttribute:NSBackgroundColorAttributeName
+               value:backgroundColor
+               range:NSMakeRange(0, [as length])];
+    [as addAttribute:NSForegroundColorAttributeName
+               value:statusHeaderColor
+               range:NSMakeRange(0, [as length])];
+    
+    [textStorage appendAttributedString:as];
 }
 
 - (void)displayPingPacket:(PingPacket *)p
 {
     const NSTextStorage *textStorage = self.outputTextView.textStorage;
-    [[textStorage mutableString] appendString:@"[=Ping!=]\n"];
+    
+    NSMutableAttributedString *as = [[NSMutableAttributedString alloc]
+                                     initWithString:@"[=Ping!=]\n"];
+    
+    [as addAttribute:NSBackgroundColorAttributeName
+               value:backgroundColor
+               range:NSMakeRange(0, [as length])];
+    [as addAttribute:NSForegroundColorAttributeName
+               value:statusHeaderColor
+               range:NSMakeRange(0, [as length])];
+    
+    [textStorage appendAttributedString:as];
 }
 
 - (void)displayProtocolPacket:(ProtocolPacket *)p
 {
     const NSTextStorage *textStorage = self.outputTextView.textStorage;
-    [[textStorage mutableString] appendFormat:@"Connected to the %@ server (%@)\n",
-                    p.serverName, p.serverDescription];
+
+    NSString *s = [NSString stringWithFormat:@"Connected to the %@ server (%@)\n",
+                   p.serverName, p.serverDescription];
+    NSMutableAttributedString *as = [[NSMutableAttributedString alloc] initWithString:s];
+
+    [as addAttribute:NSBackgroundColorAttributeName
+               value:backgroundColor
+               range:NSMakeRange(0, [as length])];
+    [as addAttribute:NSForegroundColorAttributeName
+               value:commandTextColor
+               range:NSMakeRange(0, [as length])];
+    
+    [textStorage appendAttributedString:as];
 }
 
 - (void)displayStatusPacket:(StatusPacket *)p
 {
     const NSTextStorage *textStorage = self.outputTextView.textStorage;
-    [[textStorage mutableString] appendFormat:@"[=%@=] %@\n", p.header, p.text];
+
+    NSString *s = [NSString stringWithFormat:@"[=%@=] %@\n", p.header, p.text];
+    NSMutableAttributedString *as = [[NSMutableAttributedString alloc] initWithString:s];
+    NSUInteger textLength = [as length];
+    NSUInteger headerLength = 4 + [p.header length];
+    
+    [as addAttribute:NSBackgroundColorAttributeName
+               value:backgroundColor
+               range:NSMakeRange(0, textLength)];
+    [as addAttribute:NSForegroundColorAttributeName
+               value:statusHeaderColor
+               range:NSMakeRange(0, headerLength)];
+    [as addAttribute:NSForegroundColorAttributeName
+               value:statusTextColor
+               range:NSMakeRange(headerLength + 1, textLength - headerLength - 1)];
+    
+
+    [textStorage appendAttributedString:as];
 }
 
 - (void)displayErrorPacket:(ErrorPacket *)p
 {
     const NSTextStorage *textStorage = self.outputTextView.textStorage;
-    [[textStorage mutableString] appendFormat:@"[=Error=] %@\n", p.errorText];
+
+    NSString *s = [NSString stringWithFormat:@"[=Error=] %@\n", p.errorText];
+    NSMutableAttributedString *as = [[NSMutableAttributedString alloc] initWithString:s];
+    NSUInteger textLength = [as length];
+    NSUInteger headerLength = 9; // [=Error=]
+    
+    [as addAttribute:NSBackgroundColorAttributeName
+               value:backgroundColor
+               range:NSMakeRange(0, textLength)];
+    [as addAttribute:NSForegroundColorAttributeName
+               value:errorTextColor
+               range:NSMakeRange(0, headerLength)];
+    [as addAttribute:NSForegroundColorAttributeName
+               value:errorTextColor
+               range:NSMakeRange(headerLength + 1, textLength - headerLength - 1)];
+    
+    [textStorage appendAttributedString:as];
 }
 
 - (void)displayCommandOutputPacket:(CommandOutputPacket *)p
@@ -363,14 +492,29 @@
     const NSTextStorage *textStorage = self.outputTextView.textStorage;
 
     NSString *s = nil;
+    NSMutableAttributedString *as = nil;
     
     if ([p.outputType compare:@"gh"] == NSOrderedSame)
     {
-        [[textStorage mutableString] appendString:@"Group     ## S  Moderator    \n"];
+        as = [[NSMutableAttributedString alloc] initWithString:@"Group     ## S  Moderator    \n"];
+        [as addAttribute:NSBackgroundColorAttributeName
+                   value:backgroundColor
+                   range:NSMakeRange(0, [as length])];
+        [as addAttribute:NSForegroundColorAttributeName
+                   value:commandTextColor
+                   range:NSMakeRange(0, [as length])];
+        [textStorage appendAttributedString:as];
     }
     else if ([p.outputType compare:@"wh"] == NSOrderedSame)
     {
-        [[textStorage mutableString] appendString:@"   Nickname      Idle      Sign-on  Account\n"];
+        as = [[NSMutableAttributedString alloc] initWithString:@"   Nickname      Idle      Sign-on  Account\n"];
+        [as addAttribute:NSBackgroundColorAttributeName
+                   value:backgroundColor
+                   range:NSMakeRange(0, [as length])];
+        [as addAttribute:NSForegroundColorAttributeName
+                   value:commandTextColor
+                   range:NSMakeRange(0, [as length])];
+        [textStorage appendAttributedString:as];
     }
     else if ([p.outputType compare:@"wl"] == NSOrderedSame)
     {
@@ -393,13 +537,25 @@
         s = ms;
 
         NSMutableAttributedString *as = [[NSMutableAttributedString alloc] initWithString:s];
-        [as addAttribute:NSLinkAttributeName value:[p nickname]
+        [as addAttribute:NSBackgroundColorAttributeName
+                   value:backgroundColor
+                   range:NSMakeRange(0, [as length])];
+        [as addAttribute:NSForegroundColorAttributeName
+                   value:commandTextColor
+                   range:NSMakeRange(0, [as length])];
+        [as addAttribute:NSForegroundColorAttributeName
+                   value:openNickColor
+                   range:NSMakeRange(1, [[p nickname] length])];
+        [as addAttribute:NSLinkAttributeName
+                   value:[p nickname]
                    range:NSMakeRange(1, [[p nickname] length])];
         [textStorage appendAttributedString:as];
     }
     else
     {
-        [self displayText:[NSString stringWithFormat:@"%@\n", p.output]];
+        [self displayText:[NSString stringWithFormat:@"%@\n", p.output]
+           withForeground:commandTextColor
+            andBackground:backgroundColor];
     }
 }
 

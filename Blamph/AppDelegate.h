@@ -14,6 +14,16 @@
 {
     NSMutableArray *servers;
     ICBClient *client;
+    
+    NSColor *backgroundColor;
+    NSColor *openTextColor;
+    NSColor *openNickColor;
+    NSColor *personalTextColor;
+    NSColor *personalNickColor;
+    NSColor *commandTextColor;
+    NSColor *errorTextColor;
+    NSColor *statusHeaderColor;
+    NSColor *statusTextColor;
 }
 
 @property (nonatomic, retain) IBOutlet NSTextView *inputTextView;
@@ -22,7 +32,9 @@
 
 - (void)submitTextInput:(NSString *)input;
 
-- (void)displayText:(NSString *)text;
+- (void)displayText:(NSString *)text
+     withForeground:(NSColor *)foreground
+      andBackground:(NSColor *)background;
 
 - (BOOL)textView:(NSTextView *)aTextView
    clickedOnLink:(id)link
