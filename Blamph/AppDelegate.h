@@ -20,12 +20,17 @@
 @property (nonatomic, retain) IBOutlet NSTextView *outputTextView;
 @property (assign) IBOutlet NSWindow *window;
 
-
 - (void)submitTextInput:(NSString *)input;
-- (BOOL)textView:(NSTextView *)aTextView clickedOnLink:(id)link atIndex:(NSUInteger)charIndex;
-- (void)controlTextDidChange:(NSNotification *)obj;
+
+- (void)displayText:(NSString *)text;
+
+- (BOOL)textView:(NSTextView *)aTextView
+   clickedOnLink:(id)link
+         atIndex:(NSUInteger)charIndex;
+
 - (IBAction)connect:(id)sender;
 - (IBAction)disconnect:(id)sender;
+
 - (void)clientNotify:(NSNotification *)notification;
 - (void)handlePacket:(NSNotification *)notification;
 

@@ -29,19 +29,20 @@
                                               andPort:7326],
 
                nil];
+
+    [self.outputTextView setAutomaticLinkDetectionEnabled:TRUE];
     
     [self.window makeFirstResponder:self.inputTextView];
 }
 
 - (BOOL)textView:(NSTextView *)aTextView doCommandBySelector:(SEL)aSelector
 {
-    if (aTextView != inputTextView)
+    if (aTextView != self.inputTextView)
         return NO;
     
     if (aSelector == @selector(insertNewline:))
     {
         NSString *text = [[aTextView textStorage] string];
-        DLog(@"textview text=%@", text);
         [self submitTextInput:text];
         [aTextView selectAll:nil];
         [aTextView delete:nil];
@@ -50,12 +51,6 @@
     return NO;
 }
 
-//- (void)textDidEndEditing:(NSNotification *)aNotification
-//{
-//    DLog(@"textDidEndEditing!!! aNotification=%@", aNotification);
-//    DLog(@"inputTextView.string=%@", inputTextView.string);
-//}
-//
 - (void)submitTextInput:(NSString *)cmd
 {
     
@@ -95,55 +90,93 @@
     }
 }
 
-- (BOOL)textView:(NSTextView *)aTextView clickedOnLink:(id)link atIndex:(NSUInteger)charIndex
+- (void)displayText:(NSString *)text
 {
+    const NSTextStorage *textStorage = self.outputTextView.textStorage;
+    NSMutableAttributedString *as = [[NSMutableAttributedString alloc] initWithString:text];
+    
     NSError *error = NULL;
-    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"(\\S*)\\s*(\\S*)(.*)"
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"(?s)((?:\\w+://|\\bwww\\.[^.])\\S+)"
                                                                            options:NSRegularExpressionCaseInsensitive
                                                                              error:&error];
-    NSString *nickname = link;
     
-    NSTextStorage *storage = [self.inputTextView textStorage];
-    [storage beginEditing];
+    NSArray *matches = [regex matchesInString:text
+                                      options:0
+                                        range:NSMakeRange(0, [text length])];
     
-    NSString *inputText = [storage string];
-    DLog(@"inputText=%@", inputText);
-    NSString *newText;
+    for (NSTextCheckingResult *match in matches)
+    {
+        NSRange urlRange = [match rangeAtIndex:1];
+        NSString *urlText = [text substringWithRange:urlRange];
+        DLog(@"urlText='%@'", urlText);
+        
+        [as addAttribute:NSLinkAttributeName
+                   value:[NSURL URLWithString:urlText]
+                   range:urlRange];
+    }
+    
+    [textStorage appendAttributedString:as];
+}
 
-    DLog(@"textView clickedOnLink, inputField=%@", self.inputTextView.string);
-    
-    if ([inputText length] > 0 && [inputText characterAtIndex:0] == '/')
+
+- (BOOL)textView:(NSTextView *)aTextView
+   clickedOnLink:(id)link
+         atIndex:(NSUInteger)charIndex
+{
+    if (aTextView != self.outputTextView)
+        return NO;
+
+    BOOL handled = NO;
+    if ([link isKindOfClass:[NSURL class]])
     {
-        DLog(@"looking for input text matches!");
-        NSArray *matches = [regex matchesInString:inputText
-                                          options:0
-                                            range:NSMakeRange(1, [inputText length] - 1)];
-        if ([matches count] > 0)
+        [[NSWorkspace sharedWorkspace] openURL:link];
+        handled = YES;
+    }
+    else if ([link isKindOfClass:[NSString class]])
+    {
+        NSError *error = NULL;
+        NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"(\\S*)\\s*(\\S*)(.*)"
+                                                                               options:NSRegularExpressionCaseInsensitive
+                                                                                 error:&error];
+        NSString *nickname = link;
+        
+        NSTextStorage *storage = [self.inputTextView textStorage];
+        [storage beginEditing];
+        
+        NSString *inputText = [storage string];
+        NSString *newText;
+        
+        if ([inputText length] > 0 && [inputText characterAtIndex:0] == '/')
         {
-            NSTextCheckingResult *match = [matches objectAtIndex:0];
-            NSRange commandRange = [match rangeAtIndex:1];
-            NSRange argsRange = [match rangeAtIndex:2];
-            NSString *command = [inputText substringWithRange:commandRange];
-            NSString *args = [inputText substringWithRange:argsRange];
-            DLog(@"match command=%@ args=%@", command, args);
-            newText = [NSString stringWithFormat:@"/%@ %@ %@", command, nickname, args];
+            NSArray *matches = [regex matchesInString:inputText
+                                              options:0
+                                                range:NSMakeRange(1, [inputText length] - 1)];
+            if ([matches count] > 0)
+            {
+                NSTextCheckingResult *match = [matches objectAtIndex:0];
+                NSRange commandRange = [match rangeAtIndex:1];
+                NSRange argsRange = [match rangeAtIndex:2];
+                NSString *command = [inputText substringWithRange:commandRange];
+                NSString *args = [inputText substringWithRange:argsRange];
+                newText = [NSString stringWithFormat:@"/%@ %@ %@", command, nickname, args];
+            }
         }
+        else
+        {
+            newText = [NSString stringWithFormat:@"/m %@ %@", nickname, inputText];
+        }
+        
+        [self.inputTextView selectAll:nil];
+        [self.inputTextView setString:newText];
+        [storage endEditing];
+        
+        NSRange range = NSMakeRange(storage.length - 1, 1);
+        [self.inputTextView scrollRangeToVisible:range];
+        [self.window makeFirstResponder:self.inputTextView];
+        
+        handled = YES;
     }
-    else
-    {
-        DLog(@"input text did not start with /");
-        newText = [NSString stringWithFormat:@"/m %@ %@", nickname, inputText];
-    }
-    
-    [self.inputTextView selectAll:nil];
-    [self.inputTextView setString:newText];
-    [storage endEditing];
-    
-    NSRange range = NSMakeRange(storage.length - 1, 1);
-    [self.inputTextView scrollRangeToVisible:range];
-    [self.window makeFirstResponder:self.inputTextView];
-    
-    return TRUE;
+    return handled;
 }
 
 - (IBAction)connect:(id)sender
@@ -181,6 +214,7 @@
 {
     const ICBPacket *packet = [notification object];
     
+//    DLog(@"packet=%@", packet);
     [self displayMessageTimestamp];
     
     if ([packet isKindOfClass:[OpenPacket class]])
@@ -223,6 +257,12 @@
     // TODO: don't scroll down if scrolled-back
     NSRange range = NSMakeRange(self.outputTextView.textStorage.length - 1, 1);
     [self.outputTextView scrollRangeToVisible:range];
+    [self.outputTextView.textStorage setFont:[NSFont fontWithName:@"Monaco" size:12.0f]];
+    
+//    NSTextCheckingTypes oldTypes = self.outputTextView.enabledTextCheckingTypes;
+//    [self.outputTextView setEnabledTextCheckingTypes:NSTextCheckingTypeLink];
+//    [self.outputTextView checkTextInDocument:nil];
+//    [self.outputTextView setEnabledTextCheckingTypes:oldTypes];
 }
 
 - (void)displayMessageTimestamp
@@ -238,37 +278,34 @@
     CFStringRef formattedString = CFDateFormatterCreateStringWithDate(NULL, dateFormatter, date);
     
     const NSTextStorage *textStorage = self.outputTextView.textStorage;
-    
-    NSString *s = [NSString stringWithFormat:@"%@ ", formattedString];
-    [textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:s]];
-    [textStorage setFont:[NSFont fontWithName:@"Monaco" size:12.0f]];
+    [[textStorage mutableString] appendFormat:@"%@ ", formattedString];
 }
 
 - (void)displayOpenPacket:(OpenPacket *)p
 {
     const NSTextStorage *textStorage = self.outputTextView.textStorage;
     
-    NSString *s = [NSString stringWithFormat:@"<%@> %@\n", p.nick, p.text];
+    NSString *s = [NSString stringWithFormat:@"<%@>", p.nick];
     
     NSMutableAttributedString *as = [[NSMutableAttributedString alloc] initWithString:s];
     [as addAttribute:NSLinkAttributeName value:p.nick
                range:NSMakeRange(1, [p.nick length])];
     
     [textStorage appendAttributedString:as];
-    [textStorage setFont:[NSFont fontWithName:@"Monaco" size:12.0f]];
+    [self displayText:[NSString stringWithFormat:@" %@\n", p.text]];
 }
 
 - (void)displayPersonalPacket:(PersonalPacket *)p
 {
     const NSTextStorage *textStorage = self.outputTextView.textStorage;
     
-    NSString *s = [NSString stringWithFormat:@"<*%@*> %@\n", p.nick, p.text];
+    NSString *s = [NSString stringWithFormat:@"<*%@*>", p.nick];
     
     NSMutableAttributedString *as = [[NSMutableAttributedString alloc] initWithString:s];
     [as addAttribute:NSLinkAttributeName value:p.nick range:NSMakeRange(2, [p.nick length])];
     
     [textStorage appendAttributedString:as];
-    [textStorage setFont:[NSFont fontWithName:@"Monaco" size:12.0f]];
+    [self displayText:[NSString stringWithFormat:@" %@\n", p.text]];
 }
 
 - (void)displayBeepPacket:(BeepPacket *)p
@@ -278,10 +315,11 @@
     NSString *s = [NSString stringWithFormat:@"[=Beep!=] %@ has sent you a beep\n", p.nick];
 
     NSMutableAttributedString *as = [[NSMutableAttributedString alloc] initWithString:s];
-    [as addAttribute:NSLinkAttributeName value:p.nick range:NSMakeRange(10, [p.nick length])];
+    [as addAttribute:NSLinkAttributeName
+               value:p.nick
+               range:NSMakeRange(10, [p.nick length])];
     
     [textStorage appendAttributedString:as];
-    [textStorage setFont:[NSFont fontWithName:@"Monaco" size:12.0f]];
     
     NSBeep();
 }
@@ -289,47 +327,33 @@
 - (void)displayExitPacket:(ExitPacket *)p
 {
     const NSTextStorage *textStorage = self.outputTextView.textStorage;
-    
-    NSString *s = @"[=Disconnected=]\n";
-    [textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:s]];
-    [textStorage setFont:[NSFont fontWithName:@"Monaco" size:12.0f]];
+    [[textStorage mutableString] appendString:@"[=Disconnected=]\n"];
 }
 
 - (void)displayPingPacket:(PingPacket *)p
 {
     const NSTextStorage *textStorage = self.outputTextView.textStorage;
-    
-    NSString *s = @"[=Ping!=]\n";
-    [textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:s]];
-    [textStorage setFont:[NSFont fontWithName:@"Monaco" size:12.0f]];
+    [[textStorage mutableString] appendString:@"[=Ping!=]\n"];
 }
 
 - (void)displayProtocolPacket:(ProtocolPacket *)p
 {
     const NSTextStorage *textStorage = self.outputTextView.textStorage;
     
-    NSString *s = [NSString stringWithFormat:@"Connected to the %@ server (%@)\n",
-                   p.serverName, p.serverDescription];
-    [textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:s]];
-    [textStorage setFont:[NSFont fontWithName:@"Monaco" size:12.0f]];
+    [[textStorage mutableString] appendFormat:@"Connected to the %@ server (%@)\n",
+                    p.serverName, p.serverDescription];
 }
 
 - (void)displayStatusPacket:(StatusPacket *)p
 {
     const NSTextStorage *textStorage = self.outputTextView.textStorage;
-    
-    NSString *s = [NSString stringWithFormat:@"[=%@=] %@\n", p.header, p.text];
-    [textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:s]];
-    [textStorage setFont:[NSFont fontWithName:@"Monaco" size:12.0f]];
+    [[textStorage mutableString] appendFormat:@"[=%@=] %@\n", p.header, p.text];
 }
 
 - (void)displayErrorPacket:(ErrorPacket *)p
 {
     const NSTextStorage *textStorage = self.outputTextView.textStorage;
-    
-    NSString *s = [NSString stringWithFormat:@"[=Error=] %@\n", p.errorText];
-    [textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:s]];
-    [textStorage setFont:[NSFont fontWithName:@"Monaco" size:12.0f]];
+    [[textStorage mutableString] appendFormat:@"[=Error=] %@\n", p.errorText];
 }
 
 - (void)displayCommandOutputPacket:(CommandOutputPacket *)p
@@ -340,13 +364,11 @@
     
     if ([p.outputType compare:@"gh"] == NSOrderedSame)
     {
-        s = @"Group     ## S  Moderator    \n";
-        [textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:s]];
+        [[textStorage mutableString] appendString:@"Group     ## S  Moderator    \n"];
     }
     else if ([p.outputType compare:@"wh"] == NSOrderedSame)
     {
-        s = @"   Nickname      Idle      Sign-on  Account\n";
-        [textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:s]];
+        [[textStorage mutableString] appendString:@"   Nickname      Idle      Sign-on  Account\n"];
     }
     else if ([p.outputType compare:@"wl"] == NSOrderedSame)
     {
@@ -367,7 +389,7 @@
         [ms appendFormat:@"%@ ", [self formatEventTime:[p signOnTime]]];
         [ms appendFormat:@"%@@%@\n", p.username, p.hostname];
         s = ms;
-        
+
         NSMutableAttributedString *as = [[NSMutableAttributedString alloc] initWithString:s];
         [as addAttribute:NSLinkAttributeName value:[p nickname]
                    range:NSMakeRange(1, [[p nickname] length])];
@@ -375,11 +397,8 @@
     }
     else
     {
-        s = [NSString stringWithFormat:@"%@\n", p.output];
-        [textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:s]];
+        [self displayText:[NSString stringWithFormat:@"%@\n", p.output]];
     }
-    
-    [textStorage setFont:[NSFont fontWithName:@"Monaco" size:12.0f]];
 }
 
 - (NSString *)formatElapsedTime:(NSTimeInterval)elapsedTime
