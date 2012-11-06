@@ -214,7 +214,6 @@
 {
     const ICBPacket *packet = [notification object];
     
-//    DLog(@"packet=%@", packet);
     [self displayMessageTimestamp];
     
     if ([packet isKindOfClass:[OpenPacket class]])
@@ -253,7 +252,11 @@
     {
         [self displayStatusPacket:(StatusPacket *)packet];
     }
-    
+    else if ([packet isKindOfClass:[LoginPacket class]])
+    {
+        [[self.outputTextView.textStorage mutableString] appendString:@"\n"];
+    }
+
     // TODO: don't scroll down if scrolled-back
     NSRange range = NSMakeRange(self.outputTextView.textStorage.length - 1, 1);
     [self.outputTextView scrollRangeToVisible:range];
@@ -339,7 +342,6 @@
 - (void)displayProtocolPacket:(ProtocolPacket *)p
 {
     const NSTextStorage *textStorage = self.outputTextView.textStorage;
-    
     [[textStorage mutableString] appendFormat:@"Connected to the %@ server (%@)\n",
                     p.serverName, p.serverDescription];
 }
