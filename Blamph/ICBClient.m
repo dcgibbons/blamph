@@ -416,7 +416,6 @@
             
         case NSStreamEventEndEncountered:
             DLog(@"socket closed!");
-//            clientState = kClient;
             [[NSNotificationCenter defaultCenter] postNotificationName:@"ICBClient:disconnected"
                                                                 object:self];
             break;

@@ -30,6 +30,8 @@
 
 @property (nonatomic, retain) IBOutlet NSMenuItem *connectMenuItem;
 @property (nonatomic, retain) IBOutlet NSMenuItem *disconnectMenuItem;
+@property (nonatomic, retain) IBOutlet NSMenuItem *menuItemCopy;
+@property (nonatomic, retain) IBOutlet NSMenuItem *menuItemPaste;
 @property (nonatomic, retain) IBOutlet NSProgressIndicator *progressIndicator;
 @property (nonatomic, retain) IBOutlet NSTextView *inputTextView;
 @property (nonatomic, retain) IBOutlet NSTextView *outputTextView;
@@ -47,6 +49,8 @@
    clickedOnLink:(id)link
          atIndex:(NSUInteger)charIndex;
 
+- (IBAction)copy:(id)sender;
+- (IBAction)paste:(id)sender;
 - (IBAction)connect:(id)sender;
 - (IBAction)disconnect:(id)sender;
 

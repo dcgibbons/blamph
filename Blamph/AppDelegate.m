@@ -18,6 +18,8 @@
 @synthesize outputTextView;
 @synthesize connectMenuItem;
 @synthesize disconnectMenuItem;
+@synthesize menuItemCopy;
+@synthesize menuItemPaste;
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
@@ -217,6 +219,35 @@
         handled = YES;
     }
     return handled;
+}
+
+- (IBAction)copy:(id)sender
+{
+    NSPasteboard *pasteboard = [NSPasteboard generalPasteboard];
+    (void)[pasteboard clearContents];
+    NSArray *selectedRanges = [self.outputTextView selectedRanges];
+    NSMutableArray *selectedText = [NSMutableArray arrayWithCapacity:[selectedRanges count]];
+    for (NSValue *rangeValue in selectedRanges)
+    {
+        NSRange r = [rangeValue rangeValue];
+        [selectedText addObject:[[self.outputTextView textStorage] attributedSubstringFromRange:r]];
+    }
+    
+    (void)[pasteboard writeObjects:selectedText];
+}
+
+- (IBAction)paste:(id)sender
+{
+    NSPasteboard *pasteboard = [NSPasteboard generalPasteboard];
+    NSArray *classes = [[NSArray alloc] initWithObjects:[NSString class], nil];
+    NSDictionary *options = [NSDictionary dictionary];
+    NSArray *copiedItems = [pasteboard readObjectsForClasses:classes
+                                                     options:options];
+    if (copiedItems != nil)
+    {
+        [self.inputTextView pasteAsPlainText:copiedItems];
+        [self.window makeFirstResponder:self.inputTextView];
+    }
 }
 
 - (IBAction)connect:(id)sender
