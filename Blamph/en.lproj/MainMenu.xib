@@ -3,12 +3,12 @@
 	<data>
 		<int key="IBDocument.SystemTarget">1080</int>
 		<string key="IBDocument.SystemVersion">12C60</string>
-		<string key="IBDocument.InterfaceBuilderVersion">2843</string>
+		<string key="IBDocument.InterfaceBuilderVersion">2844</string>
 		<string key="IBDocument.AppKitVersion">1187.34</string>
 		<string key="IBDocument.HIToolboxVersion">625.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
-			<string key="NS.object.0">2843</string>
+			<string key="NS.object.0">2844</string>
 		</object>
 		<array key="IBDocument.IntegratedClassDependencies">
 			<string>IBNSLayoutConstraint</string>
@@ -201,6 +201,7 @@
 								</object>
 								<object class="NSMenuItem" id="859269541">
 									<reference key="NSMenu" ref="615037419"/>
+									<bool key="NSIsDisabled">YES</bool>
 									<string key="NSTitle">Disconnect</string>
 									<string key="NSKeyEquiv">d</string>
 									<int key="NSKeyEquivModMask">1048576</int>
@@ -2445,6 +2446,22 @@ wGw</bytes>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
+						<string key="label">connectMenuItem</string>
+						<reference key="source" ref="976324537"/>
+						<reference key="destination" ref="371577802"/>
+					</object>
+					<int key="connectionID">944</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">disconnectMenuItem</string>
+						<reference key="source" ref="976324537"/>
+						<reference key="destination" ref="859269541"/>
+					</object>
+					<int key="connectionID">945</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
 						<string key="label">delegate</string>
 						<reference key="source" ref="809796912"/>
 						<reference key="destination" ref="976324537"/>
@@ -3995,7 +4012,7 @@ wGw</bytes>
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">943</int>
+			<int key="maxID">945</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -4017,12 +4034,22 @@ wGw</bytes>
 						</object>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="connectMenuItem">NSMenuItem</string>
+						<string key="disconnectMenuItem">NSMenuItem</string>
 						<string key="inputTextView">NSTextView</string>
 						<string key="outputTextView">NSTextView</string>
 						<string key="progressIndicator">NSProgressIndicator</string>
 						<string key="window">NSWindow</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="connectMenuItem">
+							<string key="name">connectMenuItem</string>
+							<string key="candidateClassName">NSMenuItem</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="disconnectMenuItem">
+							<string key="name">disconnectMenuItem</string>
+							<string key="candidateClassName">NSMenuItem</string>
+						</object>
 						<object class="IBToOneOutletInfo" key="inputTextView">
 							<string key="name">inputTextView</string>
 							<string key="candidateClassName">NSTextView</string>

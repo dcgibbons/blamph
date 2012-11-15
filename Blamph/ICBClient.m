@@ -80,6 +80,8 @@
     self.istream = nil;
     
     DLog(@"disconnected!!");
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"ICBClient:disconnected"
+                                                        object:self];
 }
 
 - (NSString *)groups
@@ -414,9 +416,9 @@
             
         case NSStreamEventEndEncountered:
             DLog(@"socket closed!");
-////            clientState = kClient;
-//            [[NSNotificationCenter defaultCenter] postNotificationName:@"ICBClient:disconnected"
-//                                                                object:self];
+//            clientState = kClient;
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"ICBClient:disconnected"
+                                                                object:self];
             break;
             
         default:

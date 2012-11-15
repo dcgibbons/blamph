@@ -16,6 +16,8 @@
 @synthesize progressIndicator;
 @synthesize inputTextView;
 @synthesize outputTextView;
+@synthesize connectMenuItem;
+@synthesize disconnectMenuItem;
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
@@ -45,6 +47,23 @@
     [self.outputTextView setTextColor:commandTextColor];
     
     [self.window makeFirstResponder:self.inputTextView];
+    
+    connectionState = DISCONNECTED;
+}
+
+- (BOOL)validateMenuItem:(NSMenuItem *)menuItem
+{
+    BOOL valid = YES;
+    if (menuItem == self.connectMenuItem)
+    {
+        valid = (connectionState == DISCONNECTED);
+    }
+    else if (menuItem == self.disconnectMenuItem)
+    {
+        valid = (connectionState == CONNECTED || connectionState == CONNECTING);
+    }
+    DLog(@"validateMenuItem=%@ valid=%d", menuItem, valid);
+    return valid;
 }
 
 - (BOOL)textView:(NSTextView *)aTextView doCommandBySelector:(SEL)aSelector
@@ -219,6 +238,8 @@
     }
     else
     {
+        connectionState = CONNECTING;
+
         [progressIndicator setHidden:NO];
         [progressIndicator startAnimation:self];
         

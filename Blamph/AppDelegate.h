@@ -28,10 +28,14 @@
     NSColor *statusTextColor;
 }
 
+@property (nonatomic, retain) IBOutlet NSMenuItem *connectMenuItem;
+@property (nonatomic, retain) IBOutlet NSMenuItem *disconnectMenuItem;
 @property (nonatomic, retain) IBOutlet NSProgressIndicator *progressIndicator;
 @property (nonatomic, retain) IBOutlet NSTextView *inputTextView;
 @property (nonatomic, retain) IBOutlet NSTextView *outputTextView;
 @property (assign) IBOutlet NSWindow *window;
+
+- (BOOL)validateMenuItem:(NSMenuItem *)menuItem;
 
 - (void)submitTextInput:(NSString *)input;
 
