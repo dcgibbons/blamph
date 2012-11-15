@@ -26,16 +26,25 @@
     NSColor *errorTextColor;
     NSColor *statusHeaderColor;
     NSColor *statusTextColor;
+    
+    NSDate *connectedTime;
+    NSDate *lastMessageSentAt;
 }
 
 @property (nonatomic, retain) IBOutlet NSMenuItem *connectMenuItem;
 @property (nonatomic, retain) IBOutlet NSMenuItem *disconnectMenuItem;
 @property (nonatomic, retain) IBOutlet NSMenuItem *menuItemCopy;
 @property (nonatomic, retain) IBOutlet NSMenuItem *menuItemPaste;
+@property (nonatomic, retain) IBOutlet NSMenuItem *menuItemToggleStatusBar;
+@property (nonatomic, retain) IBOutlet NSView *statusBarView;
+@property (nonatomic, retain) IBOutlet NSTextField *connectionStatusLabel;
+@property (nonatomic, retain) IBOutlet NSTextField *connectionTimeLabel;
+@property (nonatomic, retain) IBOutlet NSTextField *idleTimeLabel;
 @property (nonatomic, retain) IBOutlet NSProgressIndicator *progressIndicator;
 @property (nonatomic, retain) IBOutlet NSTextView *inputTextView;
 @property (nonatomic, retain) IBOutlet NSTextView *outputTextView;
 @property (assign) IBOutlet NSWindow *window;
+@property (nonatomic, retain) NSTimer *timer;
 
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem;
 
@@ -49,10 +58,12 @@
    clickedOnLink:(id)link
          atIndex:(NSUInteger)charIndex;
 
-- (IBAction)copy:(id)sender;
-- (IBAction)paste:(id)sender;
+- (void)changeConnectionState:(int)newState;
 - (IBAction)connect:(id)sender;
 - (IBAction)disconnect:(id)sender;
+- (IBAction)copy:(id)sender;
+- (IBAction)paste:(id)sender;
+- (IBAction)toggleStatusBar:(id)sender;
 
 - (void)clientNotify:(NSNotification *)notification;
 - (void)handlePacket:(NSNotification *)notification;

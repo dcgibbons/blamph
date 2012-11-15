@@ -20,6 +20,12 @@
 @synthesize disconnectMenuItem;
 @synthesize menuItemCopy;
 @synthesize menuItemPaste;
+@synthesize menuItemToggleStatusBar;
+@synthesize statusBarView;
+@synthesize connectionStatusLabel;
+@synthesize connectionTimeLabel;
+@synthesize idleTimeLabel;
+@synthesize timer;
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
@@ -64,7 +70,6 @@
     {
         valid = (connectionState == CONNECTED || connectionState == CONNECTING);
     }
-    DLog(@"validateMenuItem=%@ valid=%d", menuItem, valid);
     return valid;
 }
 
@@ -121,6 +126,8 @@
             [command processCommandWithClient:client];
         }
     }
+    
+    lastMessageSentAt = [NSDate date];
 }
 
 - (void)displayText:(NSString *)text
@@ -221,47 +228,33 @@
     return handled;
 }
 
-- (IBAction)copy:(id)sender
+- (void)changeConnectionState:(int)newState
 {
-    NSPasteboard *pasteboard = [NSPasteboard generalPasteboard];
-    (void)[pasteboard clearContents];
-    NSArray *selectedRanges = [self.outputTextView selectedRanges];
-    NSMutableArray *selectedText = [NSMutableArray arrayWithCapacity:[selectedRanges count]];
-    for (NSValue *rangeValue in selectedRanges)
+    connectionState = newState;
+    NSString *newLabel = nil;
+    switch (connectionState)
     {
-        NSRange r = [rangeValue rangeValue];
-        [selectedText addObject:[[self.outputTextView textStorage] attributedSubstringFromRange:r]];
+        case DISCONNECTED:
+            newLabel = @"Disconnected";
+            break;
+        case CONNECTING:
+            newLabel = @"Connecting";
+            break;
+        case CONNECTED:
+            newLabel = @"Connected";
+            break;
+        case DISCONNECTING:
+            newLabel = @"Disconnecting";
+            break;
+        default:
+            newLabel = @"WTF?!";
+            break;
     }
-    
-    (void)[pasteboard writeObjects:selectedText];
-}
-
-- (IBAction)paste:(id)sender
-{
-    NSPasteboard *pasteboard = [NSPasteboard generalPasteboard];
-    NSArray *classes = [[NSArray alloc] initWithObjects:[NSString class], nil];
-    NSDictionary *options = [NSDictionary dictionary];
-    NSArray *copiedItems = [pasteboard readObjectsForClasses:classes
-                                                     options:options];
-    if (copiedItems != nil)
-    {
-        [self.inputTextView pasteAsPlainText:copiedItems];
-        [self.window makeFirstResponder:self.inputTextView];
-    }
+    [connectionStatusLabel setStringValue:newLabel];
 }
 
 - (IBAction)connect:(id)sender
 {
-//    if (isConnected()) {
-//        throw new IllegalStateException("already connected");
-//    } else {
-//        // TODO: handle parsing errors here
-//        int separator = server.indexOf(':');
-//        String host = server.substring(0, separator);
-//        String port = server.substring(separator + 1);
-//        new Thread(new Connector(host, Integer.parseInt(port))).start();
-//    }
-    
     if (connectionState != DISCONNECTED)
     {
         // TODO: error, bitch!
@@ -269,8 +262,8 @@
     }
     else
     {
-        connectionState = CONNECTING;
-
+        [self changeConnectionState:CONNECTING];
+        
         [progressIndicator setHidden:NO];
         [progressIndicator startAnimation:self];
         
@@ -306,9 +299,43 @@
     }
     else
     {
-        connectionState = DISCONNECTING;
+        [self changeConnectionState:DISCONNECTING];
         [client disconnect];
     }
+}
+
+- (IBAction)copy:(id)sender
+{
+    NSPasteboard *pasteboard = [NSPasteboard generalPasteboard];
+    (void)[pasteboard clearContents];
+    NSArray *selectedRanges = [self.outputTextView selectedRanges];
+    NSMutableArray *selectedText = [NSMutableArray arrayWithCapacity:[selectedRanges count]];
+    for (NSValue *rangeValue in selectedRanges)
+    {
+        NSRange r = [rangeValue rangeValue];
+        [selectedText addObject:[[self.outputTextView textStorage] attributedSubstringFromRange:r]];
+    }
+    
+    (void)[pasteboard writeObjects:selectedText];
+}
+
+- (IBAction)paste:(id)sender
+{
+    NSPasteboard *pasteboard = [NSPasteboard generalPasteboard];
+    NSArray *classes = [[NSArray alloc] initWithObjects:[NSString class], nil];
+    NSDictionary *options = [NSDictionary dictionary];
+    NSArray *copiedItems = [pasteboard readObjectsForClasses:classes
+                                                     options:options];
+    if (copiedItems != nil)
+    {
+        [self.inputTextView pasteAsPlainText:copiedItems];
+        [self.window makeFirstResponder:self.inputTextView];
+    }
+}
+
+- (IBAction)toggleStatusBar:(id)sender
+{
+    
 }
 
 - (void)handlePacket:(NSNotification *)notification
@@ -650,22 +677,53 @@
     return [DateTimeUtils formatEventTime:time];
 }
 
+- (void)fireTimer:(id)arg
+{
+    DLog(@"timer fired");
+    NSTimeInterval now = [[NSDate date] timeIntervalSince1970];
+    
+    NSTimeInterval start = [connectedTime timeIntervalSince1970];
+    NSTimeInterval elapsedTime = now - start;
+    NSString *elapsedText = [DateTimeUtils formatSimpleTime:elapsedTime];
+    [connectionTimeLabel setStringValue:[NSString stringWithFormat:@"Connected: %@", elapsedText]];
+    
+    start = [lastMessageSentAt timeIntervalSince1970];
+    NSTimeInterval idleTime = now - start;
+    NSString *idleText = [DateTimeUtils formatSimpleTime:idleTime];
+    [idleTimeLabel setStringValue:[NSString stringWithFormat:@"Idle: %@", idleText]];
+}
+
 - (void)clientNotify:(NSNotification *)notification
 {
     if ([[notification name] compare:@"ICBClient:connected"] == NSOrderedSame)
     {
         [progressIndicator stopAnimation:self];
         [progressIndicator setHidden:YES];
-        connectionState = CONNECTED;
+        [self changeConnectionState:CONNECTED];
+        [self.idleTimeLabel setHidden:NO];
+        [self.connectionTimeLabel setHidden:NO];
+
+        connectedTime = [NSDate date];
+        lastMessageSentAt = [NSDate date];
+        
+        self.timer = [NSTimer scheduledTimerWithTimeInterval:1.0
+                                                      target:self
+                                                    selector:@selector(fireTimer:)
+                                                    userInfo:nil
+                                                     repeats:YES];
     }
     else if ([[notification name] compare:@"ICBClient:disconnected"] == NSOrderedSame)
     {
-        connectionState = DISCONNECTED;
+        [self changeConnectionState:DISCONNECTED];
+        [self.timer invalidate];
+        self.timer = nil;
+        [self.idleTimeLabel setHidden:YES];
+        [self.connectionTimeLabel setHidden:YES];
     }
     else if ([[notification name] compare:@"ICBClient:loginOK"] == NSOrderedSame)
     {
         //        [MBProgressHUD hideHUDForView:self.view animated:YES];
-        //        [self performSegueWithIdentifier:@"connectSegue" sender:self];
+        //        [self performSegueWithIdentifier:@"connectSegue" [er:self];
     }
 }
 

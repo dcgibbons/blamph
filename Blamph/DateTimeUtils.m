@@ -11,6 +11,44 @@
 
 @implementation DateTimeUtils
 
+//private String formatTime(long elapsedTime) {
+//    Long minutes = new Long(elapsedTime / 60 % 60);
+//    Long hours = new Long(elapsedTime / 3600 % 24);
+//    Long days = new Long(elapsedTime / 86400);
+//    
+//    // TODO: would be nice to figure out a way to use ChoiceFormat to
+//    // make this i18n compliant
+//    StringBuffer buffer = new StringBuffer();
+//    if (days.longValue() > 0) {
+//        buffer.append(days).append("d ");
+//    }
+//    if (hours.longValue() > 0 || days.longValue() > 0) {
+//        buffer.append(hours).append("h ");
+//    }
+//    buffer.append(minutes).append('m');
+//    
+//    return buffer.toString();
+//}
+//
++ (NSString *)formatSimpleTime:(NSTimeInterval)elapsedTime
+{
+    NSUInteger minutes = (NSUInteger)elapsedTime / 60 % 60;
+    NSUInteger hours = (NSUInteger)elapsedTime / 3600 % 24;
+    NSUInteger days = (NSUInteger)elapsedTime / 86400;
+    
+    NSMutableString *str = [NSMutableString stringWithCapacity:32];
+    if (days > 0)
+    {
+        [str appendFormat:@"%lud ", days];
+    }
+    if (hours > 0 || days > 0)
+    {
+        [str appendFormat:@"%luh ", hours];
+    }
+    [str appendFormat:@"%lum", minutes];
+    return [NSString stringWithString:str];
+}
+
 + (NSString *)formatElapsedTime:(NSTimeInterval)elapsedTime
 {
     NSString *s = nil;

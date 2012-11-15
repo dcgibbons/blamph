@@ -10,6 +10,7 @@
 
 @interface DateTimeUtils : NSObject
 
++ (NSString *)formatSimpleTime:(NSTimeInterval)elapsedTime;
 + (NSString *)formatElapsedTime:(NSTimeInterval)elapsedTime;
 + (NSString *)formatEventTime:(NSDate *)dateTime;
 
