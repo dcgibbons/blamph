@@ -12,6 +12,8 @@
 @interface AppDelegate : NSObject
     <NSApplicationDelegate, NSTextViewDelegate, NSTextViewDelegate>
 {
+    enum { DISCONNECTED, DISCONNECTING, CONNECTING, CONNECTED } connectionState;
+    
     NSMutableArray *servers;
     ICBClient *client;
     
@@ -26,6 +28,7 @@
     NSColor *statusTextColor;
 }
 
+@property (nonatomic, retain) IBOutlet NSProgressIndicator *progressIndicator;
 @property (nonatomic, retain) IBOutlet NSTextView *inputTextView;
 @property (nonatomic, retain) IBOutlet NSTextView *outputTextView;
 @property (assign) IBOutlet NSWindow *window;

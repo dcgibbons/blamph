@@ -13,6 +13,7 @@
 
 @implementation AppDelegate
 
+@synthesize progressIndicator;
 @synthesize inputTextView;
 @synthesize outputTextView;
 
@@ -201,33 +202,61 @@
 
 - (IBAction)connect:(id)sender
 {
-    NSString *nickname = @"chadwick2";
-    NSUInteger server = 0;
+//    if (isConnected()) {
+//        throw new IllegalStateException("already connected");
+//    } else {
+//        // TODO: handle parsing errors here
+//        int separator = server.indexOf(':');
+//        String host = server.substring(0, separator);
+//        String port = server.substring(separator + 1);
+//        new Thread(new Connector(host, Integer.parseInt(port))).start();
+//    }
     
-    ServerDefinition *serverDefinition = (ServerDefinition *)[servers objectAtIndex:server];
-    if (serverDefinition != nil)
+    if (connectionState != DISCONNECTED)
     {
-        //MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-        //hud.labelText = @"Connecting";
+        // TODO: error, bitch!
+        NSBeep();
+    }
+    else
+    {
+        [progressIndicator setHidden:NO];
+        [progressIndicator startAnimation:self];
         
-        client = [[ICBClient alloc] initWithServer:serverDefinition
-                                       andNickname:nickname];
+        NSString *nickname = @"chadwick2";
+        NSUInteger server = 0;
         
-        [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(handlePacket:)
-                                                     name:@"ICBPacket"
-                                                   object:nil];
-        
-        [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(clientNotify:)
-                                                     name:nil
-                                                   object:client];
+        ServerDefinition *serverDefinition = (ServerDefinition *)[servers objectAtIndex:server];
+        if (serverDefinition != nil)
+        {
+            client = [[ICBClient alloc] initWithServer:serverDefinition
+                                           andNickname:nickname];
+            
+            [[NSNotificationCenter defaultCenter] addObserver:self
+                                                     selector:@selector(handlePacket:)
+                                                         name:@"ICBPacket"
+                                                       object:nil];
+            
+            [[NSNotificationCenter defaultCenter] addObserver:self
+                                                     selector:@selector(clientNotify:)
+                                                         name:nil
+                                                       object:client];
+        }
     }
 }
 
 - (IBAction)disconnect:(id)sender
 {
-    // TODO
+    NSLog(@"disconnect action");
+    if (connectionState != CONNECTED)
+    {
+        // TODO: error, bitch!
+        NSBeep();
+    }
+    else
+    {
+        connectionState = DISCONNECTING;
+        [client disconnect];
+    }
 }
 
 - (void)handlePacket:(NSNotification *)notification
@@ -571,7 +600,17 @@
 
 - (void)clientNotify:(NSNotification *)notification
 {
-    if ([[notification name] compare:@"ICBClient:loginOK"] == NSOrderedSame)
+    if ([[notification name] compare:@"ICBClient:connected"] == NSOrderedSame)
+    {
+        [progressIndicator stopAnimation:self];
+        [progressIndicator setHidden:YES];
+        connectionState = CONNECTED;
+    }
+    else if ([[notification name] compare:@"ICBClient:disconnected"] == NSOrderedSame)
+    {
+        connectionState = DISCONNECTED;
+    }
+    else if ([[notification name] compare:@"ICBClient:loginOK"] == NSOrderedSame)
     {
         //        [MBProgressHUD hideHUDForView:self.view animated:YES];
         //        [self performSegueWithIdentifier:@"connectSegue" sender:self];

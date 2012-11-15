@@ -27,9 +27,6 @@
     ServerDefinition *serverDefinition;
     NSString *nickname;
     
-    NSInputStream *istream;
-    NSOutputStream *ostream;
-    
     uint8_t packetLength, bufferPos;
     uint8_t *packetBuffer;
     
@@ -50,6 +47,8 @@
 }
 
 - (id)initWithServer:(ServerDefinition *)serverDefinition andNickname:(NSString *)nickname;
+- (void)disconnect;
+
 - (void)handlePacket:(NSNotification *)notification;
 - (void)handleCommandOutputPacket:(CommandOutputPacket *)packet;
 - (void)handleErrorPacket:(ErrorPacket *)packet;
@@ -66,5 +65,7 @@
 
 @property (nonatomic, readonly) NSArray *groups;
 @property (nonatomic, readonly) NSArray *users;
+@property (nonatomic, retain) NSInputStream *istream;
+@property (nonatomic, retain) NSOutputStream *ostream;
 
 @end

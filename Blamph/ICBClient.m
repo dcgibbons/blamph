@@ -10,6 +10,8 @@
 
 @implementation ICBClient
 
+@synthesize istream, ostream;
+
 - (id)initWithServer:(ServerDefinition *)userServerDefinition andNickname:(NSString *)userNickname
 {
     if (self = [super init])
@@ -27,22 +29,29 @@
         packetsReceived = 0;
         packetsSent = 0;
         
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handlePacket:) name:@"ICBPacket" object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(handlePacket:)
+                                                     name:@"ICBPacket"
+                                                   object:nil];
         
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
         CFReadStreamRef readStream = NULL;
         CFWriteStreamRef writeStream = NULL;
-        CFStreamCreatePairWithSocketToHost(kCFAllocatorDefault, (CFStringRef)@"localhost", 7326, &readStream, &writeStream);
+        CFStreamCreatePairWithSocketToHost(kCFAllocatorDefault, (CFStringRef)@"default.icb.net", 7326, &readStream, &writeStream);
         if (readStream && writeStream) {
             CFReadStreamSetProperty(readStream, kCFStreamPropertyShouldCloseNativeSocket, kCFBooleanTrue);
             CFWriteStreamSetProperty(writeStream, kCFStreamPropertyShouldCloseNativeSocket, kCFBooleanTrue);
             
-            istream = (__bridge_transfer NSInputStream *)readStream;
+            // NOTE: we needed the input and output streams to be retained by
+            // this client, otherwise the retainCount wasn't right. The end-
+            // result being that when we tried to remove the streams from the
+            // run loop then the loop would hang.
+            self.istream = (__bridge_transfer NSInputStream *)readStream;
             [istream setDelegate:self];
             [istream scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
             [istream open];
             
-            ostream = (__bridge_transfer NSOutputStream *)writeStream;
+            self.ostream = (__bridge_transfer NSOutputStream *)writeStream;
             [ostream setDelegate:self];
             [ostream scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
             [ostream open];
@@ -55,6 +64,22 @@
             CFRelease(writeStream);
     }
     return self;
+}
+
+- (void)disconnect
+{
+    [self.ostream removeFromRunLoop:[NSRunLoop currentRunLoop]
+                       forMode:NSDefaultRunLoopMode];
+    [self.ostream setDelegate:nil];
+    [self.ostream close];
+    self.ostream = nil;
+    
+    [self.istream removeFromRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
+    [self.istream setDelegate:nil];
+    [self.istream close];
+    self.istream = nil;
+    
+    DLog(@"disconnected!!");
 }
 
 - (NSString *)groups
@@ -164,7 +189,7 @@
     
     NSString *id = nickname;
     NSString *nick = nickname;
-    NSString *group = @"";
+    NSString *group = @"hurm";
     NSString *command = @"login";
     NSString *passwd = @"";
     
@@ -287,7 +312,7 @@
 
 - (void)flushOutputQueue
 {
-    if ([ostream hasSpaceAvailable])
+    if ([self.ostream hasSpaceAvailable])
     {
         while ([outputQueue count] > 0)
         {
@@ -295,9 +320,9 @@
             [outputQueue removeLastObject];
             
             uint8_t l = [data length];
-            NSInteger written = [ostream write:&l maxLength:sizeof(l)];
+            NSInteger written = [self.ostream write:&l maxLength:sizeof(l)];
             NSAssert(written == sizeof(l), @"unable to write packet length");
-            written = [ostream write:[data bytes] maxLength:l];
+            written = [self.ostream write:[data bytes] maxLength:l];
             NSAssert(written == l, @"unable to write packet data");
         }
     }
@@ -365,10 +390,14 @@
 
 - (void)stream:(NSStream *)theStream handleEvent:(NSStreamEvent)streamEvent
 {
+    DLog(@"socket stream event %lu!", streamEvent);
+    
     switch (streamEvent) {
         case NSStreamEventOpenCompleted:
             readState = kWaitingForPacket;
             clientState = kReady;
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"ICBClient:connected"
+                                                                object:self];
             break;
             
         case NSStreamEventHasBytesAvailable:
@@ -380,9 +409,14 @@
             break;
             
         case NSStreamEventErrorOccurred:
+            DLog(@"socket error!");
             break;
             
         case NSStreamEventEndEncountered:
+            DLog(@"socket closed!");
+////            clientState = kClient;
+//            [[NSNotificationCenter defaultCenter] postNotificationName:@"ICBClient:disconnected"
+//                                                                object:self];
             break;
             
         default:
