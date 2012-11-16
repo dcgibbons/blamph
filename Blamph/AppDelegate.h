@@ -8,6 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import "ICBClient.h"
+#import "MainWindow.h"
 
 @interface AppDelegate : NSObject
     <NSApplicationDelegate, NSTextViewDelegate, NSTextViewDelegate>
@@ -43,7 +44,7 @@
 @property (nonatomic, retain) IBOutlet NSProgressIndicator *progressIndicator;
 @property (nonatomic, retain) IBOutlet NSTextView *inputTextView;
 @property (nonatomic, retain) IBOutlet NSTextView *outputTextView;
-@property (assign) IBOutlet NSWindow *window;
+@property (assign) IBOutlet MainWindow *window;
 @property (nonatomic, retain) NSTimer *timer;
 
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem;
