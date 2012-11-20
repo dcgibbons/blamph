@@ -9,6 +9,18 @@
 #import "UIController.h"
 #import "ClientCommand.h"
 #import "DateTimeUtils.h"
+#import "BeepPacket.h"
+#import "CommandPacket.h"
+#import "CommandOutputPacket.h"
+#import "ErrorPacket.h"
+#import "ExitPacket.h"
+#import "LoginPacket.h"
+#import "PersonalPacket.h"
+#import "PingPacket.h"
+#import "PongPacket.h"
+#import "ProtocolPacket.h"
+#import "OpenPacket.h"
+#import "StatusPacket.h"
 
 @implementation UIController
 
@@ -703,6 +715,12 @@
 
         [progressIndicator setHidden:NO];
         [progressIndicator startAnimation:self];
+    }
+    else if ([[notification name] compare:kICBClient_connectfailed] == NSOrderedSame)
+    {
+        [connectionStatusLabel setStringValue:@"Connect Failed"];
+        [progressIndicator stopAnimation:self];
+        [progressIndicator setHidden:YES];
     }
     else if ([[notification name] compare:kICBClient_connected] == NSOrderedSame)
     {

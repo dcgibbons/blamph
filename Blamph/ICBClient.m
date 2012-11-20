@@ -7,6 +7,47 @@
 //
 
 #import "ICBClient.h"
+#import "BeepPacket.h"
+#import "CommandPacket.h"
+#import "CommandOutputPacket.h"
+#import "ErrorPacket.h"
+#import "ExitPacket.h"
+#import "LoginPacket.h"
+#import "PersonalPacket.h"
+#import "PingPacket.h"
+#import "PongPacket.h"
+#import "ProtocolPacket.h"
+#import "OpenPacket.h"
+#import "StatusPacket.h"
+
+@interface ICBClient () <NSStreamDelegate>
+{
+@private
+    enum { DISCONNECTED, DISCONNECTING, CONNECTING, CONNECTED } connectionState;
+    
+    NSString *nickname;
+    NSString *initialGroup;
+    NSString *password;
+    
+    uint8_t packetLength, bufferPos;
+    
+    NSMutableData *packetBuffer;
+    NSMutableArray *inputQueue;
+    NSMutableArray *outputQueue;
+    
+    enum { kWaitingForPacket, kReadingPacket } readState;
+    
+    // statistics
+    NSUInteger bytesReceived;
+    NSUInteger bytesSent;
+    NSUInteger packetsReceived;
+    NSUInteger packetsSent;
+}
+
+@property (nonatomic, retain) NSInputStream *istream;
+@property (nonatomic, retain) NSOutputStream *ostream;
+
+@end
 
 @implementation ICBClient
 
@@ -419,6 +460,10 @@
             
         case NSStreamEventErrorOccurred:
             DLog(@"socket error!");
+            if (connectionState == CONNECTING)
+            {
+                [ns postNotificationName:kICBClient_connectfailed object:self];
+            }
             break;
             
         case NSStreamEventEndEncountered:

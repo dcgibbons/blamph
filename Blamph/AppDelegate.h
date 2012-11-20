@@ -14,7 +14,7 @@
 @interface AppDelegate : NSObject <NSApplicationDelegate>
 
 @property (nonatomic, retain) IBOutlet ICBClient *client;
-@property (nonatomic, retain) MASPreferencesWindowController *preferencesWindowController;
+@property (nonatomic, retain) MASPreferencesWindowController *preferences;
 
 - (IBAction)connect:(id)sender;
 - (IBAction)disconnect:(id)sender;

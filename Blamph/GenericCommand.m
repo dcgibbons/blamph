@@ -7,6 +7,7 @@
 //
 
 #import "GenericCommand.h"
+#import "CommandPacket.h"
 
 @implementation GenericCommand
 

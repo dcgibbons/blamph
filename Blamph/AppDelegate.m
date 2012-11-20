@@ -13,7 +13,7 @@
 @implementation AppDelegate
 
 @synthesize client = _client;
-@synthesize preferencesWindowController = _preferencesWindowController;
+@synthesize preferences = _preferences;
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
@@ -47,7 +47,7 @@
     NSString *password = [userDefaults stringForKey:@"password"];
     
     NSUInteger server = [[userDefaults valueForKey:@"defaultServer"] unsignedLongValue];
-    NSDictionary *serverDefinition = [[[NSUserDefaults standardUserDefaults] arrayForKey:@"servers"]
+    NSDictionary *serverDefinition = [[userDefaults arrayForKey:@"servers"]
                                       objectAtIndex:server];
     if (serverDefinition != nil)
     {
@@ -66,19 +66,22 @@
 
 - (IBAction)preferences:(id)sender
 {
-    if (_preferencesWindowController == nil)
+    if (_preferences == nil)
     {
-        GeneralViewController *generalViewController = [[GeneralViewController alloc]
-                                                   initWithNibName:@"GeneralViewController" bundle:[NSBundle mainBundle]];
-        NSViewController *advancedViewController = [[AdvancedViewController alloc]
-                                                    initWithNibName:@"AdvancedViewController" bundle:[NSBundle mainBundle]];
-        NSArray *views = [NSArray arrayWithObjects:generalViewController,
-                          advancedViewController, nil];
-        self.preferencesWindowController = [[MASPreferencesWindowController alloc] initWithViewControllers:views
-                                                                                                     title:@"Preferences"];
+        NSBundle *mainBundle = [NSBundle mainBundle];
+        GeneralViewController *general = [[GeneralViewController alloc]
+                                          initWithNibName:@"GeneralViewController"
+                                          bundle:mainBundle];
+        NSViewController *advanced = [[AdvancedViewController alloc]
+                                      initWithNibName:@"AdvancedViewController"
+                                      bundle:mainBundle];
+        NSArray *views = [NSArray arrayWithObjects:general, advanced, nil];
+        self.preferences = [[MASPreferencesWindowController alloc]
+                            initWithViewControllers:views
+                            title:@"Preferences"];
     }
     
-    [self.preferencesWindowController showWindow:self];
+    [self.preferences showWindow:self];
 }
 
 

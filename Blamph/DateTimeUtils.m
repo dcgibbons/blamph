@@ -6,7 +6,7 @@
 //  Copyright (c) 2012 Nuclear Bunny Studios, LLC. All rights reserved.
 //
 
-#import "Debugkit.h"
+#import "DebugKit.h"
 #import "DateTimeUtils.h"
 
 @implementation DateTimeUtils
