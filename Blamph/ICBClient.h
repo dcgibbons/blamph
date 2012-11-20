@@ -16,20 +16,31 @@
 #import "LoginPacket.h"
 #import "PersonalPacket.h"
 #import "PingPacket.h"
+#import "PongPacket.h"
 #import "ProtocolPacket.h"
 #import "OpenPacket.h"
 #import "StatusPacket.h"
-#import "ServerDefinition.h"
+
+#define kICBClient_connecting       @"ICBClient:connecting"
+#define kICBClient_connected        @"ICBClient:connected"
+#define kICBClient_disconnecting    @"ICBClient:disconnecting"
+#define kICBClient_disconnected     @"ICBClient:disconnected"
+#define kICBClient_packet           @"ICBClient:packet"
+#define kICBClient_loginOK          @"ICBClient:loginOK"
 
 @interface ICBClient : NSObject <NSStreamDelegate>
 {
 @private
-    ServerDefinition *serverDefinition;
+    enum { DISCONNECTED, DISCONNECTING, CONNECTING, CONNECTED } connectionState;
+
     NSString *nickname;
+    NSString *initialGroup;
+    NSString *password;
     
     uint8_t packetLength, bufferPos;
     uint8_t *packetBuffer;
     
+    NSMutableArray *inputQueue;
     NSMutableArray *outputQueue;
     
     enum { kWaitingForPacket, kReadingPacket } readState;
@@ -46,26 +57,27 @@
     NSUInteger packetsSent;
 }
 
-- (id)initWithServer:(ServerDefinition *)serverDefinition andNickname:(NSString *)nickname;
-- (void)disconnect;
-
-- (void)handlePacket:(NSNotification *)notification;
-- (void)handleCommandOutputPacket:(CommandOutputPacket *)packet;
-- (void)handleErrorPacket:(ErrorPacket *)packet;
-- (void)handleLoginPacket:(LoginPacket *)packet;
-- (void)handleProtocolPacket:(ProtocolPacket *)packet;
-
-- (void)sendPacket:(ICBPacket *)packet;
-- (void)handleInputStream:(NSInputStream *)stream;
-- (void)handleOutputStream:(NSOutputStream *)stream;
-
-- (void)sendOpenMessage:(NSString *)msg;
-- (void)sendPersonalMessage:(NSString *)nick withMsg:(NSString *)msg;
-- (void)sendWriteMessage:(NSString *)nick withMsg:(NSString *)msg;
-
 @property (nonatomic, readonly) NSArray *groups;
 @property (nonatomic, readonly) NSArray *users;
 @property (nonatomic, retain) NSInputStream *istream;
 @property (nonatomic, retain) NSOutputStream *ostream;
+
+- (id)init;
+
+- (BOOL)isConnected;
+- (void)changeConnectingState:(int)newState;
+
+- (void)connectUsingHostname:(NSString *)hostname
+                     andPort:(NSInteger)port
+                 andNickname:(NSString *)userNickname
+                   intoGroup:(NSString *)initalGroup
+                withPassword:(NSString *)password;
+
+- (void)disconnect;
+
+- (void)sendPacket:(ICBPacket *)packet;
+- (void)sendOpenMessage:(NSString *)msg;
+- (void)sendPersonalMessage:(NSString *)nick withMsg:(NSString *)msg;
+- (void)sendWriteMessage:(NSString *)nick withMsg:(NSString *)msg;
 
 @end

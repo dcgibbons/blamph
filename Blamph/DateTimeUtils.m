@@ -78,11 +78,18 @@
 + (NSString *)formatEventTime:(NSDate *)dateTime
 {
     CFLocaleRef currentLocale = CFLocaleCopyCurrent();
+    CFDateFormatterRef dateFormatter = CFDateFormatterCreate(NULL,
+                                                             currentLocale,
+                                                             kCFDateFormatterNoStyle,
+                                                             kCFDateFormatterShortStyle);
+    CFRelease(currentLocale);
     
-    CFDateFormatterRef dateFormatter = CFDateFormatterCreate(NULL, currentLocale, kCFDateFormatterNoStyle, kCFDateFormatterShortStyle);
-    
-    CFStringRef formattedString = CFDateFormatterCreateStringWithDate(NULL, dateFormatter, (__bridge CFDateRef)dateTime);
-    NSString *dateStr = (__bridge NSString *)(formattedString);
+    CFStringRef formattedString = CFDateFormatterCreateStringWithDate(NULL,
+                                                                      dateFormatter,
+                                                                      (__bridge CFDateRef)dateTime);
+    CFRelease(dateFormatter);
+
+    NSString *dateStr = (__bridge_transfer NSString *)(formattedString);
     NSUInteger pad = 8 - [dateStr length];
     if (pad > 0)
     {

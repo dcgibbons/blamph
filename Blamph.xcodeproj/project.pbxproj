@@ -11,6 +11,15 @@
 		C24330D31645B3780039A005 /* WriteMessageCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = C24330D21645B3780039A005 /* WriteMessageCommand.m */; };
 		C24330D61645B7950039A005 /* MessageCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = C24330D51645B7950039A005 /* MessageCommand.m */; };
 		C24330E91645BBC60039A005 /* GenericCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = C24330E81645BBC60039A005 /* GenericCommand.m */; };
+		C2B3B0251655FA9000D0991B /* UIController.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B3B0241655FA9000D0991B /* UIController.m */; };
+		C2B3B0441657DBF000D0991B /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = C2B3B03E1657DBF000D0991B /* .gitignore */; };
+		C2B3B0451657DBF000D0991B /* MASPreferencesWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = C2B3B0401657DBF000D0991B /* MASPreferencesWindow.xib */; };
+		C2B3B0461657DBF000D0991B /* MASPreferencesWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B3B0421657DBF000D0991B /* MASPreferencesWindowController.m */; };
+		C2B3B0471657DBF000D0991B /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = C2B3B0431657DBF000D0991B /* README.md */; };
+		C2B3B04B1657DC6D00D0991B /* GeneralViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B3B0491657DC6D00D0991B /* GeneralViewController.m */; };
+		C2B3B04C1657DC6D00D0991B /* GeneralViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C2B3B04A1657DC6D00D0991B /* GeneralViewController.xib */; };
+		C2B3B0501657DC7500D0991B /* AdvancedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B3B04E1657DC7500D0991B /* AdvancedViewController.m */; };
+		C2B3B0511657DC7500D0991B /* AdvancedViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C2B3B04F1657DC7500D0991B /* AdvancedViewController.xib */; };
 		C2F19574163F26E3006D48A4 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2F1953D163F2628006D48A4 /* Cocoa.framework */; };
 		C2F1957A163F26E3006D48A4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C2F19578163F26E3006D48A4 /* InfoPlist.strings */; };
 		C2F1957C163F26E3006D48A4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C2F1957B163F26E3006D48A4 /* main.m */; };
@@ -51,7 +60,6 @@
 		C2F19A1C16404B13006D48A4 /* DebugKitFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2F19A1716404B03006D48A4 /* DebugKitFramework.framework */; };
 		C2F19A1F16404BC0006D48A4 /* CommandPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = C2F19A1E16404BC0006D48A4 /* CommandPacket.m */; };
 		C2F19A2216404BDC006D48A4 /* CommandOutputPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = C2F19A2116404BDC006D48A4 /* CommandOutputPacket.m */; };
-		C2F19A2516404C2F006D48A4 /* ServerDefinition.m in Sources */ = {isa = PBXBuildFile; fileRef = C2F19A2416404C2F006D48A4 /* ServerDefinition.m */; };
 		C2F19A6916449B5B006D48A4 /* DateTimeUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = C2F19A6816449B5B006D48A4 /* DateTimeUtils.m */; };
 /* End PBXBuildFile section */
 
@@ -128,6 +136,20 @@
 		C28670F915A62418005DE3D5 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		C28670FB15A62418005DE3D5 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		C286711215A62418005DE3D5 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
+		C2B3B0231655FA9000D0991B /* UIController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIController.h; sourceTree = "<group>"; };
+		C2B3B0241655FA9000D0991B /* UIController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIController.m; sourceTree = "<group>"; };
+		C2B3B03E1657DBF000D0991B /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
+		C2B3B03F1657DBF000D0991B /* MASPreferencesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MASPreferencesViewController.h; sourceTree = "<group>"; };
+		C2B3B0401657DBF000D0991B /* MASPreferencesWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MASPreferencesWindow.xib; sourceTree = "<group>"; };
+		C2B3B0411657DBF000D0991B /* MASPreferencesWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MASPreferencesWindowController.h; sourceTree = "<group>"; };
+		C2B3B0421657DBF000D0991B /* MASPreferencesWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MASPreferencesWindowController.m; sourceTree = "<group>"; };
+		C2B3B0431657DBF000D0991B /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
+		C2B3B0481657DC6D00D0991B /* GeneralViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GeneralViewController.h; sourceTree = "<group>"; };
+		C2B3B0491657DC6D00D0991B /* GeneralViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GeneralViewController.m; sourceTree = "<group>"; };
+		C2B3B04A1657DC6D00D0991B /* GeneralViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GeneralViewController.xib; sourceTree = "<group>"; };
+		C2B3B04D1657DC7400D0991B /* AdvancedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AdvancedViewController.h; sourceTree = "<group>"; };
+		C2B3B04E1657DC7500D0991B /* AdvancedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AdvancedViewController.m; sourceTree = "<group>"; };
+		C2B3B04F1657DC7500D0991B /* AdvancedViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AdvancedViewController.xib; sourceTree = "<group>"; };
 		C2F1953D163F2628006D48A4 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = Library/Frameworks/Cocoa.framework; sourceTree = DEVELOPER_DIR; };
 		C2F19540163F2628006D48A4 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		C2F19541163F2628006D48A4 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
@@ -180,8 +202,6 @@
 		C2F19A1E16404BC0006D48A4 /* CommandPacket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommandPacket.m; sourceTree = "<group>"; };
 		C2F19A2016404BDC006D48A4 /* CommandOutputPacket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommandOutputPacket.h; sourceTree = "<group>"; };
 		C2F19A2116404BDC006D48A4 /* CommandOutputPacket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommandOutputPacket.m; sourceTree = "<group>"; };
-		C2F19A2316404C2F006D48A4 /* ServerDefinition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServerDefinition.h; sourceTree = "<group>"; };
-		C2F19A2416404C2F006D48A4 /* ServerDefinition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ServerDefinition.m; sourceTree = "<group>"; };
 		C2F19A6716449B5B006D48A4 /* DateTimeUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DateTimeUtils.h; sourceTree = "<group>"; };
 		C2F19A6816449B5B006D48A4 /* DateTimeUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DateTimeUtils.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -213,6 +233,7 @@
 			children = (
 				C2F19A0216404B02006D48A4 /* DebugKit.xcodeproj */,
 				C2F199CD16404A64006D48A4 /* ICBProtocol */,
+				C2B3B03D1657DBEF00D0991B /* MASPreferences */,
 				C2F19575163F26E3006D48A4 /* Blamph */,
 				C2F19591163F26E3006D48A4 /* BlamphTests */,
 				C28670F415A62418005DE3D5 /* Frameworks */,
@@ -243,6 +264,20 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		C2B3B03D1657DBEF00D0991B /* MASPreferences */ = {
+			isa = PBXGroup;
+			children = (
+				C2B3B03E1657DBF000D0991B /* .gitignore */,
+				C2B3B03F1657DBF000D0991B /* MASPreferencesViewController.h */,
+				C2B3B0401657DBF000D0991B /* MASPreferencesWindow.xib */,
+				C2B3B0411657DBF000D0991B /* MASPreferencesWindowController.h */,
+				C2B3B0421657DBF000D0991B /* MASPreferencesWindowController.m */,
+				C2B3B0431657DBF000D0991B /* README.md */,
+			);
+			name = MASPreferences;
+			path = ../../deps/MASPreferences;
+			sourceTree = "<group>";
+		};
 		C2F1953F163F2628006D48A4 /* Other Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -269,10 +304,14 @@
 				C2F195AE163F2C8B006D48A4 /* ICBClient.m */,
 				C24330D41645B7950039A005 /* MessageCommand.h */,
 				C24330D51645B7950039A005 /* MessageCommand.m */,
-				C2F19A2316404C2F006D48A4 /* ServerDefinition.h */,
-				C2F19A2416404C2F006D48A4 /* ServerDefinition.m */,
 				C24330D11645B3780039A005 /* WriteMessageCommand.h */,
 				C24330D21645B3780039A005 /* WriteMessageCommand.m */,
+				C2B3B0231655FA9000D0991B /* UIController.h */,
+				C2B3B0241655FA9000D0991B /* UIController.m */,
+				C2B3B0481657DC6D00D0991B /* GeneralViewController.h */,
+				C2B3B0491657DC6D00D0991B /* GeneralViewController.m */,
+				C2B3B04D1657DC7400D0991B /* AdvancedViewController.h */,
+				C2B3B04E1657DC7500D0991B /* AdvancedViewController.m */,
 			);
 			path = Blamph;
 			sourceTree = "<group>";
@@ -286,6 +325,8 @@
 				C2F19578163F26E3006D48A4 /* InfoPlist.strings */,
 				C2F1957B163F26E3006D48A4 /* main.m */,
 				C2F19584163F26E3006D48A4 /* MainMenu.xib */,
+				C2B3B04A1657DC6D00D0991B /* GeneralViewController.xib */,
+				C2B3B04F1657DC7500D0991B /* AdvancedViewController.xib */,
 				C2F1957E163F26E3006D48A4 /* Credits.rtf */,
 			);
 			name = "Supporting Files";
@@ -488,6 +529,11 @@
 				C2F19580163F26E3006D48A4 /* Credits.rtf in Resources */,
 				C2F19586163F26E3006D48A4 /* MainMenu.xib in Resources */,
 				C2F199F016404A64006D48A4 /* ICBProtocol-Info.plist in Resources */,
+				C2B3B0441657DBF000D0991B /* .gitignore in Resources */,
+				C2B3B0451657DBF000D0991B /* MASPreferencesWindow.xib in Resources */,
+				C2B3B0471657DBF000D0991B /* README.md in Resources */,
+				C2B3B04C1657DC6D00D0991B /* GeneralViewController.xib in Resources */,
+				C2B3B0511657DC7500D0991B /* AdvancedViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -540,12 +586,15 @@
 				C2F19A0016404A64006D48A4 /* StatusPacket.m in Sources */,
 				C2F19A1F16404BC0006D48A4 /* CommandPacket.m in Sources */,
 				C2F19A2216404BDC006D48A4 /* CommandOutputPacket.m in Sources */,
-				C2F19A2516404C2F006D48A4 /* ServerDefinition.m in Sources */,
 				C2F19A6916449B5B006D48A4 /* DateTimeUtils.m in Sources */,
 				C24330AC1645958A0039A005 /* ClientCommand.m in Sources */,
 				C24330D31645B3780039A005 /* WriteMessageCommand.m in Sources */,
 				C24330D61645B7950039A005 /* MessageCommand.m in Sources */,
 				C24330E91645BBC60039A005 /* GenericCommand.m in Sources */,
+				C2B3B0251655FA9000D0991B /* UIController.m in Sources */,
+				C2B3B0461657DBF000D0991B /* MASPreferencesWindowController.m in Sources */,
+				C2B3B04B1657DC6D00D0991B /* GeneralViewController.m in Sources */,
+				C2B3B0501657DC7500D0991B /* AdvancedViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
