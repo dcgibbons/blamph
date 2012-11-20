@@ -89,6 +89,21 @@
         [aTextView delete:nil];
         return YES;
     }
+    
+    if (aSelector == @selector(insertTab:))
+    {
+        NSString *nickname = [self.client.nicknameHistory next];
+        if (nickname != nil)
+        {
+            [self setNickname:nickname];
+        }
+        else
+        {
+            NSBeep();
+        }
+        return YES;
+    }
+    
     return NO;
 }
 
@@ -173,6 +188,48 @@
     [textStorage appendAttributedString:as];
 }
 
+- (void)setNickname:(NSString *)nickname
+{
+    NSError *error = NULL;
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"(\\S*)\\s*(\\S*)(.*)"
+                                                                           options:NSRegularExpressionCaseInsensitive
+                                                                             error:&error];
+    NSTextStorage *storage = [self.inputTextView textStorage];
+    [storage beginEditing];
+    
+    NSString *inputText = [storage string];
+    NSString *newText;
+    
+    if ([inputText length] > 0 && [inputText characterAtIndex:0] == '/')
+    {
+        NSArray *matches = [regex matchesInString:inputText
+                                          options:0
+                                            range:NSMakeRange(1, [inputText length] - 1)];
+        if ([matches count] > 0)
+        {
+            NSTextCheckingResult *match = [matches objectAtIndex:0];
+            NSRange commandRange = [match rangeAtIndex:1];
+            NSRange argsRange = [match rangeAtIndex:3];
+            NSString *command = [inputText substringWithRange:commandRange];
+            NSString *args = [[inputText substringWithRange:argsRange]
+                              stringByTrimmingCharactersInSet:
+                              [NSCharacterSet whitespaceAndNewlineCharacterSet]];
+            newText = [NSString stringWithFormat:@"/%@ %@ %@", command, nickname, args];
+        }
+    }
+    else
+    {
+        newText = [NSString stringWithFormat:@"/m %@ %@", nickname, inputText];
+    }
+    
+    [self.inputTextView selectAll:nil];
+    [self.inputTextView setString:newText];
+    [storage endEditing];
+    
+    NSRange range = NSMakeRange(storage.length - 1, 1);
+    [self.inputTextView scrollRangeToVisible:range];
+    [self.window makeFirstResponder:self.inputTextView];
+}
 
 - (BOOL)textView:(NSTextView *)aTextView
    clickedOnLink:(id)link
@@ -189,46 +246,8 @@
     }
     else if ([link isKindOfClass:[NSString class]])
     {
-        NSError *error = NULL;
-        NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"(\\S*)\\s*(\\S*)(.*)"
-                                                                               options:NSRegularExpressionCaseInsensitive
-                                                                                 error:&error];
         NSString *nickname = link;
-        
-        NSTextStorage *storage = [self.inputTextView textStorage];
-        [storage beginEditing];
-        
-        NSString *inputText = [storage string];
-        NSString *newText;
-        
-        if ([inputText length] > 0 && [inputText characterAtIndex:0] == '/')
-        {
-            NSArray *matches = [regex matchesInString:inputText
-                                              options:0
-                                                range:NSMakeRange(1, [inputText length] - 1)];
-            if ([matches count] > 0)
-            {
-                NSTextCheckingResult *match = [matches objectAtIndex:0];
-                NSRange commandRange = [match rangeAtIndex:1];
-                NSRange argsRange = [match rangeAtIndex:2];
-                NSString *command = [inputText substringWithRange:commandRange];
-                NSString *args = [inputText substringWithRange:argsRange];
-                newText = [NSString stringWithFormat:@"/%@ %@ %@", command, nickname, args];
-            }
-        }
-        else
-        {
-            newText = [NSString stringWithFormat:@"/m %@ %@", nickname, inputText];
-        }
-        
-        [self.inputTextView selectAll:nil];
-        [self.inputTextView setString:newText];
-        [storage endEditing];
-        
-        NSRange range = NSMakeRange(storage.length - 1, 1);
-        [self.inputTextView scrollRangeToVisible:range];
-        [self.window makeFirstResponder:self.inputTextView];
-        
+        [self setNickname:nickname];
         handled = YES;
     }
     return handled;

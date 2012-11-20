@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+
 #import "ICBPacket.h"
 #import "BeepPacket.h"
 #import "CommandPacket.h"
@@ -20,6 +21,7 @@
 #import "ProtocolPacket.h"
 #import "OpenPacket.h"
 #import "StatusPacket.h"
+#import "NicknameHistory.h"
 
 #define kICBClient_connecting       @"ICBClient:connecting"
 #define kICBClient_connected        @"ICBClient:connected"
@@ -61,6 +63,7 @@
 @property (nonatomic, readonly) NSArray *users;
 @property (nonatomic, retain) NSInputStream *istream;
 @property (nonatomic, retain) NSOutputStream *ostream;
+@property (nonatomic, retain) NicknameHistory *nicknameHistory;
 
 - (id)init;
 
@@ -68,7 +71,7 @@
 - (void)changeConnectingState:(int)newState;
 
 - (void)connectUsingHostname:(NSString *)hostname
-                     andPort:(NSInteger)port
+                     andPort:(UInt32)port
                  andNickname:(NSString *)userNickname
                    intoGroup:(NSString *)initalGroup
                 withPassword:(NSString *)password;

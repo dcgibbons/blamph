@@ -20,6 +20,7 @@
 		C2B3B04C1657DC6D00D0991B /* GeneralViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C2B3B04A1657DC6D00D0991B /* GeneralViewController.xib */; };
 		C2B3B0501657DC7500D0991B /* AdvancedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B3B04E1657DC7500D0991B /* AdvancedViewController.m */; };
 		C2B3B0511657DC7500D0991B /* AdvancedViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C2B3B04F1657DC7500D0991B /* AdvancedViewController.xib */; };
+		C2BA824D165B1D1E005C88DE /* NicknameHistory.m in Sources */ = {isa = PBXBuildFile; fileRef = C2BA824C165B1D1E005C88DE /* NicknameHistory.m */; };
 		C2F19574163F26E3006D48A4 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2F1953D163F2628006D48A4 /* Cocoa.framework */; };
 		C2F1957A163F26E3006D48A4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C2F19578163F26E3006D48A4 /* InfoPlist.strings */; };
 		C2F1957C163F26E3006D48A4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C2F1957B163F26E3006D48A4 /* main.m */; };
@@ -150,6 +151,8 @@
 		C2B3B04D1657DC7400D0991B /* AdvancedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AdvancedViewController.h; sourceTree = "<group>"; };
 		C2B3B04E1657DC7500D0991B /* AdvancedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AdvancedViewController.m; sourceTree = "<group>"; };
 		C2B3B04F1657DC7500D0991B /* AdvancedViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AdvancedViewController.xib; sourceTree = "<group>"; };
+		C2BA824B165B1D1E005C88DE /* NicknameHistory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NicknameHistory.h; sourceTree = "<group>"; };
+		C2BA824C165B1D1E005C88DE /* NicknameHistory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NicknameHistory.m; sourceTree = "<group>"; };
 		C2F1953D163F2628006D48A4 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = Library/Frameworks/Cocoa.framework; sourceTree = DEVELOPER_DIR; };
 		C2F19540163F2628006D48A4 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		C2F19541163F2628006D48A4 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
@@ -304,6 +307,8 @@
 				C2F195AE163F2C8B006D48A4 /* ICBClient.m */,
 				C24330D41645B7950039A005 /* MessageCommand.h */,
 				C24330D51645B7950039A005 /* MessageCommand.m */,
+				C2BA824B165B1D1E005C88DE /* NicknameHistory.h */,
+				C2BA824C165B1D1E005C88DE /* NicknameHistory.m */,
 				C24330D11645B3780039A005 /* WriteMessageCommand.h */,
 				C24330D21645B3780039A005 /* WriteMessageCommand.m */,
 				C2B3B0231655FA9000D0991B /* UIController.h */,
@@ -595,6 +600,7 @@
 				C2B3B0461657DBF000D0991B /* MASPreferencesWindowController.m in Sources */,
 				C2B3B04B1657DC6D00D0991B /* GeneralViewController.m in Sources */,
 				C2B3B0501657DC7500D0991B /* AdvancedViewController.m in Sources */,
+				C2BA824D165B1D1E005C88DE /* NicknameHistory.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

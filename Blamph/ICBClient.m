@@ -11,6 +11,7 @@
 @implementation ICBClient
 
 @synthesize istream, ostream;
+@synthesize nicknameHistory;
 
 - (id)init
 {
@@ -23,6 +24,7 @@
         outputQueue = [NSMutableArray arrayWithCapacity:100];
         chatGroups = [NSMutableArray arrayWithCapacity:100];
         chatUsers = [NSMutableArray arrayWithCapacity:500];
+        nicknameHistory = [[NicknameHistory alloc] init];
         
         bytesReceived = 0;
         bytesSent = 0;
@@ -68,7 +70,7 @@
 }
 
 - (void)connectUsingHostname:(NSString *)hostname
-                     andPort:(NSInteger)port
+                     andPort:(UInt32)port
                  andNickname:(NSString *)userNickname
                    intoGroup:(NSString *)userGroup
                 withPassword:(NSString *)userPassword
@@ -178,6 +180,11 @@
     else if ([packet isKindOfClass:[LoginPacket class]])
     {
         [self handleLoginPacket:(LoginPacket *)packet];
+    }
+    else if ([packet isKindOfClass:[PersonalPacket class]])
+    {
+        PersonalPacket *p = (PersonalPacket *)packet;
+        [nicknameHistory add:p.nick];
     }
     
     [[NSNotificationCenter defaultCenter] postNotificationName:kICBClient_packet
@@ -345,7 +352,7 @@
         [self sendPacket:p];
     } while ([remaining length] > 0);
     
-    // TODO: add outgoing username to history
+    [nicknameHistory add:nick];
 }
 
 - (void)sendWriteMessage:(NSString *)nick withMsg:(NSString *)msg
