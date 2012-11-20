@@ -284,7 +284,7 @@
 
 - (IBAction)toggleStatusBar:(id)sender
 {
-    DLog(@"toggleStatusBar");
+    // TODO
 }
 
 - (void)displayMessageTimestamp

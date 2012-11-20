@@ -40,17 +40,12 @@
     NSString *password;
     
     uint8_t packetLength, bufferPos;
-    uint8_t *packetBuffer;
     
+    NSMutableData *packetBuffer;
     NSMutableArray *inputQueue;
     NSMutableArray *outputQueue;
     
     enum { kWaitingForPacket, kReadingPacket } readState;
-    
-    enum { kReady, kParsingWhoListing } clientState;
-    
-    NSMutableArray *chatGroups;
-    NSMutableArray *chatUsers;
     
     // statistics
     NSUInteger bytesReceived;
@@ -59,8 +54,6 @@
     NSUInteger packetsSent;
 }
 
-@property (nonatomic, readonly) NSArray *groups;
-@property (nonatomic, readonly) NSArray *users;
 @property (nonatomic, retain) NSInputStream *istream;
 @property (nonatomic, retain) NSOutputStream *ostream;
 @property (nonatomic, retain) NicknameHistory *nicknameHistory;
@@ -68,14 +61,11 @@
 - (id)init;
 
 - (BOOL)isConnected;
-- (void)changeConnectingState:(int)newState;
-
 - (void)connectUsingHostname:(NSString *)hostname
                      andPort:(UInt32)port
                  andNickname:(NSString *)userNickname
                    intoGroup:(NSString *)initalGroup
                 withPassword:(NSString *)password;
-
 - (void)disconnect;
 
 - (void)sendPacket:(ICBPacket *)packet;

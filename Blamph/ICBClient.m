@@ -19,11 +19,9 @@
     {
         connectionState = DISCONNECTED;
         
-        packetBuffer = malloc(MAX_PACKET_SIZE);
+        packetBuffer = [NSMutableData dataWithCapacity:MAX_PACKET_SIZE];
         inputQueue = [NSMutableArray arrayWithCapacity:100];
         outputQueue = [NSMutableArray arrayWithCapacity:100];
-        chatGroups = [NSMutableArray arrayWithCapacity:100];
-        chatUsers = [NSMutableArray arrayWithCapacity:500];
         nicknameHistory = [[NicknameHistory alloc] init];
         
         bytesReceived = 0;
@@ -41,24 +39,22 @@
 
 - (void)changeConnectingState:(int)newState
 {
-    DLog(@"Changing connection state to %d from %d", connectionState, newState);
-
     connectionState = newState;
 
     NSString *notificationName = nil;
     switch (connectionState)
     {
         case DISCONNECTED:
-            notificationName = @"ICBClient:disconnected";
+            notificationName = kICBClient_disconnected;
             break;
         case DISCONNECTING:
-            notificationName = @"ICBClient:disconnecting";
+            notificationName = kICBClient_disconnecting;
             break;
         case CONNECTING:
-            notificationName = @"ICBClient:connecting";
+            notificationName = kICBClient_connecting;
             break;
         case CONNECTED:
-            notificationName = @"ICBClient:connect";
+            notificationName = kICBClient_connected;
             break;
     }
     
@@ -88,9 +84,6 @@
     initialGroup = userGroup;
     password = userPassword;
     
-    // Restart any tasks that were paused (or not yet started) while the
-    // application was inactive. If the application was previously in the
-    // background, optionally refresh the user interface.
     CFReadStreamRef readStream = NULL;
     CFWriteStreamRef writeStream = NULL;
     CFStreamCreatePairWithSocketToHost(kCFAllocatorDefault,
@@ -99,8 +92,12 @@
                                        &readStream,
                                        &writeStream);
     if (readStream && writeStream) {
-        CFReadStreamSetProperty(readStream, kCFStreamPropertyShouldCloseNativeSocket, kCFBooleanTrue);
-        CFWriteStreamSetProperty(writeStream, kCFStreamPropertyShouldCloseNativeSocket, kCFBooleanTrue);
+        CFReadStreamSetProperty(readStream,
+                                kCFStreamPropertyShouldCloseNativeSocket,
+                                kCFBooleanTrue);
+        CFWriteStreamSetProperty(writeStream,
+                                 kCFStreamPropertyShouldCloseNativeSocket,
+                                 kCFBooleanTrue);
         
         // NOTE: we needed the input and output streams to be retained by
         // this client, otherwise the retainCount wasn't right. The end-
@@ -145,28 +142,13 @@
     [self changeConnectingState:DISCONNECTED];
 }
 
-- (NSString *)groups
-{
-    return [NSArray arrayWithArray:chatGroups];
-}
-
-- (NSString *)users
-{
-    return [NSArray arrayWithArray:chatUsers];
-}
-
 - (void)handlePacket:(ICBPacket *)packet
 {
     packetsReceived++;
     
-    if ([packet isKindOfClass:[CommandOutputPacket class]])
+    if ([packet isKindOfClass:[ExitPacket class]])
     {
-        [self handleCommandOutputPacket:(CommandOutputPacket *)packet];
-    }
-    else if ([packet isKindOfClass:[ExitPacket class]])
-    {
-        // TODO WTF
-//        [self disconnect];
+        [self disconnect];
     }
     else if ([packet isKindOfClass:[PingPacket class]])
     {
@@ -191,67 +173,9 @@
                                                         object:packet];
 }
 
-- (void)handleCommandOutputPacket:(CommandOutputPacket *)packet
-{
-    NSString *outputType = [packet outputType];
-    
-    if (clientState == kParsingWhoListing)
-    {
-        if ([outputType compare:@"gh"] == 0)
-        {
-            // NO-OP
-        }
-        else if ([outputType compare:@"wg"] == 0)
-        {
-        }
-        else if ([outputType compare:@"wh"] == 0)
-        {
-            // NO-OP
-        }
-        else if ([outputType compare:@"wl"] == 0)
-        {
-            NSString *chatUser = [packet getFieldAtIndex:2];
-            [chatUsers addObject:chatUser];
-        }
-        else if ([outputType compare:@"co"] == 0)
-        {
-            // When doing a full who listing, a CommandOutput output type will
-            // appear in the format of
-            // Total: %d user(s in %d group(s) to designate the end of the who
-            // listing
-            if ([[packet getFieldAtIndex:1] compare:@"Total"
-                                            options:0
-                                              range:NSMakeRange(0, 5)] == 0)
-            {
-                DLog(@"Who Listing Complete!");
-                DLog(@"Groups=%@", chatGroups);
-                DLog(@"Users=%@", chatUsers);
-            }
-            else if ([[packet getFieldAtIndex:1] compare:@"Group: "
-                                                 options:0
-                                                   range:NSMakeRange(0, 7)] == 0)
-            {
-                NSString *chatGroup = [[[packet getFieldAtIndex:1] substringWithRange:NSMakeRange(7, 8)]
-                                       stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-                [chatGroups addObject:chatGroup];
-            }
-        }
-    }
-}
-
 - (void)handleLoginPacket:(LoginPacket *)packet
 {
-    DLog(@"Login OK");
-
-//    DLog(@"Login OK - sending who command");
-//    // TODO: reconnectNeeded = false
-//    
-//    CommandPacket *whoPacket = [[CommandPacket alloc] initWithCommand:@"w" optionalArgs:@""];
-//    [self sendPacket:whoPacket];
-//    
-//    clientState = kParsingWhoListing;
-    [chatGroups removeAllObjects];
-    [chatUsers removeAllObjects];
+    // TODO: reconnectNeeded = false
 
     // TODO: make echoback optional?
     CommandPacket *p = [[CommandPacket alloc] initWithCommand:@"echoback"
@@ -429,7 +353,8 @@
         }
         else if (readState == kReadingPacket)
         {
-            NSInteger len = [stream read:&packetBuffer[bufferPos]
+            uint8_t *buffer = [packetBuffer mutableBytes];
+            NSInteger len = [stream read:&buffer[bufferPos]
                                maxLength:packetLength - bufferPos];
             if (len < 0)
             {
@@ -448,7 +373,7 @@
                 }
                 else
                 {
-                    NSData *packetData = [NSData dataWithBytes:packetBuffer
+                    NSData *packetData = [NSData dataWithBytes:buffer
                                                         length:packetLength];
                     ICBPacket *packet = [ICBPacket packetWithBuffer:packetData];
                     
@@ -481,7 +406,6 @@
     switch (streamEvent) {
         case NSStreamEventOpenCompleted:
             readState = kWaitingForPacket;
-            clientState = kReady;
             [ns postNotificationName:kICBClient_connected object:self];
             break;
             

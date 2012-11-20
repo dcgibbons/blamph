@@ -40,7 +40,7 @@ static NSArray *commands = nil;
              @"GenericCommand", @"class",
              @"cp", @"commandName",
              nil],
-
+            
             [NSDictionary dictionaryWithObjectsAndKeys:
              @"drop", @"command",
              @"d", @"alias",
@@ -73,7 +73,7 @@ static NSArray *commands = nil;
              @"GenericCommand", @"class",
              @"motd", @"commandName",
              nil],
-
+            
             [NSDictionary dictionaryWithObjectsAndKeys:
              @"nick", @"command",
              @"GenericCommand", @"class",

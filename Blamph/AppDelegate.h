@@ -12,8 +12,6 @@
 #import "MASPreferencesWindowController.h"
 
 @interface AppDelegate : NSObject <NSApplicationDelegate>
-{
-}
 
 @property (nonatomic, retain) IBOutlet ICBClient *client;
 @property (nonatomic, retain) MASPreferencesWindowController *preferencesWindowController;

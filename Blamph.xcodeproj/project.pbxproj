@@ -267,6 +267,21 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		C29FE8B4165B6785001A2C0D /* Commands */ = {
+			isa = PBXGroup;
+			children = (
+				C24330AA1645958A0039A005 /* ClientCommand.h */,
+				C24330AB1645958A0039A005 /* ClientCommand.m */,
+				C24330E71645BBC60039A005 /* GenericCommand.h */,
+				C24330E81645BBC60039A005 /* GenericCommand.m */,
+				C24330D41645B7950039A005 /* MessageCommand.h */,
+				C24330D51645B7950039A005 /* MessageCommand.m */,
+				C24330D11645B3780039A005 /* WriteMessageCommand.h */,
+				C24330D21645B3780039A005 /* WriteMessageCommand.m */,
+			);
+			name = Commands;
+			sourceTree = "<group>";
+		};
 		C2B3B03D1657DBEF00D0991B /* MASPreferences */ = {
 			isa = PBXGroup;
 			children = (
@@ -294,23 +309,16 @@
 		C2F19575163F26E3006D48A4 /* Blamph */ = {
 			isa = PBXGroup;
 			children = (
+				C29FE8B4165B6785001A2C0D /* Commands */,
 				C2F19576163F26E3006D48A4 /* Supporting Files */,
 				C2F19581163F26E3006D48A4 /* AppDelegate.h */,
 				C2F19582163F26E3006D48A4 /* AppDelegate.m */,
-				C24330AA1645958A0039A005 /* ClientCommand.h */,
-				C24330AB1645958A0039A005 /* ClientCommand.m */,
 				C2F19A6716449B5B006D48A4 /* DateTimeUtils.h */,
 				C2F19A6816449B5B006D48A4 /* DateTimeUtils.m */,
-				C24330E71645BBC60039A005 /* GenericCommand.h */,
-				C24330E81645BBC60039A005 /* GenericCommand.m */,
 				C2F195AD163F2C8B006D48A4 /* ICBClient.h */,
 				C2F195AE163F2C8B006D48A4 /* ICBClient.m */,
-				C24330D41645B7950039A005 /* MessageCommand.h */,
-				C24330D51645B7950039A005 /* MessageCommand.m */,
 				C2BA824B165B1D1E005C88DE /* NicknameHistory.h */,
 				C2BA824C165B1D1E005C88DE /* NicknameHistory.m */,
-				C24330D11645B3780039A005 /* WriteMessageCommand.h */,
-				C24330D21645B3780039A005 /* WriteMessageCommand.m */,
 				C2B3B0231655FA9000D0991B /* UIController.h */,
 				C2B3B0241655FA9000D0991B /* UIController.m */,
 				C2B3B0481657DC6D00D0991B /* GeneralViewController.h */,

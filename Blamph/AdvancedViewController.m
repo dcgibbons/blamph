@@ -17,22 +17,26 @@
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
+    if (self)
+    {
         // Initialization code here.
     }
     
     return self;
 }
 
--(NSString *)identifier{
+-(NSString *)identifier
+{
     return @"Advanced";
 }
 
--(NSImage *)toolbarItemImage{
+-(NSImage *)toolbarItemImage
+{
     return [NSImage imageNamed:NSImageNameAdvanced];
 }
 
--(NSString *)toolbarItemLabel{
+-(NSString *)toolbarItemLabel
+{
     return @"Advanced";
 }
 

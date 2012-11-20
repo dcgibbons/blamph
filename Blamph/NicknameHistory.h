@@ -11,8 +11,8 @@
 @interface NicknameHistory : NSObject
 {
 @private
-    NSMutableArray *_history;
-    NSUInteger _currentHistory;
+    NSMutableArray *history;
+    NSUInteger currentHistory;
 }
 
 - (void)clear;

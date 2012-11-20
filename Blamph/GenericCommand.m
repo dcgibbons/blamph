@@ -15,7 +15,6 @@
     CommandPacket *packet = [[CommandPacket alloc] initWithCommand:commandName
                                                       optionalArgs:[args componentsJoinedByString:@" "]];
     [client sendPacket:packet];
-    
 }
 
 @end

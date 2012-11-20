@@ -47,7 +47,6 @@
     NSString *password = [userDefaults stringForKey:@"password"];
     
     NSUInteger server = [[userDefaults valueForKey:@"defaultServer"] unsignedLongValue];
-    NSLog(@"defaultServer=%lu", server);
     NSDictionary *serverDefinition = [[[NSUserDefaults standardUserDefaults] arrayForKey:@"servers"]
                                       objectAtIndex:server];
     if (serverDefinition != nil)
@@ -62,7 +61,6 @@
 
 - (IBAction)disconnect:(id)sender
 {
-    DLog(@"disconnect action");
     [self.client disconnect];
 }
 
