@@ -255,7 +255,7 @@
 
     // TODO: make echoback optional?
     CommandPacket *p = [[CommandPacket alloc] initWithCommand:@"echoback"
-                                                 optionalArgs:@"on"];
+                                                 optionalArgs:@"verbose"];
     [self sendPacket:p];
     
     [[NSNotificationCenter defaultCenter] postNotificationName:kICBClient_loginOK
