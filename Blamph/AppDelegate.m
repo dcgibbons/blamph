@@ -20,9 +20,15 @@
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     
     // load the default values for the user defaults
-    NSArray *s = [NSArray arrayWithObject:[NSDictionary dictionaryWithObjectsAndKeys:@"default.icb.net", @"hostname",
-                                           [NSNumber numberWithInt:7326], @"port", nil]];
-    NSDictionary *d = [NSDictionary dictionaryWithObjectsAndKeys:s, @"servers", nil];
+    NSArray *servers = [NSArray arrayWithObject:
+                        [NSDictionary dictionaryWithObjectsAndKeys:
+                         @"default.icb.net", @"hostname",
+                         [NSNumber numberWithInt:7326], @"port",
+                         nil]];
+    NSDictionary *d = [NSDictionary dictionaryWithObjectsAndKeys:
+                       servers, @"servers",
+                       [NSNumber numberWithUnsignedLong:0L], @"defaultServer",
+                       nil];
     [userDefaults registerDefaults:d];
 
     NSString *nickname = [userDefaults stringForKey:@"nickname"];
@@ -40,7 +46,8 @@
     NSString *initialGroup = [userDefaults stringForKey:@"initialGroup"];
     NSString *password = [userDefaults stringForKey:@"password"];
     
-    NSUInteger server = 0; // grab from preferences selection
+    NSUInteger server = [[userDefaults valueForKey:@"defaultServer"] unsignedLongValue];
+    NSLog(@"defaultServer=%lu", server);
     NSDictionary *serverDefinition = [[[NSUserDefaults standardUserDefaults] arrayForKey:@"servers"]
                                       objectAtIndex:server];
     if (serverDefinition != nil)

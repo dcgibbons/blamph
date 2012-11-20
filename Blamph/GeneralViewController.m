@@ -29,18 +29,26 @@
 
 - (void)awakeFromNib
 {
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [_serverDefinitions addObjects:[userDefaults arrayForKey:@"servers"]];
+
+    NSUInteger defaultServer = [[userDefaults valueForKey:@"defaultServer"] unsignedLongValue];
+    [_serverDefinitions setSelectionIndex:defaultServer];
+    
+	[_serverDefinitions addObserver: self
+                         forKeyPath: @"selectionIndexes"
+                            options: NSKeyValueObservingOptionNew
+                            context: NULL];
+    
     [_serverDefinitions addObserver:self
                          forKeyPath:@"arrangedObjects.hostname"
                             options:NSKeyValueObservingOptionNew
                             context:NULL];
-
+    
     [_serverDefinitions addObserver:self
                          forKeyPath:@"arrangedObjects.port"
                             options:NSKeyValueObservingOptionNew
                             context:NULL];
-
-    [_serverDefinitions addObjects:[[NSUserDefaults standardUserDefaults]
-                                    arrayForKey:@"servers"]];
 }
 
 -(NSString *)identifier
@@ -79,8 +87,16 @@
                        context:(void *)context
 {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    [userDefaults setValue:[self.serverDefinitions arrangedObjects]
-                    forKey:@"servers"];
+    if ([keyPath compare:@"selectionIndexes"] == NSOrderedSame)
+    {
+        [userDefaults setValue:[NSNumber numberWithUnsignedLong:[self.serverDefinitions selectionIndex]]
+                        forKey:@"defaultServer"];
+    }
+    else
+    {
+        [userDefaults setValue:[self.serverDefinitions arrangedObjects]
+                        forKey:@"servers"];
+    }
 }
 
 @end
