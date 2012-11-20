@@ -38,6 +38,8 @@
 @synthesize idleTimeLabel;
 @synthesize timer;
 
+#define kOutputScrollbackSize   1000
+
 - (id)init
 {
     if (self = [super init])
@@ -66,14 +68,13 @@
     outputFont = [NSFont fontWithName:@"Monaco" size:12.0f];
     timestampFont = [NSFont fontWithName:@"Monaco" size:10.0f];
     
-    [self.outputTextView.layoutManager setDelegate:self];
-    
+//    [self.outputTextView.layoutManager setDelegate:self];
+//
     [self.outputTextView setFont:outputFont];
     [self.outputTextView setBackgroundColor:backgroundColor];
     [self.outputTextView setTextColor:commandTextColor];
     
     [self.window makeFirstResponder:self.inputTextView];
-    
 }
 
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem
@@ -192,7 +193,6 @@
     {
         NSRange urlRange = [match rangeAtIndex:1];
         NSString *urlText = [text substringWithRange:urlRange];
-        DLog(@"urlText='%@'", urlText);
         
         [as addAttribute:NSLinkAttributeName
                    value:[NSURL URLWithString:urlText]
@@ -644,7 +644,9 @@
 
 - (void)handlePacket:(const ICBPacket *)packet
 {
-    [[self.outputTextView textStorage] beginEditing];
+    NSTextStorage *textStorage = [self.outputTextView textStorage];
+    
+    [textStorage beginEditing];
     
     [self displayMessageTimestamp];
     
@@ -689,7 +691,20 @@
         [[self.outputTextView.textStorage mutableString] appendString:@"\n"];
     }
     
-    [[self.outputTextView textStorage] endEditing];
+    NSArray *paragraphs = [textStorage paragraphs];
+    NSUInteger n = [paragraphs count];
+    if (n >= kOutputScrollbackSize)
+    {
+        NSUInteger len = 0;
+        for (NSUInteger i  = 0; i < n - kOutputScrollbackSize; i++)
+        {
+            len += [[paragraphs objectAtIndex:i] length];
+        }
+        NSRange r = NSMakeRange(1, len);
+        [textStorage deleteCharactersInRange:r];
+    }
+    
+    [textStorage endEditing];
     [self scrollToEnd];
 }
 
@@ -770,7 +785,7 @@
 didCompleteLayoutForTextContainer:(NSTextContainer *)textContainer
                 atEnd:(BOOL)layoutFinishedFlag
 {
-    DLog(@"didCompletelLayoutForTextContainer layoutfinished=%d", layoutFinishedFlag);
+//    DLog(@"didCompletelLayoutForTextContainer layoutfinished=%d", layoutFinishedFlag);
 }
 
 @end

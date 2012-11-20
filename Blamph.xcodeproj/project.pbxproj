@@ -323,7 +323,6 @@
 			isa = PBXGroup;
 			children = (
 				C29FE8B4165B6785001A2C0D /* Commands */,
-				C2F19576163F26E3006D48A4 /* Supporting Files */,
 				C2F19581163F26E3006D48A4 /* AppDelegate.h */,
 				C2F19582163F26E3006D48A4 /* AppDelegate.m */,
 				C2F19A6716449B5B006D48A4 /* DateTimeUtils.h */,
@@ -338,6 +337,7 @@
 				C2B3B0491657DC6D00D0991B /* GeneralViewController.m */,
 				C2B3B04D1657DC7400D0991B /* AdvancedViewController.h */,
 				C2B3B04E1657DC7500D0991B /* AdvancedViewController.m */,
+				C2F19576163F26E3006D48A4 /* Supporting Files */,
 			);
 			path = Blamph;
 			sourceTree = "<group>";
