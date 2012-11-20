@@ -11,6 +11,7 @@
 		C24330D31645B3780039A005 /* WriteMessageCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = C24330D21645B3780039A005 /* WriteMessageCommand.m */; };
 		C24330D61645B7950039A005 /* MessageCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = C24330D51645B7950039A005 /* MessageCommand.m */; };
 		C24330E91645BBC60039A005 /* GenericCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = C24330E81645BBC60039A005 /* GenericCommand.m */; };
+		C29FE8CC165BFFB8001A2C0D /* DebugKitFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C29FE8C0165BFF28001A2C0D /* DebugKitFramework.framework */; };
 		C2B3B0251655FA9000D0991B /* UIController.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B3B0241655FA9000D0991B /* UIController.m */; };
 		C2B3B0441657DBF000D0991B /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = C2B3B03E1657DBF000D0991B /* .gitignore */; };
 		C2B3B0451657DBF000D0991B /* MASPreferencesWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = C2B3B0401657DBF000D0991B /* MASPreferencesWindow.xib */; };
@@ -58,68 +59,53 @@
 		C2F199FF16404A64006D48A4 /* ProtocolPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = C2F199E516404A64006D48A4 /* ProtocolPacket.m */; };
 		C2F19A0016404A64006D48A4 /* StatusPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = C2F199E716404A64006D48A4 /* StatusPacket.m */; };
 		C2F19A0116404A64006D48A4 /* StatusPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = C2F199E716404A64006D48A4 /* StatusPacket.m */; };
-		C2F19A1C16404B13006D48A4 /* DebugKitFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2F19A1716404B03006D48A4 /* DebugKitFramework.framework */; };
 		C2F19A1F16404BC0006D48A4 /* CommandPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = C2F19A1E16404BC0006D48A4 /* CommandPacket.m */; };
 		C2F19A2216404BDC006D48A4 /* CommandOutputPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = C2F19A2116404BDC006D48A4 /* CommandOutputPacket.m */; };
 		C2F19A6916449B5B006D48A4 /* DateTimeUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = C2F19A6816449B5B006D48A4 /* DateTimeUtils.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		C29FE8BF165BFF28001A2C0D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C29FE8B5165BFF28001A2C0D /* DebugKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C2864811159AC401006B31D4;
+			remoteInfo = DebugKitFramework;
+		};
+		C29FE8C1165BFF28001A2C0D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C29FE8B5165BFF28001A2C0D /* DebugKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C2864829159AC401006B31D4;
+			remoteInfo = DebugKitFrameworkTests;
+		};
+		C29FE8C3165BFF28001A2C0D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C29FE8B5165BFF28001A2C0D /* DebugKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C286484F159AC657006B31D4;
+			remoteInfo = DebugKitLibrary;
+		};
+		C29FE8C5165BFF28001A2C0D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C29FE8B5165BFF28001A2C0D /* DebugKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C286485D159AC657006B31D4;
+			remoteInfo = DebugKitLibraryTests;
+		};
+		C29FE8CA165BFFB4001A2C0D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C29FE8B5165BFF28001A2C0D /* DebugKit.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = C2864810159AC401006B31D4;
+			remoteInfo = DebugKitFramework;
+		};
 		C2F1958F163F26E3006D48A4 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = C28670E815A62418005DE3D5 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = C2F19571163F26E3006D48A4;
 			remoteInfo = Blamph;
-		};
-		C2F19A0E16404B03006D48A4 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = C2F19A0216404B02006D48A4 /* DebugKit.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = C286484F159AC657006B31D4;
-			remoteInfo = DebugKitLibrary;
-		};
-		C2F19A1016404B03006D48A4 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = C2F19A0216404B02006D48A4 /* DebugKit.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = C286485D159AC657006B31D4;
-			remoteInfo = DebugKitLibraryTests;
-		};
-		C2F19A1216404B03006D48A4 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = C2F19A0216404B02006D48A4 /* DebugKit.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = C2F19719163F40B1006D48A4;
-			remoteInfo = "DebugKitLibrary (OS X)";
-		};
-		C2F19A1416404B03006D48A4 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = C2F19A0216404B02006D48A4 /* DebugKit.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = C2F19726163F40B1006D48A4;
-			remoteInfo = "DebugKitLibrary (OS X)Tests";
-		};
-		C2F19A1616404B03006D48A4 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = C2F19A0216404B02006D48A4 /* DebugKit.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = C2F1994F163F8B2E006D48A4;
-			remoteInfo = DebugKitFramework;
-		};
-		C2F19A1816404B03006D48A4 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = C2F19A0216404B02006D48A4 /* DebugKit.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = C2F19960163F8B2E006D48A4;
-			remoteInfo = DebugKitFrameworkTests;
-		};
-		C2F19A1A16404B0B006D48A4 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = C2F19A0216404B02006D48A4 /* DebugKit.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = C2F1994E163F8B2E006D48A4;
-			remoteInfo = DebugKitFramework;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -137,6 +123,7 @@
 		C28670F915A62418005DE3D5 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		C28670FB15A62418005DE3D5 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		C286711215A62418005DE3D5 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
+		C29FE8B5165BFF28001A2C0D /* DebugKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = DebugKit.xcodeproj; path = ../../deps/DebugKit/DebugKit.xcodeproj; sourceTree = "<group>"; };
 		C2B3B0231655FA9000D0991B /* UIController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIController.h; sourceTree = "<group>"; };
 		C2B3B0241655FA9000D0991B /* UIController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIController.m; sourceTree = "<group>"; };
 		C2B3B03E1657DBF000D0991B /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
@@ -200,7 +187,6 @@
 		C2F199E516404A64006D48A4 /* ProtocolPacket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProtocolPacket.m; sourceTree = "<group>"; };
 		C2F199E616404A64006D48A4 /* StatusPacket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatusPacket.h; sourceTree = "<group>"; };
 		C2F199E716404A64006D48A4 /* StatusPacket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatusPacket.m; sourceTree = "<group>"; };
-		C2F19A0216404B02006D48A4 /* DebugKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = DebugKit.xcodeproj; path = ../../../DebugKit/DebugKit.xcodeproj; sourceTree = "<group>"; };
 		C2F19A1D16404BC0006D48A4 /* CommandPacket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommandPacket.h; sourceTree = "<group>"; };
 		C2F19A1E16404BC0006D48A4 /* CommandPacket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommandPacket.m; sourceTree = "<group>"; };
 		C2F19A2016404BDC006D48A4 /* CommandOutputPacket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommandOutputPacket.h; sourceTree = "<group>"; };
@@ -214,7 +200,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C2F19A1C16404B13006D48A4 /* DebugKitFramework.framework in Frameworks */,
+				C29FE8CC165BFFB8001A2C0D /* DebugKitFramework.framework in Frameworks */,
 				C2F19574163F26E3006D48A4 /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -234,7 +220,7 @@
 		C28670E615A62418005DE3D5 = {
 			isa = PBXGroup;
 			children = (
-				C2F19A0216404B02006D48A4 /* DebugKit.xcodeproj */,
+				C29FE8B5165BFF28001A2C0D /* DebugKit.xcodeproj */,
 				C2F199CD16404A64006D48A4 /* ICBProtocol */,
 				C2B3B03D1657DBEF00D0991B /* MASPreferences */,
 				C2F19575163F26E3006D48A4 /* Blamph */,
@@ -280,6 +266,17 @@
 				C24330D21645B3780039A005 /* WriteMessageCommand.m */,
 			);
 			name = Commands;
+			sourceTree = "<group>";
+		};
+		C29FE8B6165BFF28001A2C0D /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C29FE8C0165BFF28001A2C0D /* DebugKitFramework.framework */,
+				C29FE8C2165BFF28001A2C0D /* DebugKitTests.octest */,
+				C29FE8C4165BFF28001A2C0D /* libDebugKitLibrary.a */,
+				C29FE8C6165BFF28001A2C0D /* DebugKitLibraryTests.octest */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		C2B3B03D1657DBEF00D0991B /* MASPreferences */ = {
@@ -402,19 +399,6 @@
 			path = ../../protocol/ICBProtocol/ICBProtocol;
 			sourceTree = "<group>";
 		};
-		C2F19A0316404B02006D48A4 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				C2F19A0F16404B03006D48A4 /* libDebugKit.a */,
-				C2F19A1116404B03006D48A4 /* DebugKitLibraryTests.octest */,
-				C2F19A1316404B03006D48A4 /* libDebugKit.a */,
-				C2F19A1516404B03006D48A4 /* DebugKitLibrary (OS X)Tests.octest */,
-				C2F19A1716404B03006D48A4 /* DebugKitFramework.framework */,
-				C2F19A1916404B03006D48A4 /* DebugKitFrameworkTests.octest */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -430,7 +414,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				C2F19A1B16404B0B006D48A4 /* PBXTargetDependency */,
+				C29FE8CB165BFFB4001A2C0D /* PBXTargetDependency */,
 			);
 			name = Blamph;
 			productName = Blamph;
@@ -477,8 +461,8 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = C2F19A0316404B02006D48A4 /* Products */;
-					ProjectRef = C2F19A0216404B02006D48A4 /* DebugKit.xcodeproj */;
+					ProductGroup = C29FE8B6165BFF28001A2C0D /* Products */;
+					ProjectRef = C29FE8B5165BFF28001A2C0D /* DebugKit.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -490,46 +474,33 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		C2F19A0F16404B03006D48A4 /* libDebugKit.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libDebugKit.a;
-			remoteRef = C2F19A0E16404B03006D48A4 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		C2F19A1116404B03006D48A4 /* DebugKitLibraryTests.octest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = DebugKitLibraryTests.octest;
-			remoteRef = C2F19A1016404B03006D48A4 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		C2F19A1316404B03006D48A4 /* libDebugKit.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libDebugKit.a;
-			remoteRef = C2F19A1216404B03006D48A4 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		C2F19A1516404B03006D48A4 /* DebugKitLibrary (OS X)Tests.octest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = "DebugKitLibrary (OS X)Tests.octest";
-			remoteRef = C2F19A1416404B03006D48A4 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		C2F19A1716404B03006D48A4 /* DebugKitFramework.framework */ = {
+		C29FE8C0165BFF28001A2C0D /* DebugKitFramework.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
 			path = DebugKitFramework.framework;
-			remoteRef = C2F19A1616404B03006D48A4 /* PBXContainerItemProxy */;
+			remoteRef = C29FE8BF165BFF28001A2C0D /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		C2F19A1916404B03006D48A4 /* DebugKitFrameworkTests.octest */ = {
+		C29FE8C2165BFF28001A2C0D /* DebugKitTests.octest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
+			name = DebugKitTests.octest;
 			path = DebugKitFrameworkTests.octest;
-			remoteRef = C2F19A1816404B03006D48A4 /* PBXContainerItemProxy */;
+			remoteRef = C29FE8C1165BFF28001A2C0D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C29FE8C4165BFF28001A2C0D /* libDebugKitLibrary.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libDebugKitLibrary.a;
+			remoteRef = C29FE8C3165BFF28001A2C0D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C29FE8C6165BFF28001A2C0D /* DebugKitLibraryTests.octest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = DebugKitLibraryTests.octest;
+			remoteRef = C29FE8C5165BFF28001A2C0D /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -649,15 +620,15 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		C29FE8CB165BFFB4001A2C0D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = DebugKitFramework;
+			targetProxy = C29FE8CA165BFFB4001A2C0D /* PBXContainerItemProxy */;
+		};
 		C2F19590163F26E3006D48A4 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = C2F19571163F26E3006D48A4 /* Blamph */;
 			targetProxy = C2F1958F163F26E3006D48A4 /* PBXContainerItemProxy */;
-		};
-		C2F19A1B16404B0B006D48A4 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = DebugKitFramework;
-			targetProxy = C2F19A1A16404B0B006D48A4 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
