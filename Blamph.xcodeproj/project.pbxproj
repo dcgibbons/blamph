@@ -155,7 +155,7 @@
 		C2B3B04F1657DC7500D0991B /* AdvancedViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AdvancedViewController.xib; sourceTree = "<group>"; };
 		C2BA824B165B1D1E005C88DE /* NicknameHistory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NicknameHistory.h; sourceTree = "<group>"; };
 		C2BA824C165B1D1E005C88DE /* NicknameHistory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NicknameHistory.m; sourceTree = "<group>"; };
-		C2CEA774165C0AB100C30869 /* Blamph-Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Blamph-Icon.png"; sourceTree = "<group>"; };
+		C2CEA774165C0AB100C30869 /* Blamph-Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Blamph-Icon.png"; sourceTree = SOURCE_ROOT; };
 		C2F1953D163F2628006D48A4 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = Library/Frameworks/Cocoa.framework; sourceTree = DEVELOPER_DIR; };
 		C2F19540163F2628006D48A4 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		C2F19541163F2628006D48A4 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
@@ -236,7 +236,6 @@
 		C28670E615A62418005DE3D5 = {
 			isa = PBXGroup;
 			children = (
-				C2CEA774165C0AB100C30869 /* Blamph-Icon.png */,
 				C29FE8B5165BFF28001A2C0D /* DebugKit.xcodeproj */,
 				C2F199CD16404A64006D48A4 /* ICBProtocol */,
 				C2B3B03D1657DBEF00D0991B /* MASPreferences */,
@@ -347,6 +346,7 @@
 			isa = PBXGroup;
 			children = (
 				C2F1963E163F33F9006D48A4 /* Blamph.entitlements */,
+				C2CEA774165C0AB100C30869 /* Blamph-Icon.png */,
 				C2F19577163F26E3006D48A4 /* Blamph-Info.plist */,
 				C2F1957D163F26E3006D48A4 /* Blamph-Prefix.pch */,
 				C2F19578163F26E3006D48A4 /* InfoPlist.strings */,

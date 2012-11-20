@@ -61,8 +61,10 @@
     errorTextColor = [NSColor redColor];
     statusHeaderColor = [NSColor orangeColor];
     statusTextColor = [NSColor blackColor];
+    timestampColor = [NSColor lightGrayColor];
     
     outputFont = [NSFont fontWithName:@"Monaco" size:12.0f];
+    timestampFont = [NSFont fontWithName:@"Monaco" size:10.0f];
     
     [self.outputTextView.layoutManager setDelegate:self];
     
@@ -321,11 +323,14 @@
     NSString *s = [NSString stringWithFormat:@"%@ ", formattedString];
     NSMutableAttributedString *as = [[NSMutableAttributedString alloc]
                                      initWithString:s];
+    [as addAttribute:NSFontAttributeName
+               value:timestampFont
+               range:NSMakeRange(0, [as length])];
     [as addAttribute:NSBackgroundColorAttributeName
                value:backgroundColor
                range:NSMakeRange(0, [as length])];
     [as addAttribute:NSForegroundColorAttributeName
-               value:openTextColor
+               value:timestampColor
                range:NSMakeRange(0, [as length])];
     
     [textStorage appendAttributedString:as];

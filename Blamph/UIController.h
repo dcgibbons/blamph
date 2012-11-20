@@ -22,8 +22,10 @@
     NSColor *errorTextColor;
     NSColor *statusHeaderColor;
     NSColor *statusTextColor;
+    NSColor *timestampColor;
     
     NSFont *outputFont;
+    NSFont *timestampFont;
     
     NSDate *connectedTime;
     NSDate *lastMessageSentAt;    
