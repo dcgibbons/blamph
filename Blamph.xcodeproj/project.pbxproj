@@ -414,7 +414,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = C2F1959A163F26E3006D48A4 /* Build configuration list for PBXNativeTarget "Blamph" */;
 			buildPhases = (
-				C2BA824E165B3FF1005C88DE /* ShellScript */,
 				C2F1956E163F26E3006D48A4 /* Sources */,
 				C2F1956F163F26E3006D48A4 /* Frameworks */,
 				C2F19570163F26E3006D48A4 /* Resources */,
@@ -555,19 +554,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		C2BA824E165B3FF1005C88DE /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "${SRCROOT}/Blamph/version.sh --set --plist-path \"${BUILT_PRODUCTS_DIR}/${INFOPLIST_PATH}\"";
-		};
 		C2F1958A163F26E3006D48A4 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -697,7 +683,7 @@
 				CLANG_ENABLE_OBJC_ARC = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 33;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -731,7 +717,7 @@
 				CLANG_ENABLE_OBJC_ARC = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 33;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
