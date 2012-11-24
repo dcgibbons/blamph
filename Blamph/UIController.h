@@ -65,6 +65,7 @@
    clickedOnLink:(id)link
          atIndex:(NSUInteger)charIndex;
 
+- (IBAction)selectAll:(id)sender;
 - (IBAction)copy:(id)sender;
 - (IBAction)paste:(id)sender;
 - (IBAction)toggleStatusBar:(id)sender;

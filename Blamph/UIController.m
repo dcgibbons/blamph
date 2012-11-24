@@ -266,6 +266,11 @@
     return handled;
 }
 
+- (IBAction)selectAll:(id)sender
+{
+    [self.inputTextView selectAll:sender];
+}
+
 - (IBAction)copy:(id)sender
 {
     NSPasteboard *pasteboard = [NSPasteboard generalPasteboard];
