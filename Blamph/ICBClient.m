@@ -249,6 +249,13 @@
 
 - (NSString *)removeControlCharacters:(NSString *)s
 {
+    // convert the string to ASCII with a lossy conversion so that we can
+    // remove any invalid characters from the input that ICB doesn't understand
+    // because of it's ASCII limitation
+    NSData *data = [s dataUsingEncoding:NSASCIIStringEncoding
+                   allowLossyConversion:YES];
+    s = [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
+    
     const NSUInteger n = [s length];
     NSMutableString *t = [NSMutableString stringWithCapacity:n];
     char c;

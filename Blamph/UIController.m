@@ -124,7 +124,6 @@
 
 - (void)submitTextInput:(NSString *)cmd
 {
-    
     if (cmd == nil || [cmd length] == 0)
         return;
     
