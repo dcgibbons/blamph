@@ -248,6 +248,7 @@
    clickedOnLink:(id)link
          atIndex:(NSUInteger)charIndex
 {
+    DLog(@"textView clickedOnLink: %@", link);
     if (aTextView != self.outputTextView)
         return NO;
     

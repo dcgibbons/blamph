@@ -10,7 +10,7 @@
 #import "MainWindow.h"
 #import "ICBClient.h"
 
-@interface UIController : NSObject <NSLayoutManagerDelegate>
+@interface UIController : NSObject <NSLayoutManagerDelegate, NSTextViewDelegate>
 {
 @private
     NSColor *backgroundColor;
