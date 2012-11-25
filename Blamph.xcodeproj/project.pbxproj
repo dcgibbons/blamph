@@ -291,7 +291,7 @@
 			isa = PBXGroup;
 			children = (
 				C29FE8C0165BFF28001A2C0D /* DebugKitFramework.framework */,
-				C29FE8C2165BFF28001A2C0D /* DebugKitTests.octest */,
+				C29FE8C2165BFF28001A2C0D /* DebugKitFrameworkTests.octest */,
 				C29FE8C4165BFF28001A2C0D /* libDebugKitLibrary.a */,
 				C29FE8C6165BFF28001A2C0D /* DebugKitLibraryTests.octest */,
 			);
@@ -504,7 +504,7 @@
 			remoteRef = C29FE8BF165BFF28001A2C0D /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		C29FE8C2165BFF28001A2C0D /* DebugKitTests.octest */ = {
+		C29FE8C2165BFF28001A2C0D /* DebugKitFrameworkTests.octest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
 			path = DebugKitFrameworkTests.octest;

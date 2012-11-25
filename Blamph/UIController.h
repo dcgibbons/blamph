@@ -39,6 +39,8 @@
 @property (nonatomic, retain) IBOutlet NSMenuItem *menuItemPaste;
 @property (nonatomic, retain) IBOutlet NSMenuItem *menuItemToggleStatusBar;
 
+@property (nonatomic, retain) IBOutlet NSSplitView *splitView;
+@property (nonatomic, retain) IBOutlet NSLayoutConstraint *bottomConstraint;
 @property (nonatomic, retain) IBOutlet NSView *statusBarView;
 @property (nonatomic, retain) IBOutlet NSTextField *connectionStatusLabel;
 @property (nonatomic, retain) IBOutlet NSTextField *connectionTimeLabel;

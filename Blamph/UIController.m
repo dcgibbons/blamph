@@ -32,6 +32,8 @@
 @synthesize menuItemCopy;
 @synthesize menuItemPaste;
 @synthesize menuItemToggleStatusBar;
+@synthesize splitView;
+@synthesize bottomConstraint;
 @synthesize statusBarView;
 @synthesize connectionStatusLabel;
 @synthesize connectionTimeLabel;
@@ -303,7 +305,38 @@
 
 - (IBAction)toggleStatusBar:(id)sender
 {
-    // TODO
+    BOOL isHidden = [self.statusBarView isHidden];
+    [self.statusBarView setHidden:!isHidden];
+    
+    NSDictionary *views = nil;
+    NSArray *constraints = nil;
+    if (isHidden)
+    {
+        views = [NSDictionary dictionaryWithObjectsAndKeys:
+                 self.splitView, @"splitview",
+                 self.statusBarView, @"bottomview",
+                 nil];
+        constraints = [NSLayoutConstraint constraintsWithVisualFormat:@"V:[splitview]-(0)-[bottomview]"
+                                                              options:0
+                                                              metrics:nil
+                                                                views:views];
+    }
+    else
+    {
+        // the status bar was previously visible, so change our bottom
+        // constraint to be relative to the superview, not the status bar
+        views = [NSDictionary dictionaryWithObjectsAndKeys:self.splitView, @"splitview",
+                 nil];
+        constraints = [NSLayoutConstraint constraintsWithVisualFormat:@"V:[splitview]-(0)-|"
+                                                              options:0
+                                                              metrics:nil
+                                                                views:views];
+    }
+    
+    [self.splitView.superview removeConstraints:[NSArray arrayWithObject:self.bottomConstraint]];
+    self.bottomConstraint = constraints[0];
+    [self.splitView.superview  addConstraints:constraints];
+    [self.splitView.superview setNeedsUpdateConstraints:YES];
 }
 
 - (void)displayMessageTimestamp
