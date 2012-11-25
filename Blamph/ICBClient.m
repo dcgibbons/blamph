@@ -13,6 +13,7 @@
 #import "ErrorPacket.h"
 #import "ExitPacket.h"
 #import "LoginPacket.h"
+#import "NoOpPacket.h"
 #import "PersonalPacket.h"
 #import "PingPacket.h"
 #import "PongPacket.h"
@@ -46,6 +47,11 @@
 
 @property (nonatomic, retain) NSInputStream *istream;
 @property (nonatomic, retain) NSOutputStream *ostream;
+@property (nonatomic, retain) NSTimer *keepAliveTimer;
+
+- (void)startKeepAliveTimer;
+- (void)stopKeepAliveTimer;
+- (void)fireKeepAliveTimer:(id)arg;
 
 @end
 
@@ -87,6 +93,7 @@
     {
         case DISCONNECTED:
             notificationName = kICBClient_disconnected;
+            [self stopKeepAliveTimer];
             break;
         case DISCONNECTING:
             notificationName = kICBClient_disconnecting;
@@ -96,8 +103,11 @@
             break;
         case CONNECTED:
             notificationName = kICBClient_connected;
+            [self startKeepAliveTimer];
             break;
     }
+    
+    DLog(@"Sending %@ notification", notificationName);
     
     if (notificationName != nil)
     {
@@ -445,6 +455,35 @@
     [self flushOutputQueue];
 }
 
+- (void)startKeepAliveTimer
+{
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    if ([userDefaults boolForKey:@"sendKeepAlives"])
+    {
+        NSTimeInterval interval = [userDefaults doubleForKey:@"keepAliveInterval"];
+        DLog(@"Scheduleding keep-alive timer at %.2f", interval);
+        NSTimer *timer = [NSTimer scheduledTimerWithTimeInterval:interval
+                                                          target:self
+                                                        selector:@selector(fireKeepAliveTimer:)
+                                                        userInfo:nil
+                                                         repeats:YES];
+        self.keepAliveTimer = timer;
+    }
+}
+
+- (void)stopKeepAliveTimer
+{
+    [self.keepAliveTimer invalidate];
+    self.keepAliveTimer = nil;
+}
+
+- (void)fireKeepAliveTimer:(id)arg
+{
+    NoOpPacket *packet = [[NoOpPacket alloc] init];
+    DLog(@"Sending %@ for network keep-alive", packet);
+    [self sendPacket:packet];
+}
+
 #pragma mark - NSStreamDelegate methods
 
 - (void)stream:(NSStream *)theStream handleEvent:(NSStreamEvent)streamEvent
@@ -454,7 +493,7 @@
     switch (streamEvent) {
         case NSStreamEventOpenCompleted:
             readState = kWaitingForPacket;
-            [ns postNotificationName:kICBClient_connected object:self];
+            [self changeConnectingState:CONNECTED];
             break;
             
         case NSStreamEventHasBytesAvailable:
