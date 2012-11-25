@@ -826,4 +826,13 @@ didCompleteLayoutForTextContainer:(NSTextContainer *)textContainer
 //    DLog(@"didCompletelLayoutForTextContainer layoutfinished=%d", layoutFinishedFlag);
 }
 
+#pragma mark -
+#pragma mark NSSplitViewDelegate methods
+
+//- (BOOL)splitView:(NSSplitView *)splitView shouldHideDividerAtIndex:(NSInteger)dividerIndex
+//{
+//    DLog(@"splitView shouldHideDividerAtIndex: %ld", dividerIndex);
+//    return YES;
+//}
+
 @end
