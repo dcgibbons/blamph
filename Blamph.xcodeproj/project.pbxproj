@@ -502,7 +502,6 @@
 		C29FE8C2165BFF28001A2C0D /* DebugKitTests.octest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
-			name = DebugKitTests.octest;
 			path = DebugKitFrameworkTests.octest;
 			remoteRef = C29FE8C1165BFF28001A2C0D /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
