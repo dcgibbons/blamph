@@ -28,6 +28,8 @@
     NSDictionary *d = [NSDictionary dictionaryWithObjectsAndKeys:
                        servers, @"servers",
                        [NSNumber numberWithUnsignedLong:0L], @"defaultServer",
+                       [NSNumber numberWithBool:YES], @"sendKeepAlives",
+                       [NSNumber numberWithDouble:60.0], @"keepAliveInterval",
                        nil];
     [userDefaults registerDefaults:d];
 

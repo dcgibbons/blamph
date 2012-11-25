@@ -12,6 +12,7 @@
 		C24330D61645B7950039A005 /* MessageCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = C24330D51645B7950039A005 /* MessageCommand.m */; };
 		C24330E91645BBC60039A005 /* GenericCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = C24330E81645BBC60039A005 /* GenericCommand.m */; };
 		C29FE8CC165BFFB8001A2C0D /* DebugKitFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C29FE8C0165BFF28001A2C0D /* DebugKitFramework.framework */; };
+		C2AB6AB81661922900BC4A2B /* NoOpPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = C2AB6AB71661922900BC4A2B /* NoOpPacket.m */; };
 		C2B3B0251655FA9000D0991B /* UIController.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B3B0241655FA9000D0991B /* UIController.m */; };
 		C2B3B0441657DBF000D0991B /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = C2B3B03E1657DBF000D0991B /* .gitignore */; };
 		C2B3B0451657DBF000D0991B /* MASPreferencesWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = C2B3B0401657DBF000D0991B /* MASPreferencesWindow.xib */; };
@@ -139,6 +140,8 @@
 		C28670FB15A62418005DE3D5 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		C286711215A62418005DE3D5 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		C29FE8B5165BFF28001A2C0D /* DebugKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = DebugKit.xcodeproj; path = ../../deps/DebugKit/DebugKit.xcodeproj; sourceTree = "<group>"; };
+		C2AB6AB61661922900BC4A2B /* NoOpPacket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoOpPacket.h; sourceTree = "<group>"; };
+		C2AB6AB71661922900BC4A2B /* NoOpPacket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoOpPacket.m; sourceTree = "<group>"; };
 		C2B3B0231655FA9000D0991B /* UIController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIController.h; sourceTree = "<group>"; };
 		C2B3B0241655FA9000D0991B /* UIController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIController.m; sourceTree = "<group>"; };
 		C2B3B03E1657DBF000D0991B /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
@@ -399,6 +402,8 @@
 				C2F199D916404A64006D48A4 /* ICBProtocol.m */,
 				C2F199DA16404A64006D48A4 /* LoginPacket.h */,
 				C2F199DB16404A64006D48A4 /* LoginPacket.m */,
+				C2AB6AB61661922900BC4A2B /* NoOpPacket.h */,
+				C2AB6AB71661922900BC4A2B /* NoOpPacket.m */,
 				C2F199DC16404A64006D48A4 /* OpenPacket.h */,
 				C2F199DD16404A64006D48A4 /* OpenPacket.m */,
 				C2F199DE16404A64006D48A4 /* PersonalPacket.h */,
@@ -613,6 +618,7 @@
 				C2B3B04B1657DC6D00D0991B /* GeneralViewController.m in Sources */,
 				C2B3B0501657DC7500D0991B /* AdvancedViewController.m in Sources */,
 				C2BA824D165B1D1E005C88DE /* NicknameHistory.m in Sources */,
+				C2AB6AB81661922900BC4A2B /* NoOpPacket.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
