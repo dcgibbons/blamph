@@ -16,6 +16,8 @@
 @property (nonatomic, retain) IBOutlet ICBClient *client;
 @property (nonatomic, retain) MASPreferencesWindowController *preferences;
 
+- (void)awakeFromNib;
+
 - (IBAction)connect:(id)sender;
 - (IBAction)disconnect:(id)sender;
 - (IBAction)preferences:(id)sender;

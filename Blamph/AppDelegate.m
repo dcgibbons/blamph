@@ -15,8 +15,10 @@
 @synthesize client = _client;
 @synthesize preferences = _preferences;
 
-- (void)applicationDidFinishLaunching:(NSNotification *)aNotification
+- (void)awakeFromNib
 {
+    DLog(@"ApplicationDelegate awakeFromNib");
+    
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     
     // load the default values for the user defaults
@@ -30,8 +32,16 @@
                        [NSNumber numberWithUnsignedLong:0L], @"defaultServer",
                        [NSNumber numberWithBool:YES], @"sendKeepAlives",
                        [NSNumber numberWithDouble:60.0], @"keepAliveInterval",
+                       [NSNumber numberWithInt:1001], @"colorScheme", // TODO: move this constant out of UI class?
                        nil];
     [userDefaults registerDefaults:d];
+    
+    DLog(@"NSUserDefaults - default values set");
+}
+
+- (void)applicationDidFinishLaunching:(NSNotification *)aNotification
+{
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
 
     NSString *nickname = [userDefaults stringForKey:@"nickname"];
     if (nickname == nil || [nickname length] < 1)

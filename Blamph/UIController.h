@@ -24,6 +24,7 @@
     NSColor *statusHeaderColor;
     NSColor *statusTextColor;
     NSColor *timestampColor;
+    NSColor *inputColor;
     
     NSFont *outputFont;
     NSFont *timestampFont;
@@ -39,6 +40,8 @@
 @property (nonatomic, retain) IBOutlet NSMenuItem *menuItemCopy;
 @property (nonatomic, retain) IBOutlet NSMenuItem *menuItemPaste;
 @property (nonatomic, retain) IBOutlet NSMenuItem *menuItemToggleStatusBar;
+@property (nonatomic, retain) IBOutlet NSMenuItem *menuItemDefaultColorScheme;
+@property (nonatomic, retain) IBOutlet NSMenuItem *menuItemOldSchoolColorScheme;
 
 @property (nonatomic, retain) IBOutlet NSSplitView *splitView;
 @property (nonatomic, retain) IBOutlet NSLayoutConstraint *bottomConstraint;
@@ -61,8 +64,7 @@
 - (void)submitTextInput:(NSString *)input;
 
 - (void)displayText:(NSString *)text
-     withForeground:(NSColor *)foreground
-      andBackground:(NSColor *)background;
+      withTextStyle:(NSString *)textStyle;
 
 - (BOOL)textView:(NSTextView *)aTextView
    clickedOnLink:(id)link
@@ -72,6 +74,7 @@
 - (IBAction)copy:(id)sender;
 - (IBAction)paste:(id)sender;
 - (IBAction)toggleStatusBar:(id)sender;
+- (IBAction)selectColorScheme:(id)sender;
 
 - (void)clientNotify:(NSNotification *)notification;
 
