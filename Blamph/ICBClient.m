@@ -57,8 +57,9 @@
 
 @implementation ICBClient
 
-@synthesize istream, ostream;
-@synthesize nicknameHistory;
+@synthesize istream=_istream;
+@synthesize ostream=_ostream;
+@synthesize nicknameHistory=_nicknameHistory;
 
 - (id)init
 {
@@ -69,12 +70,17 @@
         packetBuffer = [NSMutableData dataWithCapacity:MAX_PACKET_SIZE];
         inputQueue = [NSMutableArray arrayWithCapacity:100];
         outputQueue = [NSMutableArray arrayWithCapacity:100];
-        nicknameHistory = [[NicknameHistory alloc] init];
+        self.nicknameHistory = [[NicknameHistory alloc] init];
         
         bytesReceived = 0;
         bytesSent = 0;
         packetsReceived = 0;
         packetsSent = 0;
+        
+//        [[NSNotificationCenter defaultCenter] addObserver:self
+//                                                 selector:@selector(clientNotify:)
+//                                                     name:kICBClient_packet
+//                                                   object:nil];
     }
     return self;
 }
@@ -94,6 +100,8 @@
         case DISCONNECTED:
             notificationName = kICBClient_disconnected;
             [self stopKeepAliveTimer];
+//            self.istream = nil;
+//            self.ostream = nil;
             break;
         case DISCONNECTING:
             notificationName = kICBClient_disconnecting;
@@ -142,6 +150,7 @@
                                        port,
                                        &readStream,
                                        &writeStream);
+    
     if (readStream && writeStream) {
         CFReadStreamSetProperty(readStream,
                                 kCFStreamPropertyShouldCloseNativeSocket,
@@ -156,22 +165,27 @@
         // run loop then the loop would hang.
         NSRunLoop *loop = [NSRunLoop currentRunLoop];
         
-        self.istream = (__bridge_transfer NSInputStream *)readStream;
-        [istream setDelegate:self];
-        [istream scheduleInRunLoop:loop forMode:NSDefaultRunLoopMode];
-        [istream open];
+        NSInputStream *inputStream = (__bridge_transfer NSInputStream *)readStream;
         
-        self.ostream = (__bridge_transfer NSOutputStream *)writeStream;
-        [ostream setDelegate:self];
-        [ostream scheduleInRunLoop:loop forMode:NSDefaultRunLoopMode];
-        [ostream open];
+        [inputStream setDelegate:self];
+        [inputStream scheduleInRunLoop:loop forMode:NSDefaultRunLoopMode];
+        [inputStream open];
+        
+        NSOutputStream *outputStream = (__bridge_transfer NSOutputStream *)writeStream;
+        [outputStream setDelegate:self];
+        [outputStream scheduleInRunLoop:loop forMode:NSDefaultRunLoopMode];
+        [outputStream open];
+        
+        self.istream = inputStream;
+        self.ostream = outputStream;
     }
-    
-    if (readStream)
-        CFRelease(readStream);
-    
-    if (writeStream)
-        CFRelease(writeStream);
+    else
+    {
+        if (readStream)
+            CFRelease(readStream);
+        if (writeStream)
+            CFRelease(writeStream);
+    }
 }
 
 - (void)disconnect
@@ -179,15 +193,15 @@
     [self changeConnectingState:DISCONNECTING];
     
     NSRunLoop *loop = [NSRunLoop currentRunLoop];
-    
+
+    [self.ostream close];
     [self.ostream removeFromRunLoop:loop forMode:NSDefaultRunLoopMode];
     [self.ostream setDelegate:nil];
-    [self.ostream close];
     self.ostream = nil;
-    
+
+    [self.istream close];
     [self.istream removeFromRunLoop:loop forMode:NSDefaultRunLoopMode];
     [self.istream setDelegate:nil];
-    [self.istream close];
     self.istream = nil;
     
     [self changeConnectingState:DISCONNECTED];
@@ -199,8 +213,7 @@
     
     if ([packet isKindOfClass:[ExitPacket class]])
     {
-        DLog(@"exit packet!");
-//        [self disconnect]; // TODO - this crashes! wtf
+        [self disconnect];
     }
     else if ([packet isKindOfClass:[PingPacket class]])
     {
@@ -218,7 +231,7 @@
     else if ([packet isKindOfClass:[PersonalPacket class]])
     {
         PersonalPacket *p = (PersonalPacket *)packet;
-        [nicknameHistory add:p.nick];
+        [self.nicknameHistory add:p.nick];
     }
     
     [[NSNotificationCenter defaultCenter] postNotificationName:kICBClient_packet
@@ -335,7 +348,7 @@
         [self sendPacket:p];
     } while ([remaining length] > 0);
     
-    [nicknameHistory add:nick];
+    [self.nicknameHistory add:nick];
 }
 
 - (void)sendWriteMessage:(NSString *)nick withMsg:(NSString *)msg
@@ -443,6 +456,7 @@
         }
     }
     
+    NSNotificationCenter *ns = [NSNotificationCenter defaultCenter];
     while ([inputQueue count] > 0)
     {
         ICBPacket *packet = (ICBPacket *)[inputQueue lastObject];
@@ -492,7 +506,7 @@
     DLog(@"stream event=%lu", streamEvent);
     
     NSNotificationCenter *ns = [NSNotificationCenter defaultCenter];
-                                
+    
     switch (streamEvent) {
         case NSStreamEventOpenCompleted:
             readState = kWaitingForPacket;
