@@ -22,6 +22,29 @@
 #import "OpenPacket.h"
 #import "StatusPacket.h"
 
+@interface UIController()
+{
+@private
+    NSColor *backgroundColor;
+    NSColor *openTextColor;
+    NSColor *openNickColor;
+    NSColor *personalTextColor;
+    NSColor *personalNickColor;
+    NSColor *commandTextColor;
+    NSColor *errorTextColor;
+    NSColor *statusHeaderColor;
+    NSColor *statusTextColor;
+    NSColor *timestampColor;
+    NSColor *inputColor;
+    
+    NSFont *outputFont;
+    NSFont *timestampFont;
+    
+    NSDate *connectedTime;
+    NSDate *lastMessageSentAt;
+}
+@end
+
 @implementation UIController
 
 @synthesize progressIndicator;
@@ -32,6 +55,10 @@
 @synthesize menuItemCopy;
 @synthesize menuItemPaste;
 @synthesize menuItemToggleStatusBar;
+@synthesize menuItemUseTransparency;
+@synthesize menuItemIncreaseFontSize;
+@synthesize menuItemDefaultFontSize;
+@synthesize menuItemDecreaseFontSize;
 @synthesize splitView;
 @synthesize bottomConstraint;
 @synthesize statusBarView;
@@ -44,6 +71,7 @@
 #define kColorSchemeDefault     1001
 #define kColorSchemeOldSchool   1002
 
+#define kFontName               @"Monaco"
 #define kTextStyle              @"textStyle"
 #define kTextStyleTimestamp     @"textStyleTimestamp"
 #define kTextStyleOpenNick      @"textStyleOpenNick"
@@ -56,6 +84,23 @@
 #define kTextStyleErrorHeader   @"textStyleErrorHeader"
 #define kTextStyleErrorText     @"textStyleErrorText"
 
+#define kColorScheme            @"colorScheme"
+#define kUseTransparency        @"useTransparency"
+
++ (void)initialize
+{    
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    
+    // load the default values for the user defaults
+    NSDictionary *d = [NSDictionary dictionaryWithObjectsAndKeys:
+                       [NSNumber numberWithInt:kColorSchemeDefault], kColorScheme,
+                       [NSNumber numberWithBool:YES], kUseTransparency,
+                       [NSNumber numberWithDouble:12.0], @"outputFontPointSize",
+                       [NSNumber numberWithDouble:10.0], @"timestampFontPointSize",
+                       nil];
+    [userDefaults registerDefaults:d];
+}
+
 - (id)init
 {
     if (self = [super init])
@@ -64,46 +109,47 @@
                                                  selector:@selector(clientNotify:)
                                                      name:nil
                                                    object:self.client];
+        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+        
+        [userDefaults addObserver:self
+                       forKeyPath:kUseTransparency
+                          options:NSKeyValueObservingOptionNew
+                          context:NULL];
+        
+        NSInteger colorScheme = [[userDefaults valueForKey:kColorScheme] intValue];
+        switch (colorScheme)
+        {
+            case kColorSchemeDefault:
+                [self selectDefaultColors];
+                break;
+            case kColorSchemeOldSchool:
+                [self selectOldSchoolColors];
+                break;
+        }
     }
     return self;
 }
 
 - (void)awakeFromNib
 {
-    DLog(@"UIController awakeFromNib");
-
     [super awakeFromNib];
-    
+
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     
-    // load the default values for the user defaults
-    NSDictionary *d = [NSDictionary dictionaryWithObjectsAndKeys:
-                       [NSNumber numberWithInt:kColorSchemeDefault], @"colorScheme",
-                       nil];
-    [userDefaults registerDefaults:d];
+    outputFont = [NSFont fontWithName:kFontName
+                                 size:[userDefaults doubleForKey:@"outputFontPointSize"]];
+    timestampFont = [NSFont fontWithName:kFontName
+                                    size:[userDefaults doubleForKey:@"timestampFontPointSize"]];
     
-    DLog(@"NSUserDefaults - default values set");
-    
-    NSInteger colorScheme = [[userDefaults valueForKey:@"colorScheme"] intValue];
-    DLog(@"colorScheme=%ld", colorScheme);
-    switch (colorScheme)
-    {
-        case kColorSchemeDefault:
-            [self selectDefaultColors];
-            break;
-        case kColorSchemeOldSchool:
-            [self selectOldSchoolColors];
-            break;
-    }
-
-    outputFont = [NSFont fontWithName:@"Monaco" size:12.0f];
-    timestampFont = [NSFont fontWithName:@"Monaco" size:10.0f];
-    
+    [self.inputTextView setFont:outputFont];
     [self.outputTextView setFont:outputFont];
     [self.outputTextView setBackgroundColor:backgroundColor];
     [self.outputTextView setTextColor:commandTextColor];
     
     [self.window makeFirstResponder:self.inputTextView];
+
+    [self setTransparency:[[NSUserDefaults standardUserDefaults]
+                           boolForKey:kUseTransparency]];
 }
 
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem
@@ -121,13 +167,12 @@
     }
     else if (menuItem == self.menuItemDefaultColorScheme)
     {
-        NSInteger colorScheme = [userDefaults integerForKey:@"colorScheme"];
+        NSInteger colorScheme = [userDefaults integerForKey:kColorScheme];
         [menuItem setState:(colorScheme == kColorSchemeDefault) ? NSOnState : NSOffState];
     }
     else if (menuItem == self.menuItemOldSchoolColorScheme)
     {
-        [userDefaults integerForKey:@"colorScheme"];
-        NSInteger colorScheme = [userDefaults integerForKey:@"colorScheme"];
+        NSInteger colorScheme = [userDefaults integerForKey:kColorScheme];
         [menuItem setState:(colorScheme == kColorSchemeOldSchool) ? NSOnState : NSOffState];
     }
 
@@ -218,7 +263,6 @@
     NSColor *foreground = [self getForegroundColor:textStyle];
     NSColor *background = backgroundColor;
     
-    
     [as addAttribute:NSBackgroundColorAttributeName
                value:background
                range:NSMakeRange(0, [text length])];
@@ -298,7 +342,6 @@
    clickedOnLink:(id)link
          atIndex:(NSUInteger)charIndex
 {
-    DLog(@"textView clickedOnLink: %@", link);
     if (aTextView != self.outputTextView)
         return NO;
     
@@ -399,6 +442,56 @@
     }
 }
 
+- (IBAction)changeFontSize:(id)sender
+{
+    if (sender == self.menuItemIncreaseFontSize)
+    {
+        CGFloat pointSize = outputFont.pointSize;
+        pointSize += 1.0;
+        outputFont = [NSFont fontWithName:kFontName size:pointSize];
+        
+        pointSize = timestampFont.pointSize;
+        pointSize += 1.0;
+        timestampFont = [NSFont fontWithName:kFontName size:pointSize];
+    }
+    else if (sender == self.menuItemDecreaseFontSize)
+    {
+        CGFloat pointSize = outputFont.pointSize;
+        pointSize -= 1.0;
+        outputFont = [NSFont fontWithName:kFontName size:pointSize];
+        
+        pointSize = timestampFont.pointSize;
+        pointSize -= 1.0;
+        timestampFont = [NSFont fontWithName:kFontName size:pointSize];
+    }
+    else
+    {
+        outputFont = [NSFont fontWithName:kFontName size:12.0f];
+        timestampFont = [NSFont fontWithName:kFontName size:10.0f];
+    }
+    
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults setValue:[NSNumber numberWithDouble:[outputFont pointSize]] forKey:@"outputFontPointSize"];
+    [userDefaults setValue:[NSNumber numberWithDouble:[timestampFont pointSize]] forKey:@"timestampFontPointSize"];
+
+    [self didUpdateFonts];
+}
+
+- (void)setTransparency:(BOOL)transparent
+{
+    if (transparent)
+    {
+        [self.window setOpaque:YES];
+        [self.window setAlphaValue:0.80];
+//        [self.window setStyleMask:NSBorderlessWindowMask];
+    }
+    else
+    {
+        [self.window setOpaque:NO];
+        [self.window setAlphaValue:1.0];
+    }
+}
+
 - (NSColor *)getForegroundColor:(NSString *)textStyle
 {
     NSColor *foreground = nil;
@@ -448,16 +541,54 @@
     return foreground;
 }
 
-- (void)didUpdateColorScheme
+- (void)didUpdateFonts
 {
+    [progressIndicator setHidden:NO];
+    [progressIndicator startAnimation:self];
+    
     NSTextStorage *textStorage = [self.outputTextView textStorage];
     [textStorage beginEditing];
-    NSUInteger __block blocks = 0;
     
     void (^searchBlock)(id, NSRange, BOOL *) = ^(id value, NSRange range, BOOL *stop)
     {
         *stop = NO;
-        blocks++;
+
+        NSFont *font = outputFont;
+        if ([(NSString *)value compare:kTextStyleTimestamp] == NSOrderedSame)
+        {
+            font = timestampFont;
+        }
+        [textStorage addAttribute:NSFontAttributeName
+                            value:font
+                            range:range];
+        
+    };
+    
+    [textStorage enumerateAttribute:kTextStyle
+                            inRange:NSMakeRange(0, [textStorage length])
+                            options:0
+                         usingBlock:searchBlock];
+    
+    [textStorage endEditing];
+    
+    [self.inputTextView setFont:outputFont];
+    [self.outputTextView setFont:outputFont];
+    
+    [progressIndicator setHidden:YES];
+    [progressIndicator stopAnimation:self];
+}
+
+- (void)didUpdateColorScheme
+{
+    [progressIndicator setHidden:NO];
+    [progressIndicator startAnimation:self];
+    
+    NSTextStorage *textStorage = [self.outputTextView textStorage];
+    [textStorage beginEditing];
+    
+    void (^searchBlock)(id, NSRange, BOOL *) = ^(id value, NSRange range, BOOL *stop)
+    {
+        *stop = NO;
         
         [textStorage addAttribute:NSBackgroundColorAttributeName
                             value:backgroundColor
@@ -478,6 +609,9 @@
     [self.inputTextView setInsertionPointColor:inputColor];
     [self.inputTextView setTextColor:inputColor];
     [self.outputTextView setBackgroundColor:backgroundColor];
+    
+    [progressIndicator setHidden:YES];
+    [progressIndicator stopAnimation:self];
 }
 
 - (void)selectDefaultColors
@@ -493,9 +627,11 @@
     statusTextColor = [NSColor blackColor];
     timestampColor = [NSColor lightGrayColor];
     inputColor = [NSColor blackColor];
+
+    [self.progressIndicator setControlTint:NSDefaultControlTint];
     
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    [userDefaults setInteger:kColorSchemeDefault forKey:@"colorScheme"];
+    [userDefaults setInteger:kColorSchemeDefault forKey:kColorScheme];
     
     [self didUpdateColorScheme];
 }
@@ -513,9 +649,11 @@
     statusTextColor = [NSColor greenColor];
     timestampColor = [NSColor lightGrayColor];
     inputColor = [NSColor colorWithSRGBRed:0xfa/255.0 green:0xe1/255.0 blue:0x34/255.0 alpha:1.0];
+
+    [self.progressIndicator setControlTint:NSBlueControlTint];
     
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    [userDefaults setInteger:kColorSchemeOldSchool forKey:@"colorScheme"];
+    [userDefaults setInteger:kColorSchemeOldSchool forKey:kColorScheme];
 
     [self didUpdateColorScheme];
 }
@@ -1010,7 +1148,19 @@
         [clipView scrollToPoint:[clipView constrainScrollPoint:NSMakePoint(0,[self.outputTextView
                                                                               frame].size.height)]];
         [[clipView superview] reflectScrolledClipView:clipView];
-    }    
+    }
+}
+
+-(void)observeValueForKeyPath:(NSString *)keyPath
+                     ofObject:(id)object
+                       change:(NSDictionary *)change
+                      context:(void *)context
+{
+    if ([keyPath compare:kUseTransparency] == NSOrderedSame)
+    {
+        BOOL isTransparent = [[change valueForKey:@"new"] boolValue];
+        [self setTransparency:isTransparent];
+    }
 }
 
 - (void)clientNotify:(NSNotification *)notification
@@ -1069,23 +1219,5 @@
     {
     }
 }
-
-#pragma mark -
-
-- (void)layoutManager:(NSLayoutManager *)layoutManager
-didCompleteLayoutForTextContainer:(NSTextContainer *)textContainer
-                atEnd:(BOOL)layoutFinishedFlag
-{
-//    DLog(@"didCompletelLayoutForTextContainer layoutfinished=%d", layoutFinishedFlag);
-}
-
-#pragma mark -
-#pragma mark NSSplitViewDelegate methods
-
-//- (BOOL)splitView:(NSSplitView *)splitView shouldHideDividerAtIndex:(NSInteger)dividerIndex
-//{
-//    DLog(@"splitView shouldHideDividerAtIndex: %ld", dividerIndex);
-//    return YES;
-//}
 
 @end

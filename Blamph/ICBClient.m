@@ -199,7 +199,8 @@
     
     if ([packet isKindOfClass:[ExitPacket class]])
     {
-        [self disconnect];
+        DLog(@"exit packet!");
+//        [self disconnect]; // TODO - this crashes! wtf
     }
     else if ([packet isKindOfClass:[PingPacket class]])
     {
@@ -488,6 +489,8 @@
 
 - (void)stream:(NSStream *)theStream handleEvent:(NSStreamEvent)streamEvent
 {
+    DLog(@"stream event=%lu", streamEvent);
+    
     NSNotificationCenter *ns = [NSNotificationCenter defaultCenter];
                                 
     switch (streamEvent) {

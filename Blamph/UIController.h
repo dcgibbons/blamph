@@ -10,28 +10,7 @@
 #import "MainWindow.h"
 #import "ICBClient.h"
 
-@interface UIController : NSObject <NSLayoutManagerDelegate,
-    NSSplitViewDelegate, NSTextViewDelegate>
-{
-@private
-    NSColor *backgroundColor;
-    NSColor *openTextColor;
-    NSColor *openNickColor;
-    NSColor *personalTextColor;
-    NSColor *personalNickColor;
-    NSColor *commandTextColor;
-    NSColor *errorTextColor;
-    NSColor *statusHeaderColor;
-    NSColor *statusTextColor;
-    NSColor *timestampColor;
-    NSColor *inputColor;
-    
-    NSFont *outputFont;
-    NSFont *timestampFont;
-    
-    NSDate *connectedTime;
-    NSDate *lastMessageSentAt;    
-}
+@interface UIController : NSObject <NSTextViewDelegate>
 
 @property (nonatomic, retain) IBOutlet ICBClient *client;
 
@@ -42,6 +21,10 @@
 @property (nonatomic, retain) IBOutlet NSMenuItem *menuItemToggleStatusBar;
 @property (nonatomic, retain) IBOutlet NSMenuItem *menuItemDefaultColorScheme;
 @property (nonatomic, retain) IBOutlet NSMenuItem *menuItemOldSchoolColorScheme;
+@property (nonatomic, retain) IBOutlet NSMenuItem *menuItemUseTransparency;
+@property (nonatomic, retain) IBOutlet NSMenuItem *menuItemIncreaseFontSize;
+@property (nonatomic, retain) IBOutlet NSMenuItem *menuItemDefaultFontSize;
+@property (nonatomic, retain) IBOutlet NSMenuItem *menuItemDecreaseFontSize;
 
 @property (nonatomic, retain) IBOutlet NSSplitView *splitView;
 @property (nonatomic, retain) IBOutlet NSLayoutConstraint *bottomConstraint;
@@ -75,6 +58,7 @@
 - (IBAction)paste:(id)sender;
 - (IBAction)toggleStatusBar:(id)sender;
 - (IBAction)selectColorScheme:(id)sender;
+- (IBAction)changeFontSize:(id)sender;
 
 - (void)clientNotify:(NSNotification *)notification;
 
