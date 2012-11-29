@@ -117,17 +117,6 @@
                        forKeyPath:kUseTransparency
                           options:NSKeyValueObservingOptionNew
                           context:NULL];
-        
-        NSInteger colorScheme = [[userDefaults valueForKey:kColorScheme] intValue];
-        switch (colorScheme)
-        {
-            case kColorSchemeDefault:
-                [self selectDefaultColors];
-                break;
-            case kColorSchemeOldSchool:
-                [self selectOldSchoolColors];
-                break;
-        }
     }
     return self;
 }
@@ -142,6 +131,17 @@
                                  size:[userDefaults doubleForKey:@"outputFontPointSize"]];
     timestampFont = [NSFont fontWithName:kFontName
                                     size:[userDefaults doubleForKey:@"timestampFontPointSize"]];
+    
+    NSInteger colorScheme = [[userDefaults valueForKey:kColorScheme] intValue];
+    switch (colorScheme)
+    {
+        case kColorSchemeDefault:
+            [self selectDefaultColors];
+            break;
+        case kColorSchemeOldSchool:
+            [self selectOldSchoolColors];
+            break;
+    }
     
     [self.inputTextView setFont:outputFont];
     [self.outputTextView setFont:outputFont];
@@ -667,9 +667,11 @@
                          usingBlock:searchBlock];
 
     [textStorage endEditing];
+    
     [self.inputTextView setBackgroundColor:backgroundColor];
     [self.inputTextView setInsertionPointColor:inputColor];
     [self.inputTextView setTextColor:inputColor];
+    
     [self.outputTextView setBackgroundColor:backgroundColor];
     
     [progressIndicator setHidden:YES];
