@@ -32,21 +32,24 @@
                        [NSNumber numberWithDouble:60.0], @"keepAliveInterval",
                        nil];
     [userDefaults registerDefaults:d];
-    
-    DLog(@"NSUserDefaults - default values set");
 }
 
 - (id)init
 {
     if (self = [super init])
     {
+        NSDate *today = [NSDate date];
+        //(the number of seconds from Midnight, January 1st, 2001 GMT until you want your app to expire);
+        NSTimeInterval expiry = 378604919; // Midnight, Dec 31, 2012
+        
+        if ([today timeIntervalSinceReferenceDate] > expiry)
+        {
+            NSRunAlertPanel(@"This pre-release version has expired.", @"Please download a new release.", nil, nil, nil);
+            NSLog(@"expired");
+            [[NSApplication sharedApplication] terminate:self];
+        }
     }
     return self;
-}
-
-- (void)awakeFromNib
-{
-    DLog(@"ApplicationDelegate awakeFromNib");
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
