@@ -100,8 +100,6 @@
         case DISCONNECTED:
             notificationName = kICBClient_disconnected;
             [self stopKeepAliveTimer];
-//            self.istream = nil;
-//            self.ostream = nil;
             break;
         case DISCONNECTING:
             notificationName = kICBClient_disconnecting;
@@ -114,8 +112,6 @@
             [self startKeepAliveTimer];
             break;
     }
-    
-    DLog(@"Sending %@ notification", notificationName);
     
     if (notificationName != nil)
     {
@@ -475,7 +471,6 @@
     if ([userDefaults boolForKey:@"sendKeepAlives"])
     {
         NSTimeInterval interval = [userDefaults doubleForKey:@"keepAliveInterval"];
-        DLog(@"Scheduleding keep-alive timer at %.2f", interval);
         NSTimer *timer = [NSTimer scheduledTimerWithTimeInterval:interval
                                                           target:self
                                                         selector:@selector(fireKeepAliveTimer:)
@@ -494,7 +489,6 @@
 - (void)fireKeepAliveTimer:(id)arg
 {
     NoOpPacket *packet = [[NoOpPacket alloc] init];
-    DLog(@"Sending %@ for network keep-alive", packet);
     [self sendPacket:packet];
 }
 
@@ -502,8 +496,6 @@
 
 - (void)stream:(NSStream *)theStream handleEvent:(NSStreamEvent)streamEvent
 {
-    DLog(@"stream event=%lu", streamEvent);
-    
     NSNotificationCenter *ns = [NSNotificationCenter defaultCenter];
     
     switch (streamEvent) {
@@ -521,7 +513,6 @@
             break;
             
         case NSStreamEventErrorOccurred:
-            DLog(@"socket error!");
             if (connectionState == CONNECTING)
             {
                 [ns postNotificationName:kICBClient_connectfailed object:self];
@@ -529,7 +520,6 @@
             break;
             
         case NSStreamEventEndEncountered:
-            DLog(@"socket closed!");
             [self disconnect];
             break;
             
