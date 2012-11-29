@@ -86,6 +86,7 @@
 
 #define kColorScheme            @"colorScheme"
 #define kUseTransparency        @"useTransparency"
+#define kOpacityLevel           @"opacityLevel"
 
 #define kURLPattern             @"(?s)((?:\\w+://|\\bwww\\.[^.])\\S+)"
 
@@ -97,6 +98,7 @@
     NSDictionary *d = [NSDictionary dictionaryWithObjectsAndKeys:
                        [NSNumber numberWithInt:kColorSchemeDefault], kColorScheme,
                        [NSNumber numberWithBool:YES], kUseTransparency,
+                       [NSNumber numberWithFloat:0.75], kOpacityLevel,
                        [NSNumber numberWithDouble:12.0], @"outputFontPointSize",
                        [NSNumber numberWithDouble:10.0], @"timestampFontPointSize",
                        nil];
@@ -117,6 +119,12 @@
                        forKeyPath:kUseTransparency
                           options:NSKeyValueObservingOptionNew
                           context:NULL];
+
+        [userDefaults addObserver:self
+                       forKeyPath:kOpacityLevel
+                          options:NSKeyValueObservingOptionNew
+                          context:NULL];
+
     }
     return self;
 }
@@ -541,11 +549,11 @@
 
 - (void)setTransparency:(BOOL)transparent
 {
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     if (transparent)
     {
         [self.window setOpaque:YES];
-        [self.window setAlphaValue:0.80];
-//        [self.window setStyleMask:NSBorderlessWindowMask];
+        [self.window setAlphaValue:[userDefaults floatForKey:kOpacityLevel]];
     }
     else
     {
@@ -1220,10 +1228,20 @@
                        change:(NSDictionary *)change
                       context:(void *)context
 {
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    
     if ([keyPath compare:kUseTransparency] == NSOrderedSame)
     {
         BOOL isTransparent = [[change valueForKey:@"new"] boolValue];
         [self setTransparency:isTransparent];
+    }
+    else if ([keyPath compare:kOpacityLevel] == NSOrderedSame)
+    {
+        BOOL isTransparent = [[userDefaults valueForKey:kUseTransparency] boolValue];
+        if (isTransparent)
+        {
+            [self setTransparency:isTransparent];
+        }
     }
 }
 
