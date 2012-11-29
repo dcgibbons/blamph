@@ -28,7 +28,7 @@
  */
 @interface ICBClient : NSObject
 
-@property (nonatomic, retain) NicknameHistory *nicknameHistory;
+@property (nonatomic, readonly) NicknameHistory *nicknameHistory;
 
 - (id)init;
 
@@ -74,9 +74,43 @@
 /*!
  @methodgroup Message Sending
  */
+
+/*!
+ Sends a specific ICB packet to the server. This method is asynchronous and
+ will return immediately. The packet is queued for transmission when the
+ outbound socket connection has available space.
+ @param packet
+    the packet to send
+ */
 - (void)sendPacket:(ICBPacket *)packet;
+
+/*!
+ Sends a text string as an open message to the user's current group. If the text
+ is too long it will automatically span multiple ICB packets as appropriate.
+ @param msg
+    the text message to send
+ */
 - (void)sendOpenMessage:(NSString *)msg;
+
+/*!
+ Sends a text string as a personal message to the specified user. If the text
+ is too long it will automatically span multiple ICB packets as appropriate.
+ @param nick
+    the user to send the message to
+ @param msg
+    the text message to send
+ */
 - (void)sendPersonalMessage:(NSString *)nick withMsg:(NSString *)msg;
+
+/*!
+ Sends a text string as a persistent 'write' message to the specified user. If
+ the text is too long it will automatically span multiple ICB packets as 
+ appropriate.
+ @param nick
+    the user to write the message to
+ @param msg
+    the text message to send
+ */
 - (void)sendWriteMessage:(NSString *)nick withMsg:(NSString *)msg;
 
 #define kICBClient_connecting       @"ICBClient:connecting"

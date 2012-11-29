@@ -21,37 +21,37 @@
 #import "OpenPacket.h"
 #import "StatusPacket.h"
 
+#define kSendKeepAlives         @"sendKeepAlives"
+#define kKeepAliveInterval      @"keepAliveInterval"
+
 @interface ICBClient () <NSStreamDelegate>
 {
 @private
-    enum { DISCONNECTED, DISCONNECTING, CONNECTING, CONNECTED } connectionState;
+    enum { kDisconnected, kDisconnecting, kConnecting, kConnected } _connectionState;
     
-    NSString *nickname;
-    NSString *initialGroup;
-    NSString *password;
+    NSString *_nickname;
+    NSString *_initialGroup;
+    NSString *_password;
     
-    uint8_t packetLength, bufferPos;
+    uint8_t _packetLength, _bufferPos;
     
-    NSMutableData *packetBuffer;
-    NSMutableArray *inputQueue;
-    NSMutableArray *outputQueue;
+    NSMutableData *_packetBuffer;
+    NSMutableArray *_inputQueue;
+    NSMutableArray *_outputQueue;
     
-    enum { kWaitingForPacket, kReadingPacket } readState;
+    enum { kWaitingForPacket, kReadingPacket } _readState;
+
+    NSTimer *_keepAliveTimer;
     
     // statistics
-    NSUInteger bytesReceived;
-    NSUInteger bytesSent;
-    NSUInteger packetsReceived;
-    NSUInteger packetsSent;
+    NSUInteger _bytesReceived;
+    NSUInteger _bytesSent;
+    NSUInteger _packetsReceived;
+    NSUInteger _packetsSent;
 }
 
 @property (nonatomic, retain) NSInputStream *istream;
 @property (nonatomic, retain) NSOutputStream *ostream;
-@property (nonatomic, retain) NSTimer *keepAliveTimer;
-
-- (void)startKeepAliveTimer;
-- (void)stopKeepAliveTimer;
-- (void)fireKeepAliveTimer:(id)arg;
 
 @end
 
@@ -65,49 +65,44 @@
 {
     if (self = [super init])
     {
-        connectionState = DISCONNECTED;
+        _connectionState = kDisconnected;
         
-        packetBuffer = [NSMutableData dataWithCapacity:MAX_PACKET_SIZE];
-        inputQueue = [NSMutableArray arrayWithCapacity:100];
-        outputQueue = [NSMutableArray arrayWithCapacity:100];
-        self.nicknameHistory = [[NicknameHistory alloc] init];
+        _packetBuffer = [NSMutableData dataWithCapacity:MAX_PACKET_SIZE];
+        _inputQueue = [NSMutableArray arrayWithCapacity:100];
+        _outputQueue = [NSMutableArray arrayWithCapacity:100];
+        _nicknameHistory = [[NicknameHistory alloc] init];
         
-        bytesReceived = 0;
-        bytesSent = 0;
-        packetsReceived = 0;
-        packetsSent = 0;
-        
-//        [[NSNotificationCenter defaultCenter] addObserver:self
-//                                                 selector:@selector(clientNotify:)
-//                                                     name:kICBClient_packet
-//                                                   object:nil];
+        _bytesReceived = 0;
+        _bytesSent = 0;
+        _packetsReceived = 0;
+        _packetsSent = 0;
     }
     return self;
 }
 
 - (BOOL)isConnected
 {
-    return (connectionState == CONNECTED);
+    return (_connectionState == kConnected);
 }
 
 - (void)changeConnectingState:(int)newState
 {
-    connectionState = newState;
+    _connectionState = newState;
 
     NSString *notificationName = nil;
-    switch (connectionState)
+    switch (_connectionState)
     {
-        case DISCONNECTED:
+        case kDisconnected:
             notificationName = kICBClient_disconnected;
             [self stopKeepAliveTimer];
             break;
-        case DISCONNECTING:
+        case kDisconnecting:
             notificationName = kICBClient_disconnecting;
             break;
-        case CONNECTING:
+        case kConnecting:
             notificationName = kICBClient_connecting;
             break;
-        case CONNECTED:
+        case kConnected:
             notificationName = kICBClient_connected;
             [self startKeepAliveTimer];
             break;
@@ -133,11 +128,11 @@
                                      userInfo:nil];
     }
     
-    [self changeConnectingState:CONNECTING];
+    [self changeConnectingState:kConnecting];
     
-    nickname = userNickname;
-    initialGroup = userGroup;
-    password = userPassword;
+    _nickname = userNickname;
+    _initialGroup = userGroup;
+    _password = userPassword;
     
     CFReadStreamRef readStream = NULL;
     CFWriteStreamRef writeStream = NULL;
@@ -186,7 +181,7 @@
 
 - (void)disconnect
 {
-    [self changeConnectingState:DISCONNECTING];
+    [self changeConnectingState:kDisconnecting];
     
     NSRunLoop *loop = [NSRunLoop currentRunLoop];
 
@@ -200,12 +195,12 @@
     [self.istream setDelegate:nil];
     self.istream = nil;
     
-    [self changeConnectingState:DISCONNECTED];
+    [self changeConnectingState:kDisconnected];
 }
 
 - (void)handlePacket:(ICBPacket *)packet
 {
-    packetsReceived++;
+    _packetsReceived++;
     
     if ([packet isKindOfClass:[ExitPacket class]])
     {
@@ -226,6 +221,7 @@
     }
     else if ([packet isKindOfClass:[PersonalPacket class]])
     {
+        // anytime a personal packet comes in, add it to the nickname history
         PersonalPacket *p = (PersonalPacket *)packet;
         [self.nicknameHistory add:p.nick];
     }
@@ -249,21 +245,26 @@
 
 - (void)handleProtocolPacket:(ProtocolPacket *)packet
 {
-    // TODO: check protocol packet version
-    LoginPacket *loginPacket = [[LoginPacket alloc] initWithUserDetails:nickname
-                                                                   nick:nickname
-                                                                  group:initialGroup
-                                                                command:@"login"
-                                                               password:password];
-    [self sendPacket:loginPacket];
+    if (packet.protocolLevel != 1)
+    {
+        DLog(@"Unexpected protocol received: %@", packet);
+        [self disconnect];
+    }
+    else
+    {
+        LoginPacket *loginPacket = [[LoginPacket alloc] initWithUserDetails:_nickname
+                                                                       nick:_nickname
+                                                                      group:_initialGroup
+                                                                    command:@"login"
+                                                                   password:_password];
+        [self sendPacket:loginPacket];
+    }
 }
 
 - (void)sendPacket:(ICBPacket *)packet
 {
     NSData *data = [packet data];
-    packetsSent++;
-    
-    [outputQueue insertObject:data atIndex:0];
+    [_outputQueue insertObject:data atIndex:0];
     [self flushOutputQueue];
 }
 
@@ -375,24 +376,6 @@
     } while ([remaining length] > 0);
 }
 
-- (void)flushOutputQueue
-{
-    if ([self.ostream hasSpaceAvailable])
-    {
-        while ([outputQueue count] > 0)
-        {
-            NSData *data = (NSData *)[outputQueue lastObject];
-            [outputQueue removeLastObject];
-            
-            uint8_t l = [data length];
-            NSInteger written = [self.ostream write:&l maxLength:sizeof(l)];
-            NSAssert(written == sizeof(l), @"unable to write packet length");
-            written = [self.ostream write:[data bytes] maxLength:l];
-            NSAssert(written == l, @"unable to write packet data");
-        }
-    }
-}
-
 - (void)handleInputStream:(NSInputStream *)stream
 {
     // NOTE: it appears from reviewing
@@ -402,60 +385,65 @@
     
     while ([stream hasBytesAvailable])
     {
-        if (readState == kWaitingForPacket)
+        if (_readState == kWaitingForPacket)
         {
-            NSInteger len = [stream read:&packetLength
-                               maxLength:sizeof(packetLength)];
+            NSInteger len = [stream read:&_packetLength
+                               maxLength:sizeof(_packetLength)];
             if (len < 0)
             {
+                // TODO: handle error
             }
             else if (len == 0)
             {
+                // end-of-stream
             }
             else
             {
-                bytesReceived += len;
-                bufferPos = 0;
-                readState = kReadingPacket;
+                _bytesReceived += len;
+                _bufferPos = 0;
+                _readState = kReadingPacket;
             }
         }
-        else if (readState == kReadingPacket)
+        else if (_readState == kReadingPacket)
         {
-            uint8_t *buffer = [packetBuffer mutableBytes];
-            NSInteger len = [stream read:&buffer[bufferPos]
-                               maxLength:packetLength - bufferPos];
+            uint8_t *buffer = [_packetBuffer mutableBytes];
+            NSInteger len = [stream read:&buffer[_bufferPos]
+                               maxLength:_packetLength - _bufferPos];
             if (len < 0)
             {
+                // TODO: handle error
             }
             else if (len == 0)
             {
+                // end-of-stream
             }
             else
             {
-                bytesReceived += len;
-                bufferPos += len;
-                if (bufferPos < packetLength)
+                _bytesReceived += len;
+                _bufferPos += len;
+                if (_bufferPos < _packetLength)
                 {
                     DLog(@"packet not fully read, need %u more bytes",
-                         packetLength - bufferPos);
+                         _packetLength - _bufferPos);
                 }
                 else
                 {
                     NSData *packetData = [NSData dataWithBytes:buffer
-                                                        length:packetLength];
+                                                        length:_packetLength];
                     ICBPacket *packet = [ICBPacket packetWithBuffer:packetData];
                     
-                    [inputQueue insertObject:packet atIndex:0];
-                    readState = kWaitingForPacket;
+                    [_inputQueue insertObject:packet atIndex:0];
+                    _readState = kWaitingForPacket;
                 }
             }
         }
     }
     
-    while ([inputQueue count] > 0)
+    // handle any packets that were fully received
+    while ([_inputQueue count] > 0)
     {
-        ICBPacket *packet = (ICBPacket *)[inputQueue lastObject];
-        [inputQueue removeLastObject];
+        ICBPacket *packet = (ICBPacket *)[_inputQueue lastObject];
+        [_inputQueue removeLastObject];
         [self handlePacket:packet];
     }
 }
@@ -465,34 +453,61 @@
     [self flushOutputQueue];
 }
 
+- (void)flushOutputQueue
+{
+    if ([self.ostream hasSpaceAvailable])
+    {
+        while ([_outputQueue count] > 0)
+        {
+            NSData *data = (NSData *)[_outputQueue lastObject];
+            [_outputQueue removeLastObject];
+            uint8_t l = [data length];
+            
+            NSInteger written = [self.ostream write:&l maxLength:sizeof(l)];
+            NSAssert(written == sizeof(l), @"unable to write packet length");
+            _bytesSent += written;
+            
+            written = [self.ostream write:[data bytes] maxLength:l];
+            NSAssert(written == l, @"unable to write packet data");
+            _bytesSent += written;
+
+            _packetsSent++;
+        }
+    }
+}
+
+#pragma mark -
+#pragma Keep Alive Timer methods
+
 - (void)startKeepAliveTimer
 {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    if ([userDefaults boolForKey:@"sendKeepAlives"])
+    if ([userDefaults boolForKey:kSendKeepAlives])
     {
-        NSTimeInterval interval = [userDefaults doubleForKey:@"keepAliveInterval"];
+        NSTimeInterval interval = [userDefaults doubleForKey:kKeepAliveInterval];
         NSTimer *timer = [NSTimer scheduledTimerWithTimeInterval:interval
                                                           target:self
-                                                        selector:@selector(fireKeepAliveTimer:)
+                                                        selector:@selector(keepAlive:)
                                                         userInfo:nil
                                                          repeats:YES];
-        self.keepAliveTimer = timer;
+        _keepAliveTimer = timer;
     }
 }
 
 - (void)stopKeepAliveTimer
 {
-    [self.keepAliveTimer invalidate];
-    self.keepAliveTimer = nil;
+    [_keepAliveTimer invalidate];
+    _keepAliveTimer = nil;
 }
 
-- (void)fireKeepAliveTimer:(id)arg
+- (void)keepAlive:(id)arg
 {
     NoOpPacket *packet = [[NoOpPacket alloc] init];
     [self sendPacket:packet];
 }
 
-#pragma mark - NSStreamDelegate methods
+#pragma mark -
+#pragma mark NSStreamDelegate methods
 
 - (void)stream:(NSStream *)theStream handleEvent:(NSStreamEvent)streamEvent
 {
@@ -500,8 +515,8 @@
     
     switch (streamEvent) {
         case NSStreamEventOpenCompleted:
-            readState = kWaitingForPacket;
-            [self changeConnectingState:CONNECTED];
+            _readState = kWaitingForPacket;
+            [self changeConnectingState:kConnected];
             break;
             
         case NSStreamEventHasBytesAvailable:
@@ -513,7 +528,7 @@
             break;
             
         case NSStreamEventErrorOccurred:
-            if (connectionState == CONNECTING)
+            if (_connectionState == kConnecting)
             {
                 [ns postNotificationName:kICBClient_connectfailed object:self];
             }
