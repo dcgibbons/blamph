@@ -396,47 +396,6 @@
     [self.window makeFirstResponder:self.inputTextView];
 }
 
-- (void)shortenURL:(NSString *)urlText
-{
-    if ([urlText length] > 24)
-    {
-        NSString *bitlyURL =
-            [NSString stringWithFormat:@"http://api.bit.ly/shorten?version=2.0.1&format=json&login=%@&apiKey=%@&longUrl=%@",
-                              @"icybee",
-                              @"R_97db5ec116eaf6bd5c7b7a15c8e179ec",
-                              [urlText stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
-        
-        NSURL *bitly = [NSURL URLWithString:bitlyURL];
-        NSURLRequest *r = [NSURLRequest requestWithURL:bitly];
-        [NSURLConnection sendAsynchronousRequest:r
-                                           queue:[NSOperationQueue mainQueue]
-                               completionHandler:^(NSURLResponse *response, NSData *data, NSError *error)
-        {
-            NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data
-                                                                 options:0
-                                                                   error:&error];
-            NSString *statusCode = [json objectForKey:@"statusCode"];
-            if ([statusCode compare:@"OK" options:NSCaseInsensitiveSearch] == NSOrderedSame)
-            {
-                NSDictionary *results = [[json objectForKey:@"results"]
-                                         objectForKey:urlText];
-                NSString *shortUrl = [results objectForKey:@"shortUrl"];
-                
-                [self.inputTextView insertText:shortUrl];
-            }
-            else
-            {
-                DLog(@"bad status from bit.ly");
-                NSBeep();
-            }
-        }];
-    }
-    else
-    {
-        [self.inputTextView insertText:urlText];
-    }
-}
-
 - (IBAction)pasteSpecial:(id)sender
 {
     // a special paste will look for URLs in the pasteboard text and then
@@ -462,12 +421,19 @@
         {
             NSRange urlRange = [match rangeAtIndex:1];
             NSString *urlText = [text substringWithRange:urlRange];
-            [self shortenURL:urlText];
+            [URLHelper shortenURL:[NSURL URLWithString:urlText]
+                       toSelector:@selector(pasteURL:)
+                         onObject:self];
         }
         
         // TODO: this special paste doesn't deal with the text in the pasteboard
         // that aren't URL's! whoops
     }
+}
+
+- (void)pasteURL:(NSString *)urlText
+{
+    [self.inputTextView insertText:urlText];
 }
 
 - (IBAction)toggleStatusBar:(id)sender
@@ -502,7 +468,7 @@
     
     [self.splitView.superview removeConstraints:[NSArray arrayWithObject:self.bottomConstraint]];
     self.bottomConstraint = constraints[0];
-    [self.splitView.superview  addConstraints:constraints];
+    [self.splitView.superview addConstraints:constraints];
     [self.splitView.superview setNeedsUpdateConstraints:YES];
 }
 
@@ -1026,95 +992,114 @@
     [textStorage appendAttributedString:as];
 }
 
-- (void)displayCommandOutputPacket:(CommandOutputPacket *)p
+- (void)displayGroupHandling:(CommandOutputPacket *)p
 {
     const NSTextStorage *textStorage = self.outputTextView.textStorage;
     
-    NSString *s = nil;
-    NSMutableAttributedString *as = nil;
+    NSMutableAttributedString *as = [[NSMutableAttributedString alloc]
+                                     initWithString:@"Group     ## S  Moderator    \n"];
     
+    const NSRange textRange = NSMakeRange(0, [as length]);
+    [as addAttribute:NSFontAttributeName
+               value:_outputFont
+               range:textRange];
+    [as addAttribute:NSBackgroundColorAttributeName
+               value:_backgroundColor
+               range:textRange];
+    [as addAttribute:NSForegroundColorAttributeName
+               value:_commandTextColor
+               range:textRange];
+    [as addAttribute:kTextStyle
+               value:kTextStyleCommandText
+               range:textRange];
+    [textStorage appendAttributedString:as];
+}
+
+- (void)displayWhoHeader:(CommandOutputPacket *)p
+{
+    const NSTextStorage *textStorage = self.outputTextView.textStorage;
+    
+    NSMutableAttributedString *as = [[NSMutableAttributedString alloc]
+                                     initWithString:@"   Nickname      Idle      Sign-on  Account\n"];
+
+    const NSRange textRange = NSMakeRange(0, [as length]);
+    [as addAttribute:NSFontAttributeName
+               value:_outputFont
+               range:textRange];
+    [as addAttribute:NSBackgroundColorAttributeName
+               value:_backgroundColor
+               range:textRange];
+    [as addAttribute:NSForegroundColorAttributeName
+               value:_commandTextColor
+               range:textRange];
+    [as addAttribute:kTextStyle
+               value:kTextStyleCommandText
+               range:textRange];
+    [textStorage appendAttributedString:as];
+}
+
+- (void)displayWhoListing:(CommandOutputPacket *)p
+{
+    const NSTextStorage *textStorage = self.outputTextView.textStorage;
+    
+    NSMutableString *ms = [NSMutableString stringWithCapacity:80];
+    [ms appendFormat:@"%c", [p isModerator] ? '*' : ' '];
+    
+    NSString *nickname = [p nickname];
+    [ms appendFormat:@"%@", nickname];
+    NSUInteger pad = 12 - [nickname length];
+    if (pad > 0)
+    {
+        [ms appendString:[@"" stringByPaddingToLength:pad
+                                           withString:@" "
+                                      startingAtIndex:0]];
+    }
+    
+    [ms appendFormat:@" %@ ", [DateTimeUtils formatElapsedTime:[p idleTime]]];
+    [ms appendFormat:@"%@ ", [DateTimeUtils formatEventTime:[p signOnTime]]];
+    [ms appendFormat:@"%@@%@\n", p.username, p.hostname];
+    
+    NSMutableAttributedString *as = [[NSMutableAttributedString alloc] initWithString:ms];
+    const NSRange textRange = NSMakeRange(0, [as length]);
+    const NSRange nickRange = NSMakeRange(1, [[p nickname] length]);
+    [as addAttribute:NSFontAttributeName
+               value:_outputFont
+               range:textRange];
+    [as addAttribute:NSBackgroundColorAttributeName
+               value:_backgroundColor
+               range:textRange];
+    [as addAttribute:NSForegroundColorAttributeName
+               value:_commandTextColor
+               range:textRange];
+    [as addAttribute:kTextStyle
+               value:kTextStyleCommandText
+               range:textRange];
+    [as addAttribute:NSLinkAttributeName
+               value:[p nickname]
+               range:nickRange];
+    [as addAttribute:NSForegroundColorAttributeName
+               value:_openNickColor
+               range:nickRange];
+    [as addAttribute:kTextStyle
+               value:kTextStyleOpenNick
+               range:nickRange];
+    
+    [textStorage appendAttributedString:as];
+}
+
+- (void)displayCommandOutputPacket:(CommandOutputPacket *)p
+{
     if ([p.outputType compare:@"gh"] == NSOrderedSame)
     {
-        as = [[NSMutableAttributedString alloc] initWithString:@"Group     ## S  Moderator    \n"];
-        const NSRange textRange = NSMakeRange(0, [as length]);
-        [as addAttribute:NSFontAttributeName
-                   value:_outputFont
-                   range:textRange];
-        [as addAttribute:NSBackgroundColorAttributeName
-                   value:_backgroundColor
-                   range:textRange];
-        [as addAttribute:NSForegroundColorAttributeName
-                   value:_commandTextColor
-                   range:textRange];
-        [as addAttribute:kTextStyle
-                   value:kTextStyleCommandText
-                   range:textRange];
-        [textStorage appendAttributedString:as];
+        [self displayGroupHandling:p];
     }
     else if ([p.outputType compare:@"wh"] == NSOrderedSame)
     {
-        as = [[NSMutableAttributedString alloc] initWithString:@"   Nickname      Idle      Sign-on  Account\n"];
-        const NSRange textRange = NSMakeRange(0, [as length]);
-        [as addAttribute:NSFontAttributeName
-                   value:_outputFont
-                   range:textRange];
-        [as addAttribute:NSBackgroundColorAttributeName
-                   value:_backgroundColor
-                   range:textRange];
-        [as addAttribute:NSForegroundColorAttributeName
-                   value:_commandTextColor
-                   range:textRange];
-        [as addAttribute:kTextStyle
-                   value:kTextStyleCommandText
-                   range:textRange];
-        [textStorage appendAttributedString:as];
+        [self displayWhoHeader:p];
     }
     else if ([p.outputType compare:@"wl"] == NSOrderedSame)
     {
-        NSMutableString *ms = [NSMutableString stringWithCapacity:80];
-        [ms appendFormat:@"%c", [p isModerator] ? '*' : ' '];
-        
-        NSString *nickname = [p nickname];
-        [ms appendFormat:@"%@", nickname];
-        NSUInteger pad = 12 - [nickname length];
-        if (pad > 0)
-        {
-            [ms appendString:[@"" stringByPaddingToLength:pad
-                                               withString:@" "
-                                          startingAtIndex:0]];
-        }
-        
-        [ms appendFormat:@" %@ ", [DateTimeUtils formatElapsedTime:[p idleTime]]];
-        [ms appendFormat:@"%@ ", [DateTimeUtils formatEventTime:[p signOnTime]]];
-        [ms appendFormat:@"%@@%@\n", p.username, p.hostname];
-        s = ms;
-        
-        NSMutableAttributedString *as = [[NSMutableAttributedString alloc] initWithString:s];
-        const NSRange textRange = NSMakeRange(0, [as length]);
-        const NSRange nickRange = NSMakeRange(1, [[p nickname] length]);
-        [as addAttribute:NSFontAttributeName
-                   value:_outputFont
-                   range:textRange];
-        [as addAttribute:NSBackgroundColorAttributeName
-                   value:_backgroundColor
-                   range:textRange];
-        [as addAttribute:NSForegroundColorAttributeName
-                   value:_commandTextColor
-                   range:textRange];
-        [as addAttribute:kTextStyle
-                   value:kTextStyleCommandText
-                   range:textRange];
-        [as addAttribute:NSLinkAttributeName
-                   value:[p nickname]
-                   range:nickRange];
-        [as addAttribute:NSForegroundColorAttributeName
-                   value:_openNickColor
-                   range:nickRange];
-        [as addAttribute:kTextStyle
-                   value:kTextStyleOpenNick
-                   range:nickRange];
-
-        [textStorage appendAttributedString:as];
+        [self displayWhoListing:p];
     }
     else
     {
@@ -1154,14 +1139,6 @@
     _packetHandlers = d;
 }
 
-#define SuppressPerformSelectorLeakWarning(Stuff) \
-do { \
-_Pragma("clang diagnostic push") \
-_Pragma("clang diagnostic ignored \"-Warc-performSelector-leaks\"") \
-Stuff; \
-_Pragma("clang diagnostic pop") \
-} while (0)
-         
 - (void)handlePacket:(const ICBPacket *)packet
 {
     SEL selector = [[_packetHandlers valueForKey:[packet className]] pointerValue];
@@ -1185,8 +1162,8 @@ _Pragma("clang diagnostic pop") \
 - (void)trimBuffer:(const NSTextStorage *)textStorage
            toLines:(const NSUInteger)maxLines
 {
-    NSArray *paragraphs = [textStorage paragraphs];
-    NSUInteger n = [paragraphs count];
+    const NSArray *paragraphs = [textStorage paragraphs];
+    const NSUInteger n = [paragraphs count];
     if (n >= maxLines)
     {
         NSUInteger len = 0;
@@ -1194,7 +1171,7 @@ _Pragma("clang diagnostic pop") \
         {
             len += [[paragraphs objectAtIndex:i] length];
         }
-        NSRange r = NSMakeRange(1, len);
+        const NSRange r = NSMakeRange(1, len);
         [textStorage deleteCharactersInRange:r];
     }
 }
