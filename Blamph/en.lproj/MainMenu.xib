@@ -277,6 +277,15 @@
 									<reference key="NSOnImage" ref="557471605"/>
 									<reference key="NSMixedImage" ref="257495673"/>
 								</object>
+								<object class="NSMenuItem" id="638928348">
+									<reference key="NSMenu" ref="774451671"/>
+									<string key="NSTitle">Paste and Shorten URL</string>
+									<string key="NSKeyEquiv">V</string>
+									<int key="NSKeyEquivModMask">1048576</int>
+									<int key="NSMnemonicLoc">2147483647</int>
+									<reference key="NSOnImage" ref="557471605"/>
+									<reference key="NSMixedImage" ref="257495673"/>
+								</object>
 								<object class="NSMenuItem" id="374049547">
 									<reference key="NSMenu" ref="774451671"/>
 									<string key="NSTitle">Select All</string>
@@ -2385,6 +2394,14 @@ wGw</bytes>
 					<int key="connectionID">1224</int>
 				</object>
 				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">pasteSpecial:</string>
+						<reference key="source" ref="309048657"/>
+						<reference key="destination" ref="638928348"/>
+					</object>
+					<int key="connectionID">1240</int>
+				</object>
+				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
 						<string key="label">value: values.useTransparency</string>
 						<reference key="source" ref="1064747488"/>
@@ -2783,6 +2800,7 @@ wGw</bytes>
 							<reference ref="877567818"/>
 							<reference ref="310955046"/>
 							<reference ref="374049547"/>
+							<reference ref="638928348"/>
 						</array>
 						<reference key="parent" ref="915774040"/>
 					</object>
@@ -3723,6 +3741,11 @@ wGw</bytes>
 						<reference key="object" ref="295693676"/>
 						<reference key="parent" ref="189161731"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">1239</int>
+						<reference key="object" ref="638928348"/>
+						<reference key="parent" ref="774451671"/>
+					</object>
 				</array>
 			</object>
 			<dictionary class="NSMutableDictionary" key="flattenedProperties">
@@ -3780,6 +3803,7 @@ wGw</bytes>
 				<string key="1221.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="1222.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="1223.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="1239.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="420.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="494.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="536.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -3924,7 +3948,7 @@ wGw</bytes>
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">1238</int>
+			<int key="maxID">1240</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -3997,6 +4021,7 @@ wGw</bytes>
 						<string key="changeFontSize:">id</string>
 						<string key="copy:">id</string>
 						<string key="paste:">id</string>
+						<string key="pasteSpecial:">id</string>
 						<string key="selectAll:">id</string>
 						<string key="selectColorScheme:">id</string>
 						<string key="toggleStatusBar:">id</string>
@@ -4012,6 +4037,10 @@ wGw</bytes>
 						</object>
 						<object class="IBActionInfo" key="paste:">
 							<string key="name">paste:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="pasteSpecial:">
+							<string key="name">pasteSpecial:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 						<object class="IBActionInfo" key="selectAll:">

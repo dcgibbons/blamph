@@ -87,6 +87,8 @@
 #define kColorScheme            @"colorScheme"
 #define kUseTransparency        @"useTransparency"
 
+#define kURLPattern             @"(?s)((?:\\w+://|\\bwww\\.[^.])\\S+)"
+
 + (void)initialize
 {    
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
@@ -274,7 +276,7 @@
                range:NSMakeRange(0, [text length])];
     
     NSError *error = NULL;
-    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"(?s)((?:\\w+://|\\bwww\\.[^.])\\S+)"
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:kURLPattern
                                                                            options:NSRegularExpressionCaseInsensitive
                                                                              error:&error];
     
@@ -382,15 +384,75 @@
 
 - (IBAction)paste:(id)sender
 {
+    [self.inputTextView pasteAsPlainText:self];
+    [self.window makeFirstResponder:self.inputTextView];
+}
+
+- (void)shortenURL:(NSString *)urlText
+{
+    if ([urlText length] > 24)
+    {
+        NSString *bitlyURL =
+            [NSString stringWithFormat:@"http://api.bit.ly/shorten?version=2.0.1&format=json&login=%@&apiKey=%@&longUrl=%@",
+                              @"icybee",
+                              @"R_97db5ec116eaf6bd5c7b7a15c8e179ec",
+                              [urlText stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+        
+        NSURL *bitly = [NSURL URLWithString:bitlyURL];
+        NSURLRequest *r = [NSURLRequest requestWithURL:bitly];
+        [NSURLConnection sendAsynchronousRequest:r
+                                           queue:[NSOperationQueue mainQueue]
+                               completionHandler:^(NSURLResponse *response, NSData *data, NSError *error)
+        {
+            NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data
+                                                                 options:0
+                                                                   error:&error];
+            NSString *statusCode = [json objectForKey:@"statusCode"];
+            if ([statusCode compare:@"OK" options:NSCaseInsensitiveSearch] == NSOrderedSame)
+            {
+                NSDictionary *results = [[json objectForKey:@"results"]
+                                         objectForKey:urlText];
+                NSString *shortUrl = [results objectForKey:@"shortUrl"];
+                
+                [self.inputTextView insertText:shortUrl];
+            }
+            else
+            {
+                DLog(@"bad status from bit.ly");
+                NSBeep();
+            }
+        }];
+    }
+    else
+    {
+        [self.inputTextView insertText:urlText];
+    }
+}
+
+- (IBAction)pasteSpecial:(id)sender
+{
     NSPasteboard *pasteboard = [NSPasteboard generalPasteboard];
     NSArray *classes = [[NSArray alloc] initWithObjects:[NSString class], nil];
     NSDictionary *options = [NSDictionary dictionary];
     NSArray *copiedItems = [pasteboard readObjectsForClasses:classes
                                                      options:options];
-    if (copiedItems != nil)
+    for (NSString *text in copiedItems)
     {
-        [self.inputTextView pasteAsPlainText:copiedItems];
-        [self.window makeFirstResponder:self.inputTextView];
+        NSError *error = NULL;
+        NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:kURLPattern
+                                                                               options:NSRegularExpressionCaseInsensitive
+                                                                                 error:&error];
+        
+        NSArray *matches = [regex matchesInString:text
+                                          options:0
+                                            range:NSMakeRange(0, [text length])];
+        
+        for (NSTextCheckingResult *match in matches)
+        {
+            NSRange urlRange = [match rangeAtIndex:1];
+            NSString *urlText = [text substringWithRange:urlRange];
+            [self shortenURL:urlText];
+        }
     }
 }
 

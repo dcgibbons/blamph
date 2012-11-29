@@ -56,6 +56,7 @@
 - (IBAction)selectAll:(id)sender;
 - (IBAction)copy:(id)sender;
 - (IBAction)paste:(id)sender;
+- (IBAction)pasteSpecial:(id)sender;
 - (IBAction)toggleStatusBar:(id)sender;
 - (IBAction)selectColorScheme:(id)sender;
 - (IBAction)changeFontSize:(id)sender;
