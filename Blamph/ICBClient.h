@@ -61,6 +61,7 @@
 - (void)connectUsingHostname:(NSString *)hostname
                      andPort:(UInt32)port
                  andNickname:(NSString *)userNickname
+            withAlterateNick:(NSString *)alternateNick
                    intoGroup:(NSString *)initalGroup
                 withPassword:(NSString *)password;
 

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C22328371667F2AE00D3C60F /* URLHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = C22328361667F2AE00D3C60F /* URLHelper.m */; };
 		C24330AC1645958A0039A005 /* ClientCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = C24330AB1645958A0039A005 /* ClientCommand.m */; };
 		C24330D31645B3780039A005 /* WriteMessageCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = C24330D21645B3780039A005 /* WriteMessageCommand.m */; };
 		C24330D61645B7950039A005 /* MessageCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = C24330D51645B7950039A005 /* MessageCommand.m */; };
@@ -126,6 +127,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		C22328351667F2AE00D3C60F /* URLHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = URLHelper.h; sourceTree = "<group>"; };
+		C22328361667F2AE00D3C60F /* URLHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = URLHelper.m; sourceTree = "<group>"; };
 		C24330AA1645958A0039A005 /* ClientCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClientCommand.h; sourceTree = "<group>"; };
 		C24330AB1645958A0039A005 /* ClientCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClientCommand.m; sourceTree = "<group>"; };
 		C24330D11645B3780039A005 /* WriteMessageCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WriteMessageCommand.h; sourceTree = "<group>"; };
@@ -340,6 +343,8 @@
 				C2B3B0491657DC6D00D0991B /* GeneralViewController.m */,
 				C2B3B04D1657DC7400D0991B /* AdvancedViewController.h */,
 				C2B3B04E1657DC7500D0991B /* AdvancedViewController.m */,
+				C22328351667F2AE00D3C60F /* URLHelper.h */,
+				C22328361667F2AE00D3C60F /* URLHelper.m */,
 				C2F19576163F26E3006D48A4 /* Supporting Files */,
 			);
 			path = Blamph;
@@ -618,6 +623,7 @@
 				C2B3B0501657DC7500D0991B /* AdvancedViewController.m in Sources */,
 				C2BA824D165B1D1E005C88DE /* NicknameHistory.m in Sources */,
 				C2AB6AB81661922900BC4A2B /* NoOpPacket.m in Sources */,
+				C22328371667F2AE00D3C60F /* URLHelper.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -29,7 +29,12 @@
 @private
     enum { kDisconnected, kDisconnecting, kConnecting, kConnected } _connectionState;
     
+    NSUInteger _reconnectNeeded;
+    
+    NSString *_hostname;
+    UInt32 _port;
     NSString *_nickname;
+    NSString *_alternateNickname;
     NSString *_initialGroup;
     NSString *_password;
     
@@ -95,6 +100,20 @@
         case kDisconnected:
             notificationName = kICBClient_disconnected;
             [self stopKeepAliveTimer];
+            
+            if (_reconnectNeeded == 1)
+            {
+                [self connectUsingHostname:_hostname
+                                   andPort:_port
+                               andNickname:_nickname
+                          withAlterateNick:_alternateNickname
+                                 intoGroup:_initialGroup
+                              withPassword:_password];
+            }
+            else
+            {
+                _reconnectNeeded = 0;
+            }
             break;
         case kDisconnecting:
             notificationName = kICBClient_disconnecting;
@@ -118,6 +137,7 @@
 - (void)connectUsingHostname:(NSString *)hostname
                      andPort:(UInt32)port
                  andNickname:(NSString *)userNickname
+            withAlterateNick:(NSString *)alternateNick
                    intoGroup:(NSString *)userGroup
                 withPassword:(NSString *)userPassword
 {
@@ -130,7 +150,10 @@
     
     [self changeConnectingState:kConnecting];
     
+    _hostname = hostname;
+    _port = port;
     _nickname = userNickname;
+    _alternateNickname = alternateNick;
     _initialGroup = userGroup;
     _password = userPassword;
     
@@ -225,14 +248,26 @@
         PersonalPacket *p = (PersonalPacket *)packet;
         [self.nicknameHistory add:p.nick];
     }
+    else if ([packet isKindOfClass:[ErrorPacket class]])
+    {
+        [self handleErrorPacket:(ErrorPacket *)packet];
+    }
     
     [[NSNotificationCenter defaultCenter] postNotificationName:kICBClient_packet
                                                         object:packet];
 }
 
+- (void)handleErrorPacket:(ErrorPacket *)packet
+{
+    if ([[packet errorText] compare:@"Nickname already in use."] == NSOrderedSame)
+    {
+        _reconnectNeeded++;
+    }
+}
+
 - (void)handleLoginPacket:(LoginPacket *)packet
 {
-    // TODO: reconnectNeeded = false
+    _reconnectNeeded = 0;
 
     // TODO: make echoback optional?
     CommandPacket *p = [[CommandPacket alloc] initWithCommand:@"echoback"
@@ -252,8 +287,14 @@
     }
     else
     {
-        LoginPacket *loginPacket = [[LoginPacket alloc] initWithUserDetails:_nickname
-                                                                       nick:_nickname
+        NSString *nick = _nickname;
+        if (_reconnectNeeded > 0)
+        {
+            nick = _alternateNickname;
+        }
+        
+        LoginPacket *loginPacket = [[LoginPacket alloc] initWithUserDetails:nick
+                                                                       nick:nick
                                                                       group:_initialGroup
                                                                     command:@"login"
                                                                    password:_password];

@@ -21,98 +21,109 @@
 #import "ProtocolPacket.h"
 #import "OpenPacket.h"
 #import "StatusPacket.h"
+#import "URLHelper.h"
 
 @interface UIController()
 {
 @private
-    NSColor *backgroundColor;
-    NSColor *openTextColor;
-    NSColor *openNickColor;
-    NSColor *personalTextColor;
-    NSColor *personalNickColor;
-    NSColor *commandTextColor;
-    NSColor *errorTextColor;
-    NSColor *statusHeaderColor;
-    NSColor *statusTextColor;
-    NSColor *timestampColor;
-    NSColor *inputColor;
+    NSColor *_backgroundColor;
+    NSColor *_openTextColor;
+    NSColor *_openNickColor;
+    NSColor *_personalTextColor;
+    NSColor *_personalNickColor;
+    NSColor *_commandTextColor;
+    NSColor *_errorTextColor;
+    NSColor *_statusHeaderColor;
+    NSColor *_statusTextColor;
+    NSColor *_timestampColor;
+    NSColor *_inputColor;
     
-    NSFont *outputFont;
-    NSFont *timestampFont;
+    NSFont *_outputFont;
+    NSFont *_timestampFont;
     
-    NSDate *connectedTime;
-    NSDate *lastMessageSentAt;
+    NSDate *_connectedTime;
+    NSDate *_lastMessageSentAt;
+    
+    NSDictionary *_packetHandlers;
 }
 @end
 
 @implementation UIController
 
-@synthesize progressIndicator;
-@synthesize inputTextView;
-@synthesize outputTextView;
-@synthesize connectMenuItem;
-@synthesize disconnectMenuItem;
-@synthesize menuItemCopy;
-@synthesize menuItemPaste;
-@synthesize menuItemToggleStatusBar;
-@synthesize menuItemUseTransparency;
-@synthesize menuItemIncreaseFontSize;
-@synthesize menuItemDefaultFontSize;
-@synthesize menuItemDecreaseFontSize;
-@synthesize splitView;
-@synthesize bottomConstraint;
-@synthesize statusBarView;
-@synthesize connectionStatusLabel;
-@synthesize connectionTimeLabel;
-@synthesize idleTimeLabel;
-@synthesize timer;
+@synthesize progressIndicator=_progressIndicator;
+@synthesize inputTextView=_inputTextView;
+@synthesize outputTextView=_outputTextView;
+@synthesize connectMenuItem=_connectMenuItem;
+@synthesize disconnectMenuItem=_disconnectMenuItem;
+@synthesize menuItemCopy=_menuItemCopy;
+@synthesize menuItemPaste=_menuItemPaste;
+@synthesize menuItemToggleStatusBar=_menuItemToggleStatusBar;
+@synthesize menuItemUseTransparency=_menuItemUseTransparency;
+@synthesize menuItemIncreaseFontSize=_menuItemIncreaseFontSize;
+@synthesize menuItemDefaultFontSize=_menuItemDefaultFontSize;
+@synthesize menuItemDecreaseFontSize=_menuItemDecreaseFontSize;
+@synthesize splitView=_splitView;
+@synthesize bottomConstraint=_bottomConstraint;
+@synthesize statusBarView=_statusBarView;
+@synthesize connectionStatusLabel=_connectionStatusLabel;
+@synthesize connectionTimeLabel=_connectionTimeLabel;
+@synthesize idleTimeLabel=_idleTimeLabel;
+@synthesize timer=_timer;
 
-#define kOutputScrollbackSize   1000
-#define kColorSchemeDefault     1001
-#define kColorSchemeOldSchool   1002
+#define kOutputScrollbackSize       1000
+#define kColorSchemeDefault         1001
+#define kColorSchemeOldSchool       1002
 
-#define kFontName               @"Monaco"
-#define kTextStyle              @"textStyle"
-#define kTextStyleTimestamp     @"textStyleTimestamp"
-#define kTextStyleOpenNick      @"textStyleOpenNick"
-#define kTextStyleOpenText      @"textStyleOpenText"
-#define kTextStylePersonalNick  @"textStylePersonalNick"
-#define kTextStylePersonalText  @"textStylePersonalText"
-#define kTextStyleStatusHeader  @"textStyleStatusHeader"
-#define kTextStyleStatusText    @"textStyleStatusText"
-#define kTextStyleCommandText   @"textStyleCommandText"
-#define kTextStyleErrorHeader   @"textStyleErrorHeader"
-#define kTextStyleErrorText     @"textStyleErrorText"
+#define kFontName                   @"Monaco"
+#define kTextStyle                  @"textStyle"
+#define kTextStyleTimestamp         @"textStyleTimestamp"
+#define kTextStyleOpenNick          @"textStyleOpenNick"
+#define kTextStyleOpenText          @"textStyleOpenText"
+#define kTextStylePersonalNick      @"textStylePersonalNick"
+#define kTextStylePersonalText      @"textStylePersonalText"
+#define kTextStyleStatusHeader      @"textStyleStatusHeader"
+#define kTextStyleStatusText        @"textStyleStatusText"
+#define kTextStyleCommandText       @"textStyleCommandText"
+#define kTextStyleErrorHeader       @"textStyleErrorHeader"
+#define kTextStyleErrorText         @"textStyleErrorText"
 
-#define kColorScheme            @"colorScheme"
-#define kUseTransparency        @"useTransparency"
-#define kOpacityLevel           @"opacityLevel"
+#define kColorScheme                @"colorScheme"
+#define kUseTransparency            @"useTransparency"
+#define kOpacityLevel               @"opacityLevel"
+#define kOutputFontPointSize        @"outputFontPointSize"
+#define kTimestampFontPointSize     @"timestampFontPointSize"
 
-#define kURLPattern             @"(?s)((?:\\w+://|\\bwww\\.[^.])\\S+)"
+#define kCommandPrefix              '/'
+
+#define kDefaultOutputFontSize      12.0
+#define kDefaultTimestampFontSize   10.0
 
 + (void)initialize
-{    
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    
+{
     // load the default values for the user defaults
     NSDictionary *d = [NSDictionary dictionaryWithObjectsAndKeys:
                        [NSNumber numberWithInt:kColorSchemeDefault], kColorScheme,
                        [NSNumber numberWithBool:YES], kUseTransparency,
                        [NSNumber numberWithFloat:0.75], kOpacityLevel,
-                       [NSNumber numberWithDouble:12.0], @"outputFontPointSize",
-                       [NSNumber numberWithDouble:10.0], @"timestampFontPointSize",
+                       [NSNumber numberWithDouble:kDefaultOutputFontSize], kOutputFontPointSize,
+                       [NSNumber numberWithDouble:kDefaultTimestampFontSize], kTimestampFontPointSize,
                        nil];
-    [userDefaults registerDefaults:d];
+    [[NSUserDefaults standardUserDefaults] registerDefaults:d];
 }
 
 - (id)init
 {
     if (self = [super init])
     {
+        [self setupPacketHandlers];
+        
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(clientNotify:)
                                                      name:nil
                                                    object:self.client];
+        
+        // Observer particular user defaults so we can update the UI anytime
+        // they change.
         NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
         
         [userDefaults addObserver:self
@@ -124,7 +135,6 @@
                        forKeyPath:kOpacityLevel
                           options:NSKeyValueObservingOptionNew
                           context:NULL];
-
     }
     return self;
 }
@@ -134,11 +144,11 @@
     [super awakeFromNib];
 
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    
-    outputFont = [NSFont fontWithName:kFontName
-                                 size:[userDefaults doubleForKey:@"outputFontPointSize"]];
-    timestampFont = [NSFont fontWithName:kFontName
-                                    size:[userDefaults doubleForKey:@"timestampFontPointSize"]];
+
+    _outputFont = [NSFont fontWithName:kFontName
+                                 size:[userDefaults doubleForKey:kOutputFontPointSize]];
+    _timestampFont = [NSFont fontWithName:kFontName
+                                    size:[userDefaults doubleForKey:kTimestampFontPointSize]];
     
     NSInteger colorScheme = [[userDefaults valueForKey:kColorScheme] intValue];
     switch (colorScheme)
@@ -151,15 +161,14 @@
             break;
     }
     
-    [self.inputTextView setFont:outputFont];
-    [self.outputTextView setFont:outputFont];
-    [self.outputTextView setBackgroundColor:backgroundColor];
-    [self.outputTextView setTextColor:commandTextColor];
+    [self.inputTextView setFont:_outputFont];
+    [self.outputTextView setFont:_outputFont];
+    [self.outputTextView setBackgroundColor:_backgroundColor];
+    [self.outputTextView setTextColor:_commandTextColor];
     
     [self.window makeFirstResponder:self.inputTextView];
 
-    [self setTransparency:[[NSUserDefaults standardUserDefaults]
-                           boolForKey:kUseTransparency]];
+    [self setTransparency:[userDefaults boolForKey:kUseTransparency]];
 }
 
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem
@@ -191,33 +200,34 @@
 
 - (BOOL)textView:(NSTextView *)aTextView doCommandBySelector:(SEL)aSelector
 {
-    if (aTextView != self.inputTextView)
-        return NO;
-    
-    if (aSelector == @selector(insertNewline:))
+    BOOL handled = NO;
+
+    if (aTextView == self.inputTextView)
     {
-        NSString *text = [[aTextView textStorage] string];
-        [self submitTextInput:text];
-        [aTextView selectAll:nil];
-        [aTextView delete:nil];
-        return YES;
-    }
-    
-    if (aSelector == @selector(insertTab:))
-    {
-        NSString *nickname = [self.client.nicknameHistory next];
-        if (nickname != nil)
+        if (aSelector == @selector(insertNewline:))
         {
-            [self setNickname:nickname];
+            NSString *text = [[aTextView textStorage] string];
+            [self submitTextInput:text];
+            [aTextView selectAll:nil];
+            [aTextView delete:nil];
+            handled = YES;
         }
-        else
+        else if (aSelector == @selector(insertTab:))
         {
-            NSBeep();
+            NSString *nickname = [self.client.nicknameHistory next];
+            if (nickname != nil)
+            {
+                [self setNickname:nickname];
+            }
+            else
+            {
+                NSBeep();
+            }
+            handled = YES;
         }
-        return YES;
     }
-    
-    return NO;
+
+    return handled;
 }
 
 - (void)submitTextInput:(NSString *)cmd
@@ -227,14 +237,14 @@
     
     // if the input isn't prefixed with the command character just send
     // the text as an open message
-    if ([cmd characterAtIndex:0] != '/')
+    if ([cmd characterAtIndex:0] != kCommandPrefix)
     {
         [self.client sendOpenMessage:cmd];
     }
     
     // check if they escaped the / with another and send it as an open
     // message
-    else if ([cmd characterAtIndex:1] == '/')
+    else if ([cmd characterAtIndex:1] == kCommandPrefix)
     {
         [self.client sendOpenMessage:[cmd substringFromIndex:1]];
     }
@@ -257,56 +267,45 @@
         }
     }
     
-    lastMessageSentAt = [NSDate date];
+    _lastMessageSentAt = [NSDate date];
 }
 
 - (void)displayText:(NSString *)text
       withTextStyle:(NSString *)textStyle
 {
-    const NSTextStorage *textStorage = self.outputTextView.textStorage;
-    
     NSMutableAttributedString *as = [[NSMutableAttributedString alloc] initWithString:text];
+    const NSRange textRange = NSMakeRange(0, [text length]);
     [as addAttribute:NSFontAttributeName
-               value:outputFont
-               range:NSMakeRange(0, [text length])];
+               value:_outputFont
+               range:textRange];
     
     NSColor *foreground = [self getForegroundColor:textStyle];
-    NSColor *background = backgroundColor;
+    NSColor *background = _backgroundColor;
     
     [as addAttribute:NSBackgroundColorAttributeName
                value:background
-               range:NSMakeRange(0, [text length])];
+               range:textRange];
     [as addAttribute:NSForegroundColorAttributeName
                value:foreground
-               range:NSMakeRange(0, [text length])];
+               range:textRange];
     [as addAttribute:kTextStyle
                value:textStyle
-               range:NSMakeRange(0, [text length])];
+               range:textRange];
+
+    [URLHelper findURLsInText:as];
     
-    NSError *error = NULL;
-    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:kURLPattern
-                                                                           options:NSRegularExpressionCaseInsensitive
-                                                                             error:&error];
-    
-    NSArray *matches = [regex matchesInString:text
-                                      options:0
-                                        range:NSMakeRange(0, [text length])];
-    
-    for (NSTextCheckingResult *match in matches)
-    {
-        NSRange urlRange = [match rangeAtIndex:1];
-        NSString *urlText = [text substringWithRange:urlRange];
-        
-        [as addAttribute:NSLinkAttributeName
-                   value:[NSURL URLWithString:urlText]
-                   range:urlRange];
-    }
-    
+    const NSTextStorage *textStorage = self.outputTextView.textStorage;
     [textStorage appendAttributedString:as];
 }
 
 - (void)setNickname:(NSString *)nickname
 {
+    // Parse the current input text to look to see if there is matching pattern
+    // for a command that includes a user's nickname, such as /m foo bar.
+    // If a matching pattern is found, replace the nickname in the current text
+    // with the one specified, otherwise change the input string to be
+    // /m <newnick> <text>.
+    
     NSError *error = NULL;
     NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"(\\S*)\\s*(\\S*)(.*)"
                                                                            options:NSRegularExpressionCaseInsensitive
@@ -317,7 +316,7 @@
     NSString *inputText = [storage string];
     NSString *newText;
     
-    if ([inputText length] > 0 && [inputText characterAtIndex:0] == '/')
+    if ([inputText length] > 0 && [inputText characterAtIndex:0] == kCommandPrefix)
     {
         NSArray *matches = [regex matchesInString:inputText
                                           options:0
@@ -352,20 +351,20 @@
    clickedOnLink:(id)link
          atIndex:(NSUInteger)charIndex
 {
-    if (aTextView != self.outputTextView)
-        return NO;
-    
     BOOL handled = NO;
-    if ([link isKindOfClass:[NSURL class]])
+    if (aTextView == self.outputTextView)
     {
-        [[NSWorkspace sharedWorkspace] openURL:link];
-        handled = YES;
-    }
-    else if ([link isKindOfClass:[NSString class]])
-    {
-        NSString *nickname = link;
-        [self setNickname:nickname];
-        handled = YES;
+        if ([link isKindOfClass:[NSURL class]])
+        {
+            [[NSWorkspace sharedWorkspace] openURL:link];
+            handled = YES;
+        }
+        else if ([link isKindOfClass:[NSString class]])
+        {
+            NSString *nickname = link;
+            [self setNickname:nickname];
+            handled = YES;
+        }
     }
     return handled;
 }
@@ -379,6 +378,7 @@
 {
     NSPasteboard *pasteboard = [NSPasteboard generalPasteboard];
     (void)[pasteboard clearContents];
+    
     NSArray *selectedRanges = [self.outputTextView selectedRanges];
     NSMutableArray *selectedText = [NSMutableArray arrayWithCapacity:[selectedRanges count]];
     for (NSValue *rangeValue in selectedRanges)
@@ -439,6 +439,9 @@
 
 - (IBAction)pasteSpecial:(id)sender
 {
+    // a special paste will look for URLs in the pasteboard text and then
+    // send them to a URL shortener processor before they are pasted to the
+    // input buffer
     NSPasteboard *pasteboard = [NSPasteboard generalPasteboard];
     NSArray *classes = [[NSArray alloc] initWithObjects:[NSString class], nil];
     NSDictionary *options = [NSDictionary dictionary];
@@ -461,6 +464,9 @@
             NSString *urlText = [text substringWithRange:urlRange];
             [self shortenURL:urlText];
         }
+        
+        // TODO: this special paste doesn't deal with the text in the pasteboard
+        // that aren't URL's! whoops
     }
 }
 
@@ -516,33 +522,33 @@
 {
     if (sender == self.menuItemIncreaseFontSize)
     {
-        CGFloat pointSize = outputFont.pointSize;
+        CGFloat pointSize = _outputFont.pointSize;
         pointSize += 1.0;
-        outputFont = [NSFont fontWithName:kFontName size:pointSize];
+        _outputFont = [NSFont fontWithName:kFontName size:pointSize];
         
-        pointSize = timestampFont.pointSize;
+        pointSize = _timestampFont.pointSize;
         pointSize += 1.0;
-        timestampFont = [NSFont fontWithName:kFontName size:pointSize];
+        _timestampFont = [NSFont fontWithName:kFontName size:pointSize];
     }
     else if (sender == self.menuItemDecreaseFontSize)
     {
-        CGFloat pointSize = outputFont.pointSize;
+        CGFloat pointSize = _outputFont.pointSize;
         pointSize -= 1.0;
-        outputFont = [NSFont fontWithName:kFontName size:pointSize];
+        _outputFont = [NSFont fontWithName:kFontName size:pointSize];
         
-        pointSize = timestampFont.pointSize;
+        pointSize = _timestampFont.pointSize;
         pointSize -= 1.0;
-        timestampFont = [NSFont fontWithName:kFontName size:pointSize];
+        _timestampFont = [NSFont fontWithName:kFontName size:pointSize];
     }
     else
     {
-        outputFont = [NSFont fontWithName:kFontName size:12.0f];
-        timestampFont = [NSFont fontWithName:kFontName size:10.0f];
+        _outputFont = [NSFont fontWithName:kFontName size:kDefaultOutputFontSize];
+        _timestampFont = [NSFont fontWithName:kFontName size:kDefaultTimestampFontSize];
     }
     
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    [userDefaults setValue:[NSNumber numberWithDouble:[outputFont pointSize]] forKey:@"outputFontPointSize"];
-    [userDefaults setValue:[NSNumber numberWithDouble:[timestampFont pointSize]] forKey:@"timestampFontPointSize"];
+    [userDefaults setValue:[NSNumber numberWithDouble:[_outputFont pointSize]] forKey:kOutputFontPointSize];
+    [userDefaults setValue:[NSNumber numberWithDouble:[_timestampFont pointSize]] forKey:kTimestampFontPointSize];
 
     [self didUpdateFonts];
 }
@@ -568,43 +574,43 @@
     
     if ([textStyle compare:kTextStyleTimestamp] == NSOrderedSame)
     {
-        foreground = timestampColor;
+        foreground = _timestampColor;
     }
     else if ([textStyle compare:kTextStyleOpenNick] == NSOrderedSame)
     {
-        foreground = openNickColor;
+        foreground = _openNickColor;
     }
     else if ([textStyle compare:kTextStyleOpenText] == NSOrderedSame)
     {
-        foreground = openTextColor;
+        foreground = _openTextColor;
     }
     else if ([textStyle compare:kTextStylePersonalNick] == NSOrderedSame)
     {
-        foreground = openNickColor;
+        foreground = _openNickColor;
     }
     else if ([textStyle compare:kTextStylePersonalText] == NSOrderedSame)
     {
-        foreground = personalTextColor;
+        foreground = _personalTextColor;
     }
     else if ([textStyle compare:kTextStyleStatusHeader] == NSOrderedSame)
     {
-        foreground = statusHeaderColor;
+        foreground = _statusHeaderColor;
     }
     else if ([textStyle compare:kTextStyleStatusText] == NSOrderedSame)
     {
-        foreground = statusTextColor;
+        foreground = _statusTextColor;
     }
     else if ([textStyle compare:kTextStyleCommandText] == NSOrderedSame)
     {
-        foreground = commandTextColor;
+        foreground = _commandTextColor;
     }
     else if ([textStyle compare:kTextStyleErrorHeader] == NSOrderedSame)
     {
-        foreground = errorTextColor;
+        foreground = _errorTextColor;
     }
     else if ([textStyle compare:kTextStyleErrorText] == NSOrderedSame)
     {
-        foreground = errorTextColor;
+        foreground = _errorTextColor;
     }
 
     NSAssert(foreground != nil, @"unknown text style");
@@ -613,8 +619,8 @@
 
 - (void)didUpdateFonts
 {
-    [progressIndicator setHidden:NO];
-    [progressIndicator startAnimation:self];
+    [self.progressIndicator setHidden:NO];
+    [self.progressIndicator startAnimation:self];
     
     NSTextStorage *textStorage = [self.outputTextView textStorage];
     [textStorage beginEditing];
@@ -623,35 +629,34 @@
     {
         *stop = NO;
 
-        NSFont *font = outputFont;
+        NSFont *font = _outputFont;
         if ([(NSString *)value compare:kTextStyleTimestamp] == NSOrderedSame)
         {
-            font = timestampFont;
+            font = _timestampFont;
         }
         [textStorage addAttribute:NSFontAttributeName
                             value:font
                             range:range];
-        
     };
-    
+
     [textStorage enumerateAttribute:kTextStyle
                             inRange:NSMakeRange(0, [textStorage length])
                             options:0
                          usingBlock:searchBlock];
-    
+
     [textStorage endEditing];
-    
-    [self.inputTextView setFont:outputFont];
-    [self.outputTextView setFont:outputFont];
-    
-    [progressIndicator setHidden:YES];
-    [progressIndicator stopAnimation:self];
+
+    [self.inputTextView setFont:_outputFont];
+    [self.outputTextView setFont:_outputFont];
+
+    [self.progressIndicator setHidden:YES];
+    [self.progressIndicator stopAnimation:self];
 }
 
 - (void)didUpdateColorScheme
 {
-    [progressIndicator setHidden:NO];
-    [progressIndicator startAnimation:self];
+    [self.progressIndicator setHidden:NO];
+    [self.progressIndicator startAnimation:self];
     
     NSTextStorage *textStorage = [self.outputTextView textStorage];
     [textStorage beginEditing];
@@ -661,7 +666,7 @@
         *stop = NO;
         
         [textStorage addAttribute:NSBackgroundColorAttributeName
-                            value:backgroundColor
+                            value:_backgroundColor
                             range:range];
         
         [textStorage addAttribute:NSForegroundColorAttributeName
@@ -676,29 +681,29 @@
 
     [textStorage endEditing];
     
-    [self.inputTextView setBackgroundColor:backgroundColor];
-    [self.inputTextView setInsertionPointColor:inputColor];
-    [self.inputTextView setTextColor:inputColor];
+    [self.inputTextView setBackgroundColor:_backgroundColor];
+    [self.inputTextView setInsertionPointColor:_inputColor];
+    [self.inputTextView setTextColor:_inputColor];
     
-    [self.outputTextView setBackgroundColor:backgroundColor];
+    [self.outputTextView setBackgroundColor:_backgroundColor];
     
-    [progressIndicator setHidden:YES];
-    [progressIndicator stopAnimation:self];
+    [self.progressIndicator setHidden:YES];
+    [self.progressIndicator stopAnimation:self];
 }
 
 - (void)selectDefaultColors
 {
-    backgroundColor = [NSColor whiteColor];
-    openTextColor = [NSColor blackColor];
-    openNickColor = [NSColor blueColor];
-    personalTextColor = [NSColor darkGrayColor];
-    personalNickColor = [NSColor lightGrayColor];
-    commandTextColor = [NSColor blackColor];
-    errorTextColor = [NSColor redColor];
-    statusHeaderColor = [NSColor orangeColor];
-    statusTextColor = [NSColor blackColor];
-    timestampColor = [NSColor lightGrayColor];
-    inputColor = [NSColor blackColor];
+    _backgroundColor = [NSColor whiteColor];
+    _openTextColor = [NSColor blackColor];
+    _openNickColor = [NSColor blueColor];
+    _personalTextColor = [NSColor darkGrayColor];
+    _personalNickColor = [NSColor lightGrayColor];
+    _commandTextColor = [NSColor blackColor];
+    _errorTextColor = [NSColor redColor];
+    _statusHeaderColor = [NSColor orangeColor];
+    _statusTextColor = [NSColor blackColor];
+    _timestampColor = [NSColor lightGrayColor];
+    _inputColor = [NSColor blackColor];
 
     [self.progressIndicator setControlTint:NSDefaultControlTint];
     
@@ -710,17 +715,17 @@
 
 - (void)selectOldSchoolColors
 {
-    backgroundColor = [NSColor blackColor];
-    openTextColor = [NSColor greenColor];
-    openNickColor = [NSColor blueColor];
-    personalTextColor = [NSColor colorWithSRGBRed:1.0 green:191.0/255.0 blue:0.0 alpha:1.0];
-    personalNickColor = [NSColor colorWithSRGBRed:1.0 green:126.0/255.0 blue:0.0 alpha:1.0];
-    commandTextColor = [NSColor colorWithSRGBRed:0xfa/255.0 green:0xe1/255.0 blue:0x34/255.0 alpha:1.0];
-    errorTextColor = [NSColor redColor];
-    statusHeaderColor = [NSColor orangeColor];
-    statusTextColor = [NSColor greenColor];
-    timestampColor = [NSColor lightGrayColor];
-    inputColor = [NSColor colorWithSRGBRed:0xfa/255.0 green:0xe1/255.0 blue:0x34/255.0 alpha:1.0];
+    _backgroundColor = [NSColor blackColor];
+    _openTextColor = [NSColor greenColor];
+    _openNickColor = [NSColor blueColor];
+    _personalTextColor = [NSColor colorWithSRGBRed:1.0 green:191.0/255.0 blue:0.0 alpha:1.0];
+    _personalNickColor = [NSColor colorWithSRGBRed:1.0 green:126.0/255.0 blue:0.0 alpha:1.0];
+    _commandTextColor = [NSColor colorWithSRGBRed:0xfa/255.0 green:0xe1/255.0 blue:0x34/255.0 alpha:1.0];
+    _errorTextColor = [NSColor redColor];
+    _statusHeaderColor = [NSColor orangeColor];
+    _statusTextColor = [NSColor greenColor];
+    _timestampColor = [NSColor lightGrayColor];
+    _inputColor = [NSColor colorWithSRGBRed:0xfa/255.0 green:0xe1/255.0 blue:0x34/255.0 alpha:1.0];
 
     [self.progressIndicator setControlTint:NSBlueControlTint];
     
@@ -755,13 +760,13 @@
     
     NSRange range = NSMakeRange(0, [as length]);
     [as addAttribute:NSFontAttributeName
-               value:timestampFont
+               value:_timestampFont
                range:range];
     [as addAttribute:NSBackgroundColorAttributeName
-               value:backgroundColor
+               value:_backgroundColor
                range:range];
     [as addAttribute:NSForegroundColorAttributeName
-               value:timestampColor
+               value:_timestampColor
                range:range];
     [as addAttribute:kTextStyle
                value:kTextStyleTimestamp
@@ -786,21 +791,21 @@
     const NSRange nickRange = NSMakeRange(0, [p.nick length] + 2);
     const NSRange nickOnlyRange = NSMakeRange(1, [p.nick length]);
     
+    [as addAttribute:NSLinkAttributeName
+               value:p.nick
+               range:nickOnlyRange];
     [as addAttribute:NSFontAttributeName
-               value:outputFont
+               value:_outputFont
                range:nickRange];
     [as addAttribute:NSBackgroundColorAttributeName
-               value:backgroundColor
+               value:_backgroundColor
                range:nickRange];
     [as addAttribute:NSForegroundColorAttributeName
-               value:openNickColor
+               value:_openNickColor
                range:nickRange];
     [as addAttribute:kTextStyle
                value:kTextStyleOpenNick
                range:nickRange];
-    
-    [as addAttribute:NSLinkAttributeName value:p.nick
-               range:nickOnlyRange];
     
     [textStorage appendAttributedString:as];
     
@@ -819,22 +824,21 @@
     const NSRange nickRange = NSMakeRange(0, [p.nick length] + 4);
     const NSRange nickOnlyRange = NSMakeRange(2, [p.nick length]);
     
+    [as addAttribute:NSLinkAttributeName
+               value:p.nick
+               range:nickOnlyRange];
     [as addAttribute:NSBackgroundColorAttributeName
-               value:backgroundColor
+               value:_backgroundColor
                range:nickRange];
     [as addAttribute:NSForegroundColorAttributeName
-               value:personalNickColor
+               value:_personalNickColor
                range:nickRange];
     [as addAttribute:NSFontAttributeName
-               value:outputFont
+               value:_outputFont
                range:nickRange];
     [as addAttribute:kTextStyle
                value:kTextStylePersonalNick
                range:nickRange];
-
-    [as addAttribute:NSLinkAttributeName
-               value:p.nick
-               range:nickOnlyRange];
 
     [textStorage appendAttributedString:as];
     
@@ -857,31 +861,28 @@
     const NSRange nickOnlyRange = NSMakeRange(headerLength, nickLength);
     
     NSMutableAttributedString *as = [[NSMutableAttributedString alloc] initWithString:s];
+    [as addAttribute:NSLinkAttributeName
+               value:p.nick
+               range:nickOnlyRange];
     [as addAttribute:NSFontAttributeName
-               value:outputFont
+               value:_outputFont
                range:textRange];
     [as addAttribute:NSBackgroundColorAttributeName
-               value:backgroundColor
+               value:_backgroundColor
                range:textRange];
-
     [as addAttribute:NSForegroundColorAttributeName
-               value:statusHeaderColor
+               value:_statusHeaderColor
                range:headerRange];
     [as addAttribute:kTextStyle
                value:kTextStyleStatusHeader
                range:headerRange];
-    
     [as addAttribute:NSForegroundColorAttributeName
-               value:statusTextColor
+               value:_statusTextColor
                range:NSMakeRange(headerLength + nickLength, textLength - nickLength - headerLength)];
     [as addAttribute:kTextStyle
                value:kTextStyleStatusText
                range:statusRange];
 
-    [as addAttribute:NSLinkAttributeName
-               value:p.nick
-               range:nickOnlyRange];
-    
     [textStorage appendAttributedString:as];
     
     NSBeep();
@@ -896,13 +897,13 @@
     
     const NSRange textRange = NSMakeRange(0, [as length]);
     [as addAttribute:NSFontAttributeName
-               value:outputFont
+               value:_outputFont
                range:textRange];
     [as addAttribute:NSBackgroundColorAttributeName
-               value:backgroundColor
+               value:_backgroundColor
                range:textRange];
     [as addAttribute:NSForegroundColorAttributeName
-               value:statusHeaderColor
+               value:_statusHeaderColor
                range:textRange];
     [as addAttribute:kTextStyle
                value:kTextStyleStatusHeader
@@ -919,13 +920,13 @@
                                      initWithString:@"[=Ping!=]\n"];
     
     [as addAttribute:NSFontAttributeName
-               value:outputFont
+               value:_outputFont
                range:NSMakeRange(0, [as length])];
     [as addAttribute:NSBackgroundColorAttributeName
-               value:backgroundColor
+               value:_backgroundColor
                range:NSMakeRange(0, [as length])];
     [as addAttribute:NSForegroundColorAttributeName
-               value:statusHeaderColor
+               value:_statusHeaderColor
                range:NSMakeRange(0, [as length])];
     [as addAttribute:kTextStyle
                value:kTextStyleStatusHeader
@@ -942,18 +943,19 @@
                    p.serverName, p.serverDescription];
     NSMutableAttributedString *as = [[NSMutableAttributedString alloc] initWithString:s];
     
+    const NSRange textRange = NSMakeRange(0, [as length]);
     [as addAttribute:NSFontAttributeName
-               value:outputFont
-               range:NSMakeRange(0, [as length])];
+               value:_outputFont
+               range:textRange];
     [as addAttribute:NSBackgroundColorAttributeName
-               value:backgroundColor
-               range:NSMakeRange(0, [as length])];
+               value:_backgroundColor
+               range:textRange];
     [as addAttribute:NSForegroundColorAttributeName
-               value:commandTextColor
-               range:NSMakeRange(0, [as length])];
+               value:_commandTextColor
+               range:textRange];
     [as addAttribute:kTextStyle
                value:kTextStyleCommandText
-               range:NSMakeRange(0, [as length])];
+               range:textRange];
     
     [textStorage appendAttributedString:as];
 }
@@ -968,20 +970,20 @@
     NSUInteger headerLength = 4 + [p.header length];
     
     [as addAttribute:NSFontAttributeName
-               value:outputFont
+               value:_outputFont
                range:NSMakeRange(0, [as length])];
     [as addAttribute:NSBackgroundColorAttributeName
-               value:backgroundColor
+               value:_backgroundColor
                range:NSMakeRange(0, textLength)];
     [as addAttribute:NSForegroundColorAttributeName
-               value:statusHeaderColor
+               value:_statusHeaderColor
                range:NSMakeRange(0, headerLength)];
     [as addAttribute:kTextStyle
                value:kTextStyleStatusHeader
                range:NSMakeRange(0, headerLength)];
     
     [as addAttribute:NSForegroundColorAttributeName
-               value:statusTextColor
+               value:_statusTextColor
                range:NSMakeRange(headerLength + 1, textLength - headerLength - 1)];
     [as addAttribute:kTextStyle
                value:kTextStyleStatusText
@@ -1001,21 +1003,21 @@
     NSUInteger headerLength = 9; // [=Error=]
     
     [as addAttribute:NSFontAttributeName
-               value:outputFont
+               value:_outputFont
                range:NSMakeRange(0, textLength)];
     [as addAttribute:NSBackgroundColorAttributeName
-               value:backgroundColor
+               value:_backgroundColor
                range:NSMakeRange(0, textLength)];
     
     [as addAttribute:NSForegroundColorAttributeName
-               value:errorTextColor
+               value:_errorTextColor
                range:NSMakeRange(0, headerLength)];
     [as addAttribute:kTextStyle
                value:kTextStyleErrorHeader
                range:NSMakeRange(0, headerLength)];
     
     [as addAttribute:NSForegroundColorAttributeName
-               value:errorTextColor
+               value:_errorTextColor
                range:NSMakeRange(headerLength + 1, textLength - headerLength - 1)];
     [as addAttribute:kTextStyle
                value:kTextStyleErrorText
@@ -1034,35 +1036,37 @@
     if ([p.outputType compare:@"gh"] == NSOrderedSame)
     {
         as = [[NSMutableAttributedString alloc] initWithString:@"Group     ## S  Moderator    \n"];
+        const NSRange textRange = NSMakeRange(0, [as length]);
         [as addAttribute:NSFontAttributeName
-                   value:outputFont
-                   range:NSMakeRange(0, [as length])];
+                   value:_outputFont
+                   range:textRange];
         [as addAttribute:NSBackgroundColorAttributeName
-                   value:backgroundColor
-                   range:NSMakeRange(0, [as length])];
+                   value:_backgroundColor
+                   range:textRange];
         [as addAttribute:NSForegroundColorAttributeName
-                   value:commandTextColor
-                   range:NSMakeRange(0, [as length])];
+                   value:_commandTextColor
+                   range:textRange];
         [as addAttribute:kTextStyle
                    value:kTextStyleCommandText
-                   range:NSMakeRange(0, [as length])];
+                   range:textRange];
         [textStorage appendAttributedString:as];
     }
     else if ([p.outputType compare:@"wh"] == NSOrderedSame)
     {
         as = [[NSMutableAttributedString alloc] initWithString:@"   Nickname      Idle      Sign-on  Account\n"];
+        const NSRange textRange = NSMakeRange(0, [as length]);
         [as addAttribute:NSFontAttributeName
-                   value:outputFont
-                   range:NSMakeRange(0, [as length])];
+                   value:_outputFont
+                   range:textRange];
         [as addAttribute:NSBackgroundColorAttributeName
-                   value:backgroundColor
-                   range:NSMakeRange(0, [as length])];
+                   value:_backgroundColor
+                   range:textRange];
         [as addAttribute:NSForegroundColorAttributeName
-                   value:commandTextColor
-                   range:NSMakeRange(0, [as length])];
+                   value:_commandTextColor
+                   range:textRange];
         [as addAttribute:kTextStyle
                    value:kTextStyleCommandText
-                   range:NSMakeRange(0, [as length])];
+                   range:textRange];
         [textStorage appendAttributedString:as];
     }
     else if ([p.outputType compare:@"wl"] == NSOrderedSame)
@@ -1080,34 +1084,35 @@
                                           startingAtIndex:0]];
         }
         
-        [ms appendFormat:@" %@ ", [self formatElapsedTime:[p idleTime]]];
-        [ms appendFormat:@"%@ ", [self formatEventTime:[p signOnTime]]];
+        [ms appendFormat:@" %@ ", [DateTimeUtils formatElapsedTime:[p idleTime]]];
+        [ms appendFormat:@"%@ ", [DateTimeUtils formatEventTime:[p signOnTime]]];
         [ms appendFormat:@"%@@%@\n", p.username, p.hostname];
         s = ms;
         
         NSMutableAttributedString *as = [[NSMutableAttributedString alloc] initWithString:s];
+        const NSRange textRange = NSMakeRange(0, [as length]);
+        const NSRange nickRange = NSMakeRange(1, [[p nickname] length]);
         [as addAttribute:NSFontAttributeName
-                   value:outputFont
-                   range:NSMakeRange(0, [as length])];
+                   value:_outputFont
+                   range:textRange];
         [as addAttribute:NSBackgroundColorAttributeName
-                   value:backgroundColor
-                   range:NSMakeRange(0, [as length])];
+                   value:_backgroundColor
+                   range:textRange];
         [as addAttribute:NSForegroundColorAttributeName
-                   value:commandTextColor
-                   range:NSMakeRange(0, [as length])];
+                   value:_commandTextColor
+                   range:textRange];
         [as addAttribute:kTextStyle
                    value:kTextStyleCommandText
-                   range:NSMakeRange(0, [as length])];
-        
-        [as addAttribute:NSForegroundColorAttributeName
-                   value:openNickColor
-                   range:NSMakeRange(1, [[p nickname] length])];
+                   range:textRange];
         [as addAttribute:NSLinkAttributeName
                    value:[p nickname]
-                   range:NSMakeRange(1, [[p nickname] length])];
+                   range:nickRange];
+        [as addAttribute:NSForegroundColorAttributeName
+                   value:_openNickColor
+                   range:nickRange];
         [as addAttribute:kTextStyle
                    value:kTextStyleOpenNick
-                   range:NSMakeRange(1, [[p nickname] length])];
+                   range:nickRange];
 
         [textStorage appendAttributedString:as];
     }
@@ -1118,107 +1123,91 @@
     }
 }
 
-- (NSString *)formatElapsedTime:(NSTimeInterval)elapsedTime
-{
-    return [DateTimeUtils formatElapsedTime:elapsedTime];
-}
-
-- (NSString *)formatEventTime:(NSDate *)time
-{
-    return [DateTimeUtils formatEventTime:time];
-}
-
 - (void)fireTimer:(id)arg
 {
     NSTimeInterval now = [[NSDate date] timeIntervalSince1970];
     
-    NSTimeInterval start = [connectedTime timeIntervalSince1970];
+    NSTimeInterval start = [_connectedTime timeIntervalSince1970];
     NSTimeInterval elapsedTime = now - start;
     NSString *elapsedText = [DateTimeUtils formatSimpleTime:elapsedTime];
-    [connectionTimeLabel setStringValue:[NSString stringWithFormat:@"Connected: %@", elapsedText]];
+    [self.connectionTimeLabel setStringValue:[NSString stringWithFormat:@"Connected: %@", elapsedText]];
     
-    start = [lastMessageSentAt timeIntervalSince1970];
+    start = [_lastMessageSentAt timeIntervalSince1970];
     NSTimeInterval idleTime = now - start;
     NSString *idleText = [DateTimeUtils formatSimpleTime:idleTime];
-    [idleTimeLabel setStringValue:[NSString stringWithFormat:@"Idle: %@", idleText]];
+    [self.idleTimeLabel setStringValue:[NSString stringWithFormat:@"Idle: %@", idleText]];
+}
+         
+- (void)setupPacketHandlers
+{
+    NSDictionary *d = [NSDictionary dictionaryWithObjectsAndKeys:
+                       [NSValue valueWithPointer:@selector(displayBeepPacket:)], [BeepPacket className],
+                       [NSValue valueWithPointer:@selector(displayCommandOutputPacket:)], [CommandOutputPacket className],
+                       [NSValue valueWithPointer:@selector(displayErrorPacket:)], [ErrorPacket className],
+                       [NSValue valueWithPointer:@selector(displayExitPacket:)], [ExitPacket className],
+                       [NSValue valueWithPointer:@selector(displayOpenPacket:)], [OpenPacket className],
+                       [NSValue valueWithPointer:@selector(displayPersonalPacket:)], [PersonalPacket className],
+                       [NSValue valueWithPointer:@selector(displayPingPacket:)], [PingPacket className],
+                       [NSValue valueWithPointer:@selector(displayProtocolPacket:)], [ProtocolPacket className],
+                       [NSValue valueWithPointer:@selector(displayStatusPacket:)], [StatusPacket className],
+                       nil];
+    _packetHandlers = d;
 }
 
+#define SuppressPerformSelectorLeakWarning(Stuff) \
+do { \
+_Pragma("clang diagnostic push") \
+_Pragma("clang diagnostic ignored \"-Warc-performSelector-leaks\"") \
+Stuff; \
+_Pragma("clang diagnostic pop") \
+} while (0)
+         
 - (void)handlePacket:(const ICBPacket *)packet
 {
-    NSTextStorage *textStorage = [self.outputTextView textStorage];
-    
-    [textStorage beginEditing];
-    
-    [self displayMessageTimestamp];
-    
-    if ([packet isKindOfClass:[OpenPacket class]])
+    SEL selector = [[_packetHandlers valueForKey:[packet className]] pointerValue];
+    if (selector)
     {
-        [self displayOpenPacket:(OpenPacket *)packet];
+        NSTextStorage *textStorage = [self.outputTextView textStorage];
+        [textStorage beginEditing];
+
+        [self displayMessageTimestamp];
+
+        SuppressPerformSelectorLeakWarning([self performSelector:selector
+                                                      withObject:packet]);
+        
+        [self trimBuffer:textStorage toLines:kOutputScrollbackSize];
+        
+        [textStorage endEditing];
+        [self scrollToEnd];
     }
-    else if ([packet isKindOfClass:[PersonalPacket class]])
-    {
-        [self displayPersonalPacket:(PersonalPacket *)packet];
-    }
-    else if ([packet isKindOfClass:[CommandOutputPacket class]])
-    {
-        [self displayCommandOutputPacket:(CommandOutputPacket *)packet];
-    }
-    else if ([packet isKindOfClass:[BeepPacket class]])
-    {
-        [self displayBeepPacket:(BeepPacket *)packet];
-    }
-    else if ([packet isKindOfClass:[ExitPacket class]])
-    {
-        [self displayExitPacket:(ExitPacket *)packet];
-    }
-    else if ([packet isKindOfClass:[PingPacket class]])
-    {
-        [self displayPingPacket:(PingPacket *)packet];
-    }
-    else if ([packet isKindOfClass:[ProtocolPacket class]])
-    {
-        [self displayProtocolPacket:(ProtocolPacket *)packet];
-    }
-    else if ([packet isKindOfClass:[ErrorPacket class]])
-    {
-        [self displayErrorPacket:(ErrorPacket *)packet];
-    }
-    else if ([packet isKindOfClass:[StatusPacket class]])
-    {
-        [self displayStatusPacket:(StatusPacket *)packet];
-    }
-    else if ([packet isKindOfClass:[LoginPacket class]])
-    {
-        [[self.outputTextView.textStorage mutableString] appendString:@"\n"];
-    }
-    
+}
+
+- (void)trimBuffer:(const NSTextStorage *)textStorage
+           toLines:(const NSUInteger)maxLines
+{
     NSArray *paragraphs = [textStorage paragraphs];
     NSUInteger n = [paragraphs count];
-    if (n >= kOutputScrollbackSize)
+    if (n >= maxLines)
     {
         NSUInteger len = 0;
-        for (NSUInteger i  = 0; i < n - kOutputScrollbackSize; i++)
+        for (NSUInteger i  = 0; i < n - maxLines; i++)
         {
             len += [[paragraphs objectAtIndex:i] length];
         }
         NSRange r = NSMakeRange(1, len);
         [textStorage deleteCharactersInRange:r];
     }
-    
-    [textStorage endEditing];
-    [self scrollToEnd];
 }
 
 - (void)scrollToEnd
 {
     NSView *superview = [self.outputTextView superview];
-    if (![superview isKindOfClass:[NSClipView class]])
-        return;
-    else
+    if ([superview isKindOfClass:[NSClipView class]])
     {
         NSClipView *clipView = (NSClipView *)superview;
-        [clipView scrollToPoint:[clipView constrainScrollPoint:NSMakePoint(0,[self.outputTextView
-                                                                              frame].size.height)]];
+        NSPoint scrollPoint = NSMakePoint(0, [self.outputTextView
+                                              frame].size.height);
+        [clipView scrollToPoint:[clipView constrainScrollPoint:scrollPoint]];
         [[clipView superview] reflectScrolledClipView:clipView];
     }
 }
@@ -1254,29 +1243,29 @@
     }
     else if ([[notification name] compare:kICBClient_connecting] == NSOrderedSame)
     {
-        [connectionStatusLabel setStringValue:@"Connecting"];
+        [self.connectionStatusLabel setStringValue:@"Connecting"];
 
-        [progressIndicator setHidden:NO];
-        [progressIndicator startAnimation:self];
+        [self.progressIndicator setHidden:NO];
+        [self.progressIndicator startAnimation:self];
     }
     else if ([[notification name] compare:kICBClient_connectfailed] == NSOrderedSame)
     {
-        [connectionStatusLabel setStringValue:@"Connect Failed"];
-        [progressIndicator stopAnimation:self];
-        [progressIndicator setHidden:YES];
+        [self.connectionStatusLabel setStringValue:@"Connect Failed"];
+        [self.progressIndicator stopAnimation:self];
+        [self.progressIndicator setHidden:YES];
     }
     else if ([[notification name] compare:kICBClient_connected] == NSOrderedSame)
     {
-        [connectionStatusLabel setStringValue:@"Connected"];
+        [self.connectionStatusLabel setStringValue:@"Connected"];
 
-        [progressIndicator stopAnimation:self];
-        [progressIndicator setHidden:YES];
+        [self.progressIndicator stopAnimation:self];
+        [self.progressIndicator setHidden:YES];
         
         [self.idleTimeLabel setHidden:NO];
         [self.connectionTimeLabel setHidden:NO];
         
-        connectedTime = [NSDate date];
-        lastMessageSentAt = [NSDate date];
+        _connectedTime = [NSDate date];
+        _lastMessageSentAt = [NSDate date];
         
         self.timer = [NSTimer scheduledTimerWithTimeInterval:1.0
                                                       target:self
@@ -1286,11 +1275,11 @@
     }
     else if ([[notification name] compare:kICBClient_disconnecting] == NSOrderedSame)
     {
-        [connectionStatusLabel setStringValue:@"Disconnected"];
+        [self.connectionStatusLabel setStringValue:@"Disconnected"];
     }
     else if ([[notification name] compare:kICBClient_disconnected] == NSOrderedSame)
     {
-        [connectionStatusLabel setStringValue:@"Disconnected"];
+        [self.connectionStatusLabel setStringValue:@"Disconnected"];
         
         [self.timer invalidate];
         self.timer = nil;
@@ -1299,6 +1288,7 @@
     }
     else if ([[notification name] compare:kICBClient_loginOK] == NSOrderedSame)
     {
+        // NO-OP
     }
 }
 

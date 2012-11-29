@@ -69,6 +69,7 @@
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     
     NSString *nickname = [userDefaults stringForKey:@"nickname"];
+    NSString *alternateNickname = [userDefaults stringForKey:@"alternateNickname"];
     NSString *initialGroup = [userDefaults stringForKey:@"initialGroup"];
     NSString *password = [userDefaults stringForKey:@"password"];
     
@@ -80,6 +81,7 @@
         [self.client connectUsingHostname:[serverDefinition valueForKey:@"hostname"]
                                   andPort:[[serverDefinition valueForKey:@"port"] intValue]
                                       andNickname:nickname
+                                 withAlterateNick:alternateNickname
                                         intoGroup:initialGroup
                                      withPassword:password];
     }
