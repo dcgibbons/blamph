@@ -456,7 +456,6 @@
         }
     }
     
-    NSNotificationCenter *ns = [NSNotificationCenter defaultCenter];
     while ([inputQueue count] > 0)
     {
         ICBPacket *packet = (ICBPacket *)[inputQueue lastObject];
