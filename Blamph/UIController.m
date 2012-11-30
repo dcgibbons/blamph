@@ -74,7 +74,7 @@
 #define kColorSchemeDefault         1001
 #define kColorSchemeOldSchool       1002
 
-#define kFontName                   @"Monaco"
+#define kFontName                   @"Menlo"
 #define kTextStyle                  @"textStyle"
 #define kTextStyleTimestamp         @"textStyleTimestamp"
 #define kTextStyleOpenNick          @"textStyleOpenNick"
@@ -577,6 +577,9 @@
         {
             font = _timestampFont;
         }
+        
+        [textStorage removeAttribute:NSFontAttributeName
+                               range:range];
         [textStorage addAttribute:NSFontAttributeName
                             value:font
                             range:range];
@@ -587,10 +590,9 @@
                             options:0
                          usingBlock:searchBlock];
 
-    [textStorage endEditing];
-
     [self.inputTextView setFont:_outputFont];
     [self.outputTextView setFont:_outputFont];
+    [textStorage endEditing];
 
     [self.progressIndicator setHidden:YES];
     [self.progressIndicator stopAnimation:self];
@@ -941,10 +943,10 @@
     
     [as addAttribute:NSForegroundColorAttributeName
                value:_statusTextColor
-               range:NSMakeRange(headerLength + 1, textLength - headerLength - 1)];
+               range:NSMakeRange(headerLength, textLength - headerLength)];
     [as addAttribute:kTextStyle
                value:kTextStyleStatusText
-               range:NSMakeRange(headerLength + 1, textLength - headerLength - 1)];
+               range:NSMakeRange(headerLength, textLength - headerLength)];
     
     
     [textStorage appendAttributedString:as];
@@ -975,10 +977,10 @@
     
     [as addAttribute:NSForegroundColorAttributeName
                value:_errorTextColor
-               range:NSMakeRange(headerLength + 1, textLength - headerLength - 1)];
+               range:NSMakeRange(headerLength, textLength - headerLength)];
     [as addAttribute:kTextStyle
                value:kTextStyleErrorText
-               range:NSMakeRange(headerLength + 1, textLength - headerLength - 1)];
+               range:NSMakeRange(headerLength, textLength - headerLength)];
     
     [textStorage appendAttributedString:as];
 }
