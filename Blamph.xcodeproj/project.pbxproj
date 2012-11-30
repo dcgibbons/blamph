@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		C22328371667F2AE00D3C60F /* URLHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = C22328361667F2AE00D3C60F /* URLHelper.m */; };
+		C223285216683C8A00D3C60F /* NicknameHistoryTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C223285116683C8A00D3C60F /* NicknameHistoryTests.m */; };
 		C24330AC1645958A0039A005 /* ClientCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = C24330AB1645958A0039A005 /* ClientCommand.m */; };
 		C24330D31645B3780039A005 /* WriteMessageCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = C24330D21645B3780039A005 /* WriteMessageCommand.m */; };
 		C24330D61645B7950039A005 /* MessageCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = C24330D51645B7950039A005 /* MessageCommand.m */; };
@@ -129,6 +130,8 @@
 /* Begin PBXFileReference section */
 		C22328351667F2AE00D3C60F /* URLHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = URLHelper.h; sourceTree = "<group>"; };
 		C22328361667F2AE00D3C60F /* URLHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = URLHelper.m; sourceTree = "<group>"; };
+		C223285016683C8A00D3C60F /* NicknameHistoryTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NicknameHistoryTests.h; sourceTree = "<group>"; };
+		C223285116683C8A00D3C60F /* NicknameHistoryTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NicknameHistoryTests.m; sourceTree = "<group>"; };
 		C24330AA1645958A0039A005 /* ClientCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClientCommand.h; sourceTree = "<group>"; };
 		C24330AB1645958A0039A005 /* ClientCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClientCommand.m; sourceTree = "<group>"; };
 		C24330D11645B3780039A005 /* WriteMessageCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WriteMessageCommand.h; sourceTree = "<group>"; };
@@ -373,6 +376,8 @@
 				C2F19597163F26E3006D48A4 /* BlamphTests.h */,
 				C2F19598163F26E3006D48A4 /* BlamphTests.m */,
 				C2F19592163F26E3006D48A4 /* Supporting Files */,
+				C223285016683C8A00D3C60F /* NicknameHistoryTests.h */,
+				C223285116683C8A00D3C60F /* NicknameHistoryTests.m */,
 			);
 			path = BlamphTests;
 			sourceTree = "<group>";
@@ -644,6 +649,7 @@
 				C2F199FD16404A64006D48A4 /* PongPacket.m in Sources */,
 				C2F199FF16404A64006D48A4 /* ProtocolPacket.m in Sources */,
 				C2F19A0116404A64006D48A4 /* StatusPacket.m in Sources */,
+				C223285216683C8A00D3C60F /* NicknameHistoryTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
