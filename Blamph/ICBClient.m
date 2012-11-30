@@ -7,6 +7,7 @@
 //
 
 #import "ICBClient.h"
+
 #import "BeepPacket.h"
 #import "CommandPacket.h"
 #import "CommandOutputPacket.h"
@@ -20,6 +21,8 @@
 #import "ProtocolPacket.h"
 #import "OpenPacket.h"
 #import "StatusPacket.h"
+
+#import "NSString+StringUtils.h"
 
 #define kSendKeepAlives         @"sendKeepAlives"
 #define kKeepAliveInterval      @"keepAliveInterval"
@@ -326,87 +329,37 @@
 
 - (void)sendOpenMessage:(NSString *)msg
 {
-    NSString *current;
-    NSString *remaining = [self removeControlCharacters:msg];
-    do {
-        if ([remaining length] > MAX_OPEN_MESSAGE_SIZE)
-        {
-            current = [remaining substringToIndex:MAX_OPEN_MESSAGE_SIZE];
-            NSRange range = [current rangeOfCharacterFromSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]
-                                                     options:NSBackwardsSearch];
-            if (range.location != NSNotFound)
-            {
-                current = [current substringWithRange:NSMakeRange(0, range.location + 1)];
-            }
-            remaining = [remaining substringFromIndex:[current length]];
-        }
-        else
-        {
-            current = remaining;
-            remaining = @"";
-        }
-        
-        OpenPacket *p = [[OpenPacket alloc] initWithText:current];
+    NSArray *splits = [msg smartSplitByLength:MAX_OPEN_MESSAGE_SIZE];
+    for (NSString *split in splits)
+    {
+        OpenPacket *p = [[OpenPacket alloc] initWithText:split];
         [self sendPacket:p];
-    } while ([remaining length] > 0);
+    }
 }
 
 - (void)sendPersonalMessage:(NSString *)nick withMsg:(NSString *)msg
 {
-    NSString *current;
-    NSString *remaining = [self removeControlCharacters:msg];
-    do {
-        if ([remaining length] > MAX_PERSONAL_MESSAGE_SIZE)
-        {
-            current = [remaining substringToIndex:MAX_PERSONAL_MESSAGE_SIZE];
-            NSRange range = [current rangeOfCharacterFromSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]
-                                                     options:NSBackwardsSearch];
-            if (range.location != NSNotFound)
-            {
-                current = [current substringWithRange:NSMakeRange(0, range.location + 1)];
-            }
-            remaining = [remaining substringFromIndex:[current length]];
-        }
-        else
-        {
-            current = remaining;
-            remaining = @"";
-        }
-        
-        NSString *s = [NSString stringWithFormat:@"%@ %@", nick, current];
+    NSArray *splits = [msg smartSplitByLength:MAX_PERSONAL_MESSAGE_SIZE];
+    for (NSString *split in splits)
+    {
+        NSString *s = [NSString stringWithFormat:@"%@ %@", nick, split];
         CommandPacket *p = [[CommandPacket alloc] initWithCommand:@"m" optionalArgs:s];
         [self sendPacket:p];
-    } while ([remaining length] > 0);
+    }
     
     [self.nicknameHistory add:nick];
 }
 
 - (void)sendWriteMessage:(NSString *)nick withMsg:(NSString *)msg
 {
-    NSString *current;
-    NSString *remaining = [self removeControlCharacters:msg];
-    do {
-        if ([remaining length] > MAX_WRITE_MESSAGE_SIZE)
-        {
-            current = [remaining substringToIndex:MAX_WRITE_MESSAGE_SIZE];
-            NSRange range = [current rangeOfCharacterFromSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]
-                                                     options:NSBackwardsSearch];
-            if (range.location != NSNotFound)
-            {
-                current = [current substringWithRange:NSMakeRange(0, range.location + 1)];
-            }
-            remaining = [remaining substringFromIndex:[current length]];
-        }
-        else
-        {
-            current = remaining;
-            remaining = @"";
-        }
-        
+    NSArray *splits = [msg smartSplitByLength:MAX_WRITE_MESSAGE_SIZE];
+    for (NSString *split in splits)
+    {
+        NSString *s = [NSString stringWithFormat:@"%@ %@", nick, split];
         CommandPacket *p = [[CommandPacket alloc] initWithCommand:@"write"
-                                                     optionalArgs:[NSString stringWithFormat:@"%@ %@", nick, current]];
+                                                     optionalArgs:s];
         [self sendPacket:p];
-    } while ([remaining length] > 0);
+    }
 }
 
 - (void)handleInputStream:(NSInputStream *)stream

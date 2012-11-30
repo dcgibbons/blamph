@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		C22328371667F2AE00D3C60F /* URLHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = C22328361667F2AE00D3C60F /* URLHelper.m */; };
 		C223285216683C8A00D3C60F /* NicknameHistoryTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C223285116683C8A00D3C60F /* NicknameHistoryTests.m */; };
+		C223285A1668440D00D3C60F /* NSString+StringUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = C22328591668440D00D3C60F /* NSString+StringUtils.m */; };
 		C24330AC1645958A0039A005 /* ClientCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = C24330AB1645958A0039A005 /* ClientCommand.m */; };
 		C24330D31645B3780039A005 /* WriteMessageCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = C24330D21645B3780039A005 /* WriteMessageCommand.m */; };
 		C24330D61645B7950039A005 /* MessageCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = C24330D51645B7950039A005 /* MessageCommand.m */; };
@@ -132,6 +133,8 @@
 		C22328361667F2AE00D3C60F /* URLHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = URLHelper.m; sourceTree = "<group>"; };
 		C223285016683C8A00D3C60F /* NicknameHistoryTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NicknameHistoryTests.h; sourceTree = "<group>"; };
 		C223285116683C8A00D3C60F /* NicknameHistoryTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NicknameHistoryTests.m; sourceTree = "<group>"; };
+		C22328581668440D00D3C60F /* NSString+StringUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+StringUtils.h"; sourceTree = "<group>"; };
+		C22328591668440D00D3C60F /* NSString+StringUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+StringUtils.m"; sourceTree = "<group>"; };
 		C24330AA1645958A0039A005 /* ClientCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClientCommand.h; sourceTree = "<group>"; };
 		C24330AB1645958A0039A005 /* ClientCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClientCommand.m; sourceTree = "<group>"; };
 		C24330D11645B3780039A005 /* WriteMessageCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WriteMessageCommand.h; sourceTree = "<group>"; };
@@ -348,6 +351,8 @@
 				C2B3B04E1657DC7500D0991B /* AdvancedViewController.m */,
 				C22328351667F2AE00D3C60F /* URLHelper.h */,
 				C22328361667F2AE00D3C60F /* URLHelper.m */,
+				C22328581668440D00D3C60F /* NSString+StringUtils.h */,
+				C22328591668440D00D3C60F /* NSString+StringUtils.m */,
 				C2F19576163F26E3006D48A4 /* Supporting Files */,
 			);
 			path = Blamph;
@@ -629,6 +634,7 @@
 				C2BA824D165B1D1E005C88DE /* NicknameHistory.m in Sources */,
 				C2AB6AB81661922900BC4A2B /* NoOpPacket.m in Sources */,
 				C22328371667F2AE00D3C60F /* URLHelper.m in Sources */,
+				C223285A1668440D00D3C60F /* NSString+StringUtils.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
