@@ -156,49 +156,28 @@
     _alternateNickname = alternateNick;
     _initialGroup = userGroup;
     _password = userPassword;
-    
-    CFReadStreamRef readStream = NULL;
-    CFWriteStreamRef writeStream = NULL;
-    CFStreamCreatePairWithSocketToHost(kCFAllocatorDefault,
-                                       (__bridge CFStringRef)hostname,
-                                       port,
-                                       &readStream,
-                                       &writeStream);
-    
-    if (readStream && writeStream) {
-        CFReadStreamSetProperty(readStream,
-                                kCFStreamPropertyShouldCloseNativeSocket,
-                                kCFBooleanTrue);
-        CFWriteStreamSetProperty(writeStream,
-                                 kCFStreamPropertyShouldCloseNativeSocket,
-                                 kCFBooleanTrue);
-        
-        // NOTE: we needed the input and output streams to be retained by
-        // this client, otherwise the retainCount wasn't right. The end-
-        // result being that when we tried to remove the streams from the
-        // run loop then the loop would hang.
+
+    NSHost *host = [NSHost hostWithName:_hostname];
+    NSInputStream *inputStream = nil;
+    NSOutputStream *outputStream = nil;
+    [NSStream getStreamsToHost:host
+                          port:port
+                   inputStream:&inputStream
+                  outputStream:&outputStream];
+
+    if (inputStream && outputStream)
+    {
         NSRunLoop *loop = [NSRunLoop currentRunLoop];
-        
-        NSInputStream *inputStream = (__bridge_transfer NSInputStream *)readStream;
         
         [inputStream setDelegate:self];
         [inputStream scheduleInRunLoop:loop forMode:NSDefaultRunLoopMode];
         [inputStream open];
+        self.istream = inputStream;
         
-        NSOutputStream *outputStream = (__bridge_transfer NSOutputStream *)writeStream;
         [outputStream setDelegate:self];
         [outputStream scheduleInRunLoop:loop forMode:NSDefaultRunLoopMode];
         [outputStream open];
-        
-        self.istream = inputStream;
         self.ostream = outputStream;
-    }
-    else
-    {
-        if (readStream)
-            CFRelease(readStream);
-        if (writeStream)
-            CFRelease(writeStream);
     }
 }
 
