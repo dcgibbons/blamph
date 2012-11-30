@@ -45,6 +45,10 @@
     NSDate *_lastMessageSentAt;
     
     NSDictionary *_packetHandlers;
+    
+    NSUInteger _inputHistoryIndex;
+    NSMutableArray *_inputHistory;
+    NSString *_savedInputBuffer;
 }
 @end
 
@@ -98,6 +102,8 @@
 #define kDefaultOutputFontSize      12.0
 #define kDefaultTimestampFontSize   10.0
 
+#define kMaxInputHistorySize        100
+
 + (void)initialize
 {
     // load the default values for the user defaults
@@ -116,6 +122,10 @@
     if (self = [super init])
     {
         [self setupPacketHandlers];
+        
+        _inputHistory = [NSMutableArray arrayWithCapacity:100];
+        _inputHistoryIndex = 0;
+        _savedInputBuffer = nil;
         
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(clientNotify:)
@@ -226,15 +236,79 @@
             }
             handled = YES;
         }
+        else if (aSelector == @selector(moveUp:))
+        {
+            if (_inputHistoryIndex == 0)
+            {
+                NSBeep();
+            }
+            else
+            {
+                // If we're at the end of the history and scrolling back, then we need to
+                // make sure we save any currently entered text so the user may return to
+                // it later. This is cached outside of the inputHistory list so that it
+                // won't be saved in case the user selects an older history item to use as
+                // input.
+                if (_inputHistoryIndex == [_inputHistory count])
+                {
+                    _savedInputBuffer = [NSString stringWithString:[self.inputTextView string]];
+                }
+                
+                _inputHistoryIndex--;
+                NSString *inputBuffer = [_inputHistory objectAtIndex:_inputHistoryIndex];
+                [self.inputTextView setString:inputBuffer];
+            }
+
+            handled = YES;
+        }
+        else if (aSelector == @selector(moveDown:))
+        {
+            NSUInteger count = [_inputHistory count];
+            if (_inputHistoryIndex < count - 1)
+            {
+                _inputHistoryIndex++;
+                NSString *inputBuffer = [_inputHistory objectAtIndex:_inputHistoryIndex];
+                [self.inputTextView setString:inputBuffer];
+            }
+            else if (_inputHistoryIndex == count - 1)
+            {
+                _inputHistoryIndex = count;
+                if (_savedInputBuffer)
+                {
+                    [self.inputTextView setString:_savedInputBuffer];
+                    _savedInputBuffer = nil;
+                }
+            }
+            else
+            {
+                NSBeep();
+            }
+        }
     }
 
     return handled;
+}
+
+- (void)addToInputHistory:(NSString *)input
+{
+    NSUInteger n = [_inputHistory count];
+    if (n == kMaxInputHistorySize)
+    {
+        [_inputHistory removeObjectAtIndex:0];
+    }
+    
+    // Add a copy of the input buffer to the input history array - keep a copy
+    // in case that string is a mutable string that can change elsewhere
+    [_inputHistory addObject:[NSString stringWithString:input]];
+    _inputHistoryIndex = [_inputHistory count];
 }
 
 - (void)submitTextInput:(NSString *)cmd
 {
     if (cmd == nil || [cmd length] == 0)
         return;
+    
+    [self addToInputHistory:cmd];
     
     // if the input isn't prefixed with the command character just send
     // the text as an open message
