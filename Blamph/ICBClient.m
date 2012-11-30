@@ -27,6 +27,8 @@
 @interface ICBClient () <NSStreamDelegate>
 {
 @private
+    NSDictionary *_packetHandlers;
+    
     enum { kDisconnected, kDisconnecting, kConnecting, kConnected } _connectionState;
     
     NSUInteger _reconnectNeeded;
@@ -70,6 +72,8 @@
 {
     if (self = [super init])
     {
+        [self setupPacketHandlers];
+        
         _connectionState = kDisconnected;
         
         _packetBuffer = [NSMutableData dataWithCapacity:MAX_PACKET_SIZE];
@@ -200,40 +204,16 @@
     [self changeConnectingState:kDisconnected];
 }
 
-- (void)handlePacket:(ICBPacket *)packet
+- (void)setupPacketHandlers
 {
-    _packetsReceived++;
-    
-    if ([packet isKindOfClass:[ExitPacket class]])
-    {
-        [self disconnect];
-    }
-    else if ([packet isKindOfClass:[PingPacket class]])
-    {
-        PongPacket *packet = [[PongPacket alloc] init];
-        [self sendPacket:packet];
-    }
-    else if ([packet isKindOfClass:[ProtocolPacket class]])
-    {
-        [self handleProtocolPacket:(ProtocolPacket *)packet];
-    }
-    else if ([packet isKindOfClass:[LoginPacket class]])
-    {
-        [self handleLoginPacket:(LoginPacket *)packet];
-    }
-    else if ([packet isKindOfClass:[PersonalPacket class]])
-    {
-        // anytime a personal packet comes in, add it to the nickname history
-        PersonalPacket *p = (PersonalPacket *)packet;
-        [self.nicknameHistory add:p.nick];
-    }
-    else if ([packet isKindOfClass:[ErrorPacket class]])
-    {
-        [self handleErrorPacket:(ErrorPacket *)packet];
-    }
-    
-    [[NSNotificationCenter defaultCenter] postNotificationName:kICBClient_packet
-                                                        object:packet];
+    NSDictionary *d = [NSDictionary dictionaryWithObjectsAndKeys:
+                       [NSValue valueWithPointer:@selector(handleErrorPacket:)], [ErrorPacket className],
+                       [NSValue valueWithPointer:@selector(handleExitPacket:)], [ExitPacket className],
+                       [NSValue valueWithPointer:@selector(handleLoginPacket:)], [LoginPacket className],
+                       [NSValue valueWithPointer:@selector(handlePersonalPacket:)], [PersonalPacket className],
+                       [NSValue valueWithPointer:@selector(handleProtocolPacket:)], [ProtocolPacket className],
+                       nil];
+    _packetHandlers = d;
 }
 
 - (void)handleErrorPacket:(ErrorPacket *)packet
@@ -247,7 +227,7 @@
 - (void)handleLoginPacket:(LoginPacket *)packet
 {
     _reconnectNeeded = 0;
-
+    
     // TODO: make echoback optional?
     CommandPacket *p = [[CommandPacket alloc] initWithCommand:@"echoback"
                                                  optionalArgs:@"verbose"];
@@ -255,6 +235,24 @@
     
     [[NSNotificationCenter defaultCenter] postNotificationName:kICBClient_loginOK
                                                         object:self];
+}
+
+- (void)handleExitPacket:(ExitPacket *)packet
+{
+    [self disconnect];
+}
+
+- (void)handlePersonalPacket:(PersonalPacket *)packet
+{
+    // anytime a personal packet comes in, add it to the nickname history
+    PersonalPacket *p = (PersonalPacket *)packet;
+    [self.nicknameHistory add:p.nick];
+}
+
+- (void)handlePingPacket:(PingPacket *)packet
+{
+    PongPacket *pongPacket = [[PongPacket alloc] init];
+    [self sendPacket:pongPacket];
 }
 
 - (void)handleProtocolPacket:(ProtocolPacket *)packet
@@ -279,6 +277,21 @@
                                                                    password:_password];
         [self sendPacket:loginPacket];
     }
+}
+
+- (void)handlePacket:(ICBPacket *)packet
+{
+    _packetsReceived++;
+
+    SEL selector = [[_packetHandlers valueForKey:[packet className]] pointerValue];
+    if (selector)
+    {
+        SuppressPerformSelectorLeakWarning([self performSelector:selector
+                                                      withObject:packet]);
+    }
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:kICBClient_packet
+                                                        object:packet];
 }
 
 - (void)sendPacket:(ICBPacket *)packet

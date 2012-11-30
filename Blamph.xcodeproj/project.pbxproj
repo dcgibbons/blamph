@@ -373,9 +373,9 @@
 		C2F19591163F26E3006D48A4 /* BlamphTests */ = {
 			isa = PBXGroup;
 			children = (
+				C2F19592163F26E3006D48A4 /* Supporting Files */,
 				C2F19597163F26E3006D48A4 /* BlamphTests.h */,
 				C2F19598163F26E3006D48A4 /* BlamphTests.m */,
-				C2F19592163F26E3006D48A4 /* Supporting Files */,
 				C223285016683C8A00D3C60F /* NicknameHistoryTests.h */,
 				C223285116683C8A00D3C60F /* NicknameHistoryTests.m */,
 			);
