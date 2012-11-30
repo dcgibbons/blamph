@@ -176,6 +176,7 @@
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     
     BOOL valid = YES;
+
     if (menuItem == self.connectMenuItem)
     {
         valid = ![self.client isConnected];
@@ -268,34 +269,6 @@
     }
     
     _lastMessageSentAt = [NSDate date];
-}
-
-- (void)displayText:(NSString *)text
-      withTextStyle:(NSString *)textStyle
-{
-    NSMutableAttributedString *as = [[NSMutableAttributedString alloc] initWithString:text];
-    const NSRange textRange = NSMakeRange(0, [text length]);
-    [as addAttribute:NSFontAttributeName
-               value:_outputFont
-               range:textRange];
-    
-    NSColor *foreground = [self getForegroundColor:textStyle];
-    NSColor *background = _backgroundColor;
-    
-    [as addAttribute:NSBackgroundColorAttributeName
-               value:background
-               range:textRange];
-    [as addAttribute:NSForegroundColorAttributeName
-               value:foreground
-               range:textRange];
-    [as addAttribute:kTextStyle
-               value:textStyle
-               range:textRange];
-
-    [URLHelper findURLsInText:as];
-    
-    const NSTextStorage *textStorage = self.outputTextView.textStorage;
-    [textStorage appendAttributedString:as];
 }
 
 - (void)setNickname:(NSString *)nickname
@@ -508,13 +481,17 @@
     }
     else
     {
-        _outputFont = [NSFont fontWithName:kFontName size:kDefaultOutputFontSize];
-        _timestampFont = [NSFont fontWithName:kFontName size:kDefaultTimestampFontSize];
+        _outputFont = [NSFont fontWithName:kFontName
+                                      size:kDefaultOutputFontSize];
+        _timestampFont = [NSFont fontWithName:kFontName
+                                         size:kDefaultTimestampFontSize];
     }
     
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    [userDefaults setValue:[NSNumber numberWithDouble:[_outputFont pointSize]] forKey:kOutputFontPointSize];
-    [userDefaults setValue:[NSNumber numberWithDouble:[_timestampFont pointSize]] forKey:kTimestampFontPointSize];
+    [userDefaults setValue:[NSNumber numberWithDouble:[_outputFont pointSize]]
+                    forKey:kOutputFontPointSize];
+    [userDefaults setValue:[NSNumber numberWithDouble:[_timestampFont pointSize]]
+                    forKey:kTimestampFontPointSize];
 
     [self didUpdateFonts];
 }
@@ -703,20 +680,11 @@
 
 - (void)displayMessageTimestamp
 {
-    CFAbsoluteTime now = CFAbsoluteTimeGetCurrent();
+    NSDate *now = [NSDate date];
     
-    CFDateRef date = CFDateCreate(kCFAllocatorDefault, now);
-    
-    CFLocaleRef currentLocale = CFLocaleCopyCurrent();
-    
-    CFDateFormatterRef dateFormatter = CFDateFormatterCreate(NULL,
-                                                             currentLocale,
-                                                             kCFDateFormatterNoStyle,
-                                                             kCFDateFormatterShortStyle);
-    
-    CFStringRef formattedString = CFDateFormatterCreateStringWithDate(NULL,
-                                                                      dateFormatter,
-                                                                      date);
+    NSString *formattedString = [NSDateFormatter localizedStringFromDate:now
+                                   dateStyle:NSDateFormatterNoStyle
+                                   timeStyle:NSDateFormatterShortStyle];
     
     const NSTextStorage *textStorage = self.outputTextView.textStorage;
     
@@ -739,11 +707,34 @@
                range:range];
     
     [textStorage appendAttributedString:as];
+}
 
-    CFRelease(date);
-    CFRelease(currentLocale);
-    CFRelease(dateFormatter);
-    CFRelease(formattedString);
+- (void)displayText:(NSString *)text
+      withTextStyle:(NSString *)textStyle
+{
+    NSMutableAttributedString *as = [[NSMutableAttributedString alloc] initWithString:text];
+    const NSRange textRange = NSMakeRange(0, [text length]);
+    [as addAttribute:NSFontAttributeName
+               value:_outputFont
+               range:textRange];
+    
+    NSColor *foreground = [self getForegroundColor:textStyle];
+    NSColor *background = _backgroundColor;
+    
+    [as addAttribute:NSBackgroundColorAttributeName
+               value:background
+               range:textRange];
+    [as addAttribute:NSForegroundColorAttributeName
+               value:foreground
+               range:textRange];
+    [as addAttribute:kTextStyle
+               value:textStyle
+               range:textRange];
+    
+    [URLHelper findURLsInText:as];
+    
+    const NSTextStorage *textStorage = self.outputTextView.textStorage;
+    [textStorage appendAttributedString:as];
 }
 
 - (void)displayOpenPacket:(OpenPacket *)p
