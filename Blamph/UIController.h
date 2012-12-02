@@ -27,6 +27,8 @@
 @property (nonatomic, retain) IBOutlet NSMenuItem *menuItemDecreaseFontSize;
 
 @property (nonatomic, retain) IBOutlet NSSplitView *splitView;
+@property (nonatomic, retain) IBOutlet NSScrollView *outputScrollView;
+@property (nonatomic, retain) IBOutlet NSScrollView *inputScrollView;
 @property (nonatomic, retain) IBOutlet NSLayoutConstraint *bottomConstraint;
 @property (nonatomic, retain) IBOutlet NSView *statusBarView;
 @property (nonatomic, retain) IBOutlet NSTextField *connectionStatusLabel;

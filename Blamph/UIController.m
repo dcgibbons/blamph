@@ -73,6 +73,8 @@
 @synthesize connectionTimeLabel=_connectionTimeLabel;
 @synthesize idleTimeLabel=_idleTimeLabel;
 @synthesize timer=_timer;
+@synthesize inputScrollView=_inputScrollView;
+@synthesize outputScrollView=_outputScrollView;
 
 #define kOutputScrollbackSize       1000
 #define kColorSchemeDefault         1001
@@ -575,13 +577,17 @@
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     if (transparent)
     {
-        [self.window setOpaque:YES];
-        [self.window setAlphaValue:[userDefaults floatForKey:kOpacityLevel]];
+        [self.window setOpaque:NO];
+        CGFloat alpha = [userDefaults floatForKey:kOpacityLevel];
+        _backgroundColor = [_backgroundColor colorWithAlphaComponent:alpha];
+        [self didUpdateColorScheme];
     }
     else
     {
-        [self.window setOpaque:NO];
-        [self.window setAlphaValue:1.0];
+        [self.window setOpaque:YES];
+        _backgroundColor = [_backgroundColor colorWithAlphaComponent:1.0];
+        [self didUpdateColorScheme];
+        //        [self.window setBackgroundColor:b];
     }
 }
 
@@ -703,9 +709,11 @@
     [self.inputTextView setBackgroundColor:_backgroundColor];
     [self.inputTextView setInsertionPointColor:_inputColor];
     [self.inputTextView setTextColor:_inputColor];
+    [self.inputScrollView setBackgroundColor:_backgroundColor];
     
     [self.outputTextView setBackgroundColor:_backgroundColor];
-    
+    [self.outputScrollView setBackgroundColor:_backgroundColor];
+
     [self.progressIndicator setHidden:YES];
     [self.progressIndicator stopAnimation:self];
 }
