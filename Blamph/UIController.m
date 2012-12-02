@@ -121,7 +121,7 @@
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults registerDefaults:d];
 
-    [userDefaults setBool:YES forKey:@"NSConstraintBasedLayoutVisualizeMutuallyExclusiveConstraints"];
+//    [userDefaults setBool:YES forKey:@"NSConstraintBasedLayoutVisualizeMutuallyExclusiveConstraints"];
 }
 
 - (id)init
@@ -183,11 +183,12 @@
     [self.outputTextView setBackgroundColor:_backgroundColor];
     [self.outputTextView setTextColor:_commandTextColor];
 
-    [self didUpdateFonts];
-
     [self.window makeFirstResponder:self.inputTextView];
 
     [self setTransparency:[userDefaults boolForKey:kUseTransparency]];
+
+    [self.splitView.superview layoutSubtreeIfNeeded];
+    [self updateInputWindowConstraints];
 }
 
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem
@@ -681,6 +682,16 @@
     [self.outputTextView setFont:_outputFont];
     [textStorage endEditing];
 
+    [self updateInputWindowConstraints];
+    
+    [self.progressIndicator setHidden:YES];
+    [self.progressIndicator stopAnimation:self];
+}
+
+- (void)updateInputWindowConstraints
+{
+//    DLog(@"**** existing heightConstraint=%@", self.heightConstraint);
+//    
     // Change the height constraint of the input scroll view to be 2x the height
     // of the font, which should give us two lines visually in the input
     // window.
@@ -695,9 +706,18 @@
                                                                       views:NSDictionaryOfVariableBindings(inputScrollView)][0];
     [self.inputScrollView addConstraint:self.heightConstraint];
     [self.inputScrollView.superview setNeedsUpdateConstraints:YES];
-    
-    [self.progressIndicator setHidden:YES];
-    [self.progressIndicator stopAnimation:self];
+
+//    DLog(@"**** new heightConstraint=%@", self.heightConstraint);
+//    DLog(@"******************************************************************");
+//    DLog(@"main view constraints=%@", [self.splitView.superview constraints]);
+//    DLog(@"******************************************************************");
+//    DLog(@"split view constraints=%@", [self.splitView constraints]);
+//    DLog(@"******************************************************************");
+//    DLog(@"input view constraints=%@", [self.inputTextView constraints]);
+//    DLog(@"******************************************************************");
+//    DLog(@"input view constraints=%@", [self.inputScrollView constraints]);
+//    DLog(@"******************************************************************");
+//    DLog(@"input superview constraints=%@", [self.inputScrollView.superview constraints]);
 }
 
 - (void)didUpdateColorScheme
@@ -742,7 +762,12 @@
 
 - (void)selectDefaultColors
 {
-    _backgroundColor = [NSColor whiteColor];
+    CGFloat alpha = 1.0;
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    BOOL isTransparent = [[userDefaults valueForKey:kUseTransparency] boolValue];
+    if (isTransparent) alpha = [userDefaults floatForKey:kOpacityLevel];
+    
+    _backgroundColor = [[NSColor whiteColor] colorWithAlphaComponent:alpha];
     _openTextColor = [NSColor blackColor];
     _openNickColor = [NSColor blueColor];
     _personalTextColor = [NSColor darkGrayColor];
@@ -756,7 +781,6 @@
 
     [self.progressIndicator setControlTint:NSDefaultControlTint];
     
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults setInteger:kColorSchemeDefault forKey:kColorScheme];
     
     [self didUpdateColorScheme];
@@ -764,7 +788,12 @@
 
 - (void)selectOldSchoolColors
 {
-    _backgroundColor = [NSColor blackColor];
+    CGFloat alpha = 1.0;
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    BOOL isTransparent = [[userDefaults valueForKey:kUseTransparency] boolValue];
+    if (isTransparent) alpha = [userDefaults floatForKey:kOpacityLevel];
+
+    _backgroundColor = [[NSColor blackColor] colorWithAlphaComponent:alpha];
     _openTextColor = [NSColor greenColor];
     _openNickColor = [NSColor blueColor];
     _personalTextColor = [NSColor colorWithSRGBRed:1.0 green:191.0/255.0 blue:0.0 alpha:1.0];
@@ -778,7 +807,6 @@
 
     [self.progressIndicator setControlTint:NSBlueControlTint];
     
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults setInteger:kColorSchemeOldSchool forKey:kColorScheme];
 
     [self didUpdateColorScheme];
