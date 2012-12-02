@@ -324,41 +324,56 @@
         else if (!iscntrl(c))
             [t appendFormat:@"%c", c];
     }
-    return t;
+    
+    return [t stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 }
 
 - (void)sendOpenMessage:(NSString *)msg
 {
-    NSArray *splits = [msg smartSplitByLength:MAX_OPEN_MESSAGE_SIZE];
-    for (NSString *split in splits)
+    NSString *s = [self removeControlCharacters:msg];
+    if ([s length] > 0)
     {
-        OpenPacket *p = [[OpenPacket alloc] initWithText:split];
-        [self sendPacket:p];
+        
+        NSArray *splits = [s smartSplitByLength:MAX_OPEN_MESSAGE_SIZE];
+        for (NSString *split in splits)
+        {
+            OpenPacket *p = [[OpenPacket alloc] initWithText:split];
+            [self sendPacket:p];
+        }
     }
 }
 
 - (void)sendPersonalMessage:(NSString *)nick withMsg:(NSString *)msg
 {
-    NSArray *splits = [msg smartSplitByLength:MAX_PERSONAL_MESSAGE_SIZE];
-    for (NSString *split in splits)
+    NSString *s = [self removeControlCharacters:msg];
+    if ([s length] > 0)
     {
-        NSString *s = [NSString stringWithFormat:@"%@ %@", nick, split];
-        CommandPacket *p = [[CommandPacket alloc] initWithCommand:@"m" optionalArgs:s];
-        [self sendPacket:p];
+        
+        NSArray *splits = [s smartSplitByLength:MAX_PERSONAL_MESSAGE_SIZE];
+        for (NSString *split in splits)
+        {
+            NSString *s = [NSString stringWithFormat:@"%@ %@", nick, split];
+            CommandPacket *p = [[CommandPacket alloc] initWithCommand:@"m" optionalArgs:s];
+            [self sendPacket:p];
+        }
+        
+        [self.nicknameHistory add:nick];
     }
-    
-    [self.nicknameHistory add:nick];
 }
 
 - (void)sendWriteMessage:(NSString *)nick withMsg:(NSString *)msg
 {
-    NSArray *splits = [msg smartSplitByLength:MAX_WRITE_MESSAGE_SIZE];
-    for (NSString *split in splits)
+    NSString *s = [self removeControlCharacters:msg];
+    if ([s length] > 0)
     {
-        NSString *s = [NSString stringWithFormat:@"%@ %@", nick, split];
-        CommandPacket *p = [[CommandPacket alloc] initWithCommand:@"write"
-                                                     optionalArgs:s];
-        [self sendPacket:p];
+        NSArray *splits = [s smartSplitByLength:MAX_WRITE_MESSAGE_SIZE];
+        for (NSString *split in splits)
+        {
+            NSString *s = [NSString stringWithFormat:@"%@ %@", nick, split];
+            CommandPacket *p = [[CommandPacket alloc] initWithCommand:@"write"
+                                                         optionalArgs:s];
+            [self sendPacket:p];
+        }
     }
 }
 
