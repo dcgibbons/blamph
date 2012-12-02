@@ -40,6 +40,8 @@
 @property (nonatomic, retain) IBOutlet NSTextView *inputTextView;
 @property (nonatomic, retain) IBOutlet NSTextView *outputTextView;
 
+@property (nonatomic, retain) IBOutlet NSLayoutConstraint *heightConstraint;
+
 @property (nonatomic, retain) IBOutlet MainWindow *window;
 
 @property (nonatomic, retain) NSTimer *timer;

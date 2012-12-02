@@ -75,6 +75,7 @@
 @synthesize timer=_timer;
 @synthesize inputScrollView=_inputScrollView;
 @synthesize outputScrollView=_outputScrollView;
+@synthesize heightConstraint=_heightConstraint;
 
 #define kOutputScrollbackSize       1000
 #define kColorSchemeDefault         1001
@@ -116,7 +117,11 @@
                        [NSNumber numberWithDouble:kDefaultOutputFontSize], kOutputFontPointSize,
                        [NSNumber numberWithDouble:kDefaultTimestampFontSize], kTimestampFontPointSize,
                        nil];
-    [[NSUserDefaults standardUserDefaults] registerDefaults:d];
+    
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults registerDefaults:d];
+
+    [userDefaults setBool:YES forKey:@"NSConstraintBasedLayoutVisualizeMutuallyExclusiveConstraints"];
 }
 
 - (id)init
@@ -172,12 +177,14 @@
             [self selectOldSchoolColors];
             break;
     }
-    
+
     [self.inputTextView setFont:_outputFont];
     [self.outputTextView setFont:_outputFont];
     [self.outputTextView setBackgroundColor:_backgroundColor];
     [self.outputTextView setTextColor:_commandTextColor];
-    
+
+    [self didUpdateFonts];
+
     [self.window makeFirstResponder:self.inputTextView];
 
     [self setTransparency:[userDefaults boolForKey:kUseTransparency]];
@@ -674,6 +681,21 @@
     [self.outputTextView setFont:_outputFont];
     [textStorage endEditing];
 
+    // Change the height constraint of the input scroll view to be 2x the height
+    // of the font, which should give us two lines visually in the input
+    // window.
+    [self.inputScrollView removeConstraint:self.heightConstraint];
+    CGRect boundingRect = [_outputFont boundingRectForFont];
+    NSString *visualFormat = [NSString stringWithFormat:@"V:[inputScrollView(>=%lu)]",
+                              (NSUInteger)boundingRect.size.height * 2];
+    NSView *inputScrollView = self.inputScrollView;
+    self.heightConstraint = [NSLayoutConstraint constraintsWithVisualFormat:visualFormat
+                                                                    options:0
+                                                                    metrics:nil
+                                                                      views:NSDictionaryOfVariableBindings(inputScrollView)][0];
+    [self.inputScrollView addConstraint:self.heightConstraint];
+    [self.inputScrollView.superview setNeedsUpdateConstraints:YES];
+    
     [self.progressIndicator setHidden:YES];
     [self.progressIndicator stopAnimation:self];
 }
