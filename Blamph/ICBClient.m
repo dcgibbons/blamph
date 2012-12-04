@@ -94,7 +94,7 @@
 
 - (BOOL)isConnected
 {
-    return (_connectionState == kConnected);
+    return (_connectionState == kConnecting || _connectionState == kConnected);
 }
 
 - (void)changeConnectingState:(int)newState

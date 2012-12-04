@@ -64,34 +64,6 @@
     
 }
 
-- (IBAction)connect:(id)sender
-{
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    
-    NSString *nickname = [userDefaults stringForKey:@"nickname"];
-    NSString *alternateNickname = [userDefaults stringForKey:@"alternateNickname"];
-    NSString *initialGroup = [userDefaults stringForKey:@"initialGroup"];
-    NSString *password = [userDefaults stringForKey:@"password"];
-    
-    NSUInteger server = [[userDefaults valueForKey:@"defaultServer"] unsignedLongValue];
-    NSDictionary *serverDefinition = [[userDefaults arrayForKey:@"servers"]
-                                      objectAtIndex:server];
-    if (serverDefinition != nil)
-    {
-        [self.client connectUsingHostname:[serverDefinition valueForKey:@"hostname"]
-                                  andPort:[[serverDefinition valueForKey:@"port"] intValue]
-                                      andNickname:nickname
-                                 withAlterateNick:alternateNickname
-                                        intoGroup:initialGroup
-                                     withPassword:password];
-    }
-}
-
-- (IBAction)disconnect:(id)sender
-{
-    [self.client disconnect];
-}
-
 - (IBAction)preferences:(id)sender
 {
     if (_preferences == nil)
