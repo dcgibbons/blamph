@@ -426,6 +426,16 @@
     return handled;
 }
 
+- (IBAction)hideApp:(id)sender
+{
+    [[NSApplication sharedApplication] hide:sender];
+}
+
+- (IBAction)hideOthers:(id)sender
+{
+    [[NSApplication sharedApplication] hideOtherApplications:sender];
+}
+
 - (IBAction)selectAll:(id)sender
 {
     [self.inputTextView selectAll:sender];
@@ -691,7 +701,7 @@
 - (void)updateInputWindowConstraints
 {
 //    DLog(@"**** existing heightConstraint=%@", self.heightConstraint);
-//    
+//
     // Change the height constraint of the input scroll view to be 2x the height
     // of the font, which should give us two lines visually in the input
     // window.

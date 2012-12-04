@@ -848,7 +848,7 @@
 															<string key="NSFrameSize">{798, 423}</string>
 															<reference key="NSSuperview" ref="226894378"/>
 															<reference key="NSWindow"/>
-															<reference key="NSNextKeyView" ref="673958329"/>
+															<reference key="NSNextKeyView" ref="491744516"/>
 															<string key="NSReuseIdentifierKey">_NS:13</string>
 															<object class="NSTextContainer" key="NSTextContainer" id="506330408">
 																<object class="NSLayoutManager" key="NSLayoutManager">
@@ -914,7 +914,6 @@
 															</object>
 															<int key="NSTVFlags">6</int>
 															<string key="NSMaxSize">{798, 10000000}</string>
-															<string key="NSMinize">{798, 0}</string>
 															<nil key="NSDelegate"/>
 															<array key="NSAllowedInputLocales">
 																<string>br</string>
@@ -1609,7 +1608,7 @@ wGw</bytes>
 											<string key="NSFrameSize">{800, 425}</string>
 											<reference key="NSSuperview" ref="193506632"/>
 											<reference key="NSWindow"/>
-											<reference key="NSNextKeyView" ref="491744516"/>
+											<reference key="NSNextKeyView" ref="226894378"/>
 											<string key="NSReuseIdentifierKey">_NS:9</string>
 											<int key="NSsFlags">133138</int>
 											<reference key="NSVScroller" ref="673958329"/>
@@ -1664,7 +1663,7 @@ wGw</bytes>
 															<string key="NSFrameSize">{798, 32}</string>
 															<reference key="NSSuperview" ref="756916151"/>
 															<reference key="NSWindow"/>
-															<reference key="NSNextKeyView" ref="1012546452"/>
+															<reference key="NSNextKeyView" ref="964199446"/>
 															<string key="NSReuseIdentifierKey">_NS:13</string>
 															<string key="NSAntiCompressionPriority">{750, 1000}</string>
 															<object class="NSTextContainer" key="NSTextContainer" id="193883567">
@@ -1706,7 +1705,6 @@ wGw</bytes>
 															</object>
 															<int key="NSTVFlags">6</int>
 															<string key="NSMaxSize">{798, 10000000}</string>
-															<string key="NSMinize">{798, 0}</string>
 															<nil key="NSDelegate"/>
 															<array key="NSAllowedInputLocales">
 																<string>NSAllRomanInputSourcesLocaleIdentifier</string>
@@ -1904,7 +1902,7 @@ wGw</bytes>
 											<string key="NSFrameSize">{800, 34}</string>
 											<reference key="NSSuperview" ref="293524694"/>
 											<reference key="NSWindow"/>
-											<reference key="NSNextKeyView" ref="964199446"/>
+											<reference key="NSNextKeyView" ref="756916151"/>
 											<string key="NSReuseIdentifierKey">_NS:9</string>
 											<string key="NSHuggingPriority">{250, 251}</string>
 											<string key="NSAntiCompressionPriority">{750, 1000}</string>
@@ -1982,7 +1980,6 @@ wGw</bytes>
 									<string key="NSFrame">{{652, 0}, {131, 13}}</string>
 									<reference key="NSSuperview" ref="92593239"/>
 									<reference key="NSWindow"/>
-									<reference key="NSNextKeyView"/>
 									<string key="NSReuseIdentifierKey">_NS:1535</string>
 									<bool key="NSEnabled">YES</bool>
 									<object class="NSTextFieldCell" key="NSCell" id="213330679">
@@ -2447,6 +2444,22 @@ wGw</bytes>
 						<reference key="destination" ref="164799548"/>
 					</object>
 					<int key="connectionID">1282</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">hideApp:</string>
+						<reference key="source" ref="309048657"/>
+						<reference key="destination" ref="675152173"/>
+					</object>
+					<int key="connectionID">1283</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">hideOthers:</string>
+						<reference key="source" ref="309048657"/>
+						<reference key="destination" ref="213014785"/>
+					</object>
+					<int key="connectionID">1284</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
@@ -4005,7 +4018,7 @@ wGw</bytes>
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">1282</int>
+			<int key="maxID">1284</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -4077,6 +4090,8 @@ wGw</bytes>
 					<dictionary class="NSMutableDictionary" key="actions">
 						<string key="changeFontSize:">id</string>
 						<string key="copy:">id</string>
+						<string key="hideApp:">id</string>
+						<string key="hideOthers:">id</string>
 						<string key="paste:">id</string>
 						<string key="pasteSpecial:">id</string>
 						<string key="selectAll:">id</string>
@@ -4090,6 +4105,14 @@ wGw</bytes>
 						</object>
 						<object class="IBActionInfo" key="copy:">
 							<string key="name">copy:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="hideApp:">
+							<string key="name">hideApp:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="hideOthers:">
+							<string key="name">hideOthers:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 						<object class="IBActionInfo" key="paste:">

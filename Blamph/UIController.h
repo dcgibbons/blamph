@@ -57,6 +57,8 @@
    clickedOnLink:(id)link
          atIndex:(NSUInteger)charIndex;
 
+- (IBAction)hideApp:(id)sender;
+- (IBAction)hideOthers:(id)sender;
 - (IBAction)selectAll:(id)sender;
 - (IBAction)copy:(id)sender;
 - (IBAction)paste:(id)sender;

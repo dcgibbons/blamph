@@ -333,7 +333,6 @@
     NSString *s = [self removeControlCharacters:msg];
     if ([s length] > 0)
     {
-        
         NSArray *splits = [s smartSplitByLength:MAX_OPEN_MESSAGE_SIZE];
         for (NSString *split in splits)
         {
