@@ -976,6 +976,55 @@
         withTextStyle:kTextStylePersonalText];
 }
 
+- (void)displayPersonalEchobackPacket:(CommandOutputPacket *)p
+{
+    // XXX ICK!!!
+    
+    const NSTextStorage *textStorage = self.outputTextView.textStorage;
+
+    // <*to: fred*> hello, world
+    NSString *s = p.output;
+    
+    NSCharacterSet *astriskSet = [NSCharacterSet characterSetWithCharactersInString:@"*"];
+    NSRange range = [s rangeOfCharacterFromSet:astriskSet
+                                        options:0
+                                         range:NSMakeRange(6, [s length] - 6)];
+    if (range.location != NSNotFound)
+    {
+        NSString *prefix = [s substringWithRange:NSMakeRange(0, range.location + range.length + 1)];
+
+        NSMutableAttributedString *as = [[NSMutableAttributedString alloc] initWithString:prefix];
+        
+        const NSRange nickRange = NSMakeRange(0, [prefix length]);
+        const NSRange nickOnlyRange = NSMakeRange(6, [prefix length] - 6 - 2);
+        NSString *nick = [prefix substringWithRange:nickOnlyRange];
+        
+        [as addAttribute:NSLinkAttributeName
+                   value:nick
+                   range:nickOnlyRange];
+        [as addAttribute:NSBackgroundColorAttributeName
+                   value:_backgroundColor
+                   range:nickRange];
+        [as addAttribute:NSForegroundColorAttributeName
+                   value:_personalNickColor
+                   range:nickRange];
+        [as addAttribute:NSFontAttributeName
+                   value:_outputFont
+                   range:nickRange];
+        [as addAttribute:kTextStyle
+                   value:kTextStylePersonalNick
+                   range:nickRange];
+        [textStorage appendAttributedString:as];
+        [self displayText:[NSString stringWithFormat:@" %@\n", [s substringFromIndex:range.location + range.length + 2]]
+            withTextStyle:kTextStyleCommandText];
+    }
+    else
+    {
+        [self displayText:[NSString stringWithFormat:@"%@\n", s]
+            withTextStyle:kTextStyleCommandText];
+    }
+}
+
 - (void)displayBeepPacket:(BeepPacket *)p
 {
     const NSTextStorage *textStorage = self.outputTextView.textStorage;
@@ -1267,8 +1316,15 @@
     }
     else
     {
-        [self displayText:[NSString stringWithFormat:@"%@\n", p.output]
-            withTextStyle:kTextStyleCommandText];
+        if ([p.output hasPrefix:@"<*to: "])
+        {
+            [self displayPersonalEchobackPacket:p];
+        }
+        else
+        {
+            [self displayText:[NSString stringWithFormat:@"%@\n", p.output]
+                withTextStyle:kTextStyleCommandText];
+        }
     }
 }
 
