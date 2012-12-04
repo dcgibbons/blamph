@@ -23,6 +23,7 @@
 #import "StatusPacket.h"
 
 #import "NSString+StringUtils.h"
+#import "Reachability.h"
 
 #define kSendKeepAlives         @"sendKeepAlives"
 #define kKeepAliveInterval      @"keepAliveInterval"
@@ -31,8 +32,9 @@
 {
 @private
     NSDictionary *_packetHandlers;
-    
+
     enum { kDisconnected, kDisconnecting, kConnecting, kConnected } _connectionState;
+    Reachability *_reachability;
     
     NSUInteger _reconnectNeeded;
     
@@ -88,9 +90,26 @@
         _bytesSent = 0;
         _packetsReceived = 0;
         _packetsSent = 0;
+        
+        // here we set up a NSNotification observer. The Reachability that caused the notification
+        // is passed in the object parameter
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(reachabilityChanged:)
+                                                     name:kReachabilityChangedNotification
+                                                   object:nil];
     }
     return self;
 }
+
+- (void)reachabilityChanged:(NSNotification *)notification
+{
+    Reachability *reachability = notification.object;
+    if (!reachability.isReachable && self.isConnected)
+    {
+        [self disconnect];
+    }
+}
+
 
 - (BOOL)isConnected
 {
@@ -157,6 +176,10 @@
     
     [self changeConnectingState:kConnecting];
     
+    // allocate a reachability object
+    _reachability = [Reachability reachabilityWithHostname:hostname];
+    [_reachability startNotifier];
+    
     _hostname = hostname;
     _port = port;
     _nickname = userNickname;
@@ -190,21 +213,26 @@
 
 - (void)disconnect
 {
-    [self changeConnectingState:kDisconnecting];
-    
-    NSRunLoop *loop = [NSRunLoop currentRunLoop];
-
-    [self.ostream close];
-    [self.ostream removeFromRunLoop:loop forMode:NSDefaultRunLoopMode];
-    [self.ostream setDelegate:nil];
-    self.ostream = nil;
-
-    [self.istream close];
-    [self.istream removeFromRunLoop:loop forMode:NSDefaultRunLoopMode];
-    [self.istream setDelegate:nil];
-    self.istream = nil;
-    
-    [self changeConnectingState:kDisconnected];
+    if ([self isConnected])
+    {
+        [self changeConnectingState:kDisconnecting];
+        
+        [_reachability stopNotifier];
+        
+        NSRunLoop *loop = [NSRunLoop currentRunLoop];
+        
+        [self.ostream close];
+        [self.ostream removeFromRunLoop:loop forMode:NSDefaultRunLoopMode];
+        [self.ostream setDelegate:nil];
+        self.ostream = nil;
+        
+        [self.istream close];
+        [self.istream removeFromRunLoop:loop forMode:NSDefaultRunLoopMode];
+        [self.istream setDelegate:nil];
+        self.istream = nil;
+        
+        [self changeConnectingState:kDisconnected];
+    }
 }
 
 - (void)setupPacketHandlers
