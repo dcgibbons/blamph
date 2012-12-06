@@ -38,7 +38,7 @@
             text = @"";
         }
         
-        [splits addObject:current];
+        [splits addObject:[current stringByTrimmingCharactersInSet:whitespace]];
     } while ([text length] > 0);
     
     return splits;
