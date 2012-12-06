@@ -213,6 +213,8 @@
 
 - (void)disconnect
 {
+    BOOL wasConnecting = _connectionState == kConnecting;
+    
     if ([self isConnected])
     {
         [self changeConnectingState:kDisconnecting];
@@ -232,6 +234,12 @@
         self.istream = nil;
         
         [self changeConnectingState:kDisconnected];
+    }
+    
+    if (wasConnecting)
+    {
+        NSNotificationCenter *ns = [NSNotificationCenter defaultCenter];
+        [ns postNotificationName:kICBClient_connectfailed object:self];
     }
 }
 
@@ -311,6 +319,8 @@
 - (void)handlePacket:(ICBPacket *)packet
 {
     _packetsReceived++;
+    
+    DLog(@"handlePacket: %@", packet);
 
     SEL selector = [[_packetHandlers valueForKey:[packet className]] pointerValue];
     if (selector)
@@ -537,8 +547,6 @@
 
 - (void)stream:(NSStream *)theStream handleEvent:(NSStreamEvent)streamEvent
 {
-    NSNotificationCenter *ns = [NSNotificationCenter defaultCenter];
-    
     switch (streamEvent) {
         case NSStreamEventOpenCompleted:
             _readState = kWaitingForPacket;
@@ -554,10 +562,7 @@
             break;
             
         case NSStreamEventErrorOccurred:
-            if (_connectionState == kConnecting)
-            {
-                [ns postNotificationName:kICBClient_connectfailed object:self];
-            }
+            [self disconnect];
             break;
             
         case NSStreamEventEndEncountered:
