@@ -71,7 +71,7 @@
 {
     NSMutableDictionary *d = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                               @"unknown", @"hostname",
-                              [NSNumber numberWithInt:7326], @"port",
+                              @7326, @"port",
                               nil];
     [self.serverDefinitions addObject:d];
 }
@@ -90,7 +90,7 @@
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     if ([keyPath compare:@"selectionIndexes"] == NSOrderedSame)
     {
-        [userDefaults setValue:[NSNumber numberWithUnsignedLong:[self.serverDefinitions selectionIndex]]
+        [userDefaults setValue:@([self.serverDefinitions selectionIndex])
                         forKey:@"defaultServer"];
     }
     else

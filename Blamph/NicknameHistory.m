@@ -48,7 +48,7 @@
 {
     for (NSUInteger i = 0, n = [history count]; i < n; i++)
     {
-        NSString *nick = [history objectAtIndex:i];
+        NSString *nick = history[i];
         if ([nick compare:nickname options:NSCaseInsensitiveSearch] == NSOrderedSame)
         {
             [history removeObjectAtIndex:i];
@@ -65,7 +65,7 @@
     NSString *nickname = nil;
     @try
     {
-        nickname = [history objectAtIndex:currentHistory];
+        nickname = history[currentHistory];
         currentHistory++;
         if (currentHistory == [history count])
         {

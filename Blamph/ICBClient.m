@@ -237,13 +237,11 @@
 
 - (void)setupPacketHandlers
 {
-    NSDictionary *d = [NSDictionary dictionaryWithObjectsAndKeys:
-                       [NSValue valueWithPointer:@selector(handleErrorPacket:)], [ErrorPacket className],
-                       [NSValue valueWithPointer:@selector(handleExitPacket:)], [ExitPacket className],
-                       [NSValue valueWithPointer:@selector(handleLoginPacket:)], [LoginPacket className],
-                       [NSValue valueWithPointer:@selector(handlePersonalPacket:)], [PersonalPacket className],
-                       [NSValue valueWithPointer:@selector(handleProtocolPacket:)], [ProtocolPacket className],
-                       nil];
+    NSDictionary *d = @{[ErrorPacket className]: [NSValue valueWithPointer:@selector(handleErrorPacket:)],
+                       [ExitPacket className]: [NSValue valueWithPointer:@selector(handleExitPacket:)],
+                       [LoginPacket className]: [NSValue valueWithPointer:@selector(handleLoginPacket:)],
+                       [PersonalPacket className]: [NSValue valueWithPointer:@selector(handlePersonalPacket:)],
+                       [ProtocolPacket className]: [NSValue valueWithPointer:@selector(handleProtocolPacket:)]};
     _packetHandlers = d;
 }
 

@@ -14,129 +14,87 @@ static NSArray *commands = nil;
 
 + (NSArray *)createCommands
 {
-    return [NSArray arrayWithObjects:
+    return @[@{@"command": @"beep",
+             @"alias": @"b",
+             @"class": @"GenericCommand",
+             @"commandName": @"beep"},
             
-            [NSDictionary dictionaryWithObjectsAndKeys:
-             @"beep", @"command",
-             @"b", @"alias",
-             @"GenericCommand", @"class",
-             @"beep", @"commandName",
-             nil],
+            @{@"command": @"boot",
+             @"class": @"GenericCommand",
+             @"commandName": @"boot"},
             
-            [NSDictionary dictionaryWithObjectsAndKeys:
-             @"boot", @"command",
-             @"GenericCommand", @"class",
-             @"boot", @"commandName",
-             nil],
+            @{@"command": @"cancel",
+             @"class": @"GenericCommand",
+             @"commandName": @"cancel"},
             
-            [NSDictionary dictionaryWithObjectsAndKeys:
-             @"cancel", @"command",
-             @"GenericCommand", @"class",
-             @"cancel", @"commandName",
-             nil],
+            @{@"command": @"cp",
+             @"class": @"GenericCommand",
+             @"commandName": @"cp"},
             
-            [NSDictionary dictionaryWithObjectsAndKeys:
-             @"cp", @"command",
-             @"GenericCommand", @"class",
-             @"cp", @"commandName",
-             nil],
+            @{@"command": @"drop",
+             @"alias": @"d",
+             @"class": @"GenericCommand",
+             @"commandName": @"drop"},
             
-            [NSDictionary dictionaryWithObjectsAndKeys:
-             @"drop", @"command",
-             @"d", @"alias",
-             @"GenericCommand", @"class",
-             @"drop", @"commandName",
-             nil],
+            @{@"command": @"echoback",
+             @"class": @"GenericCommand",
+             @"commandName": @"echoback"},
             
-            [NSDictionary dictionaryWithObjectsAndKeys:
-             @"echoback", @"command",
-             @"GenericCommand", @"class",
-             @"echoback", @"commandName",
-             nil],
+            @{@"command": @"group",
+             @"alias": @"g",
+             @"class": @"GenericCommand",
+             @"commandName": @"g"},
             
-            [NSDictionary dictionaryWithObjectsAndKeys:
-             @"group", @"command",
-             @"g", @"alias",
-             @"GenericCommand", @"class",
-             @"g", @"commandName",
-             nil],
+            @{@"command": @"invite",
+             @"alias": @"i",
+             @"class": @"GenericCommand",
+             @"commandName": @"invite"},
             
-            [NSDictionary dictionaryWithObjectsAndKeys:
-             @"invite", @"command",
-             @"i", @"alias",
-             @"GenericCommand", @"class",
-             @"invite", @"commandName",
-             nil],
+            @{@"command": @"motd",
+             @"class": @"GenericCommand",
+             @"commandName": @"motd"},
             
-            [NSDictionary dictionaryWithObjectsAndKeys:
-             @"motd", @"command",
-             @"GenericCommand", @"class",
-             @"motd", @"commandName",
-             nil],
+            @{@"command": @"nick",
+             @"class": @"GenericCommand",
+             @"commandName": @"name"},
             
-            [NSDictionary dictionaryWithObjectsAndKeys:
-             @"nick", @"command",
-             @"GenericCommand", @"class",
-             @"name", @"commandName",
-             nil],
+            @{@"command": @"pass",
+             @"class": @"GenericCommand",
+             @"commandName": @"pass"},
             
-            [NSDictionary dictionaryWithObjectsAndKeys:
-             @"pass", @"command",
-             @"GenericCommand", @"class",
-             @"pass", @"commandName",
-             nil],
+            @{@"command": @"status",
+             @"class": @"GenericCommand",
+             @"commandName": @"status"},
             
-            [NSDictionary dictionaryWithObjectsAndKeys:
-             @"status", @"command",
-             @"GenericCommand", @"class",
-             @"status", @"commandName",
-             nil],
+            @{@"command": @"topic",
+             @"class": @"GenericCommand",
+             @"commandName": @"topic"},
             
-            [NSDictionary dictionaryWithObjectsAndKeys:
-             @"topic", @"command",
-             @"GenericCommand", @"class",
-             @"topic", @"commandName",
-             nil],
+            @{@"command": @"read",
+             @"class": @"GenericCommand",
+             @"commandName": @"read"},
             
-            [NSDictionary dictionaryWithObjectsAndKeys:
-             @"read", @"command",
-             @"GenericCommand", @"class",
-             @"read", @"commandName",
-             nil],
+            @{@"command": @"write",
+             @"class": @"WriteMessageCommand"},
             
-            [NSDictionary dictionaryWithObjectsAndKeys:
-             @"write", @"command",
-             @"WriteMessageCommand", @"class",
-             nil],
+            @{@"command": @"msg",
+             @"alias": @"m",
+             @"class": @"MessageCommand"},
             
-            [NSDictionary dictionaryWithObjectsAndKeys:
-             @"msg", @"command",
-             @"m", @"alias",
-             @"MessageCommand", @"class",
-             nil],
+            @{@"command": @"register",
+             @"alias": @"p",
+             @"class": @"GenericCommand",
+             @"commandName": @"p"},
             
-            [NSDictionary dictionaryWithObjectsAndKeys:
-             @"register", @"command",
-             @"p", @"alias",
-             @"GenericCommand", @"class",
-             @"p", @"commandName",
-             nil],
+            @{@"command": @"version",
+             @"alias": @"v",
+             @"class": @"GenericCommand",
+             @"commandName": @"v"},
             
-            [NSDictionary dictionaryWithObjectsAndKeys:
-             @"version", @"command",
-             @"v", @"alias",
-             @"GenericCommand", @"class",
-             @"v", @"commandName",
-             nil],
-            
-            [NSDictionary dictionaryWithObjectsAndKeys:
-             @"who", @"command",
-             @"w", @"alias",
-             @"GenericCommand", @"class",
-             @"w", @"commandName",
-             nil],
-            
-            nil];
+            @{@"command": @"who",
+             @"alias": @"w",
+             @"class": @"GenericCommand",
+             @"commandName": @"w"}];
 }
 
 + (id)commandWithString:(const NSString *)s
@@ -147,7 +105,7 @@ static NSArray *commands = nil;
     }
     
     const NSArray *args = [s componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-    const NSString *cmdName = [args objectAtIndex:0];
+    const NSString *cmdName = args[0];
     
     __block ClientCommand *command = nil;
 
@@ -155,14 +113,14 @@ static NSArray *commands = nil;
     {
         NSDictionary *d = (NSDictionary *)obj;
         
-        NSString *commandName = [d objectForKey:@"command"];
-        NSString *aliasName = [d objectForKey:@"alias"];
+        NSString *commandName = d[@"command"];
+        NSString *aliasName = d[@"alias"];
         
         if ([cmdName compare:commandName options:NSCaseInsensitiveSearch] == NSOrderedSame ||
             [cmdName compare:aliasName options:NSCaseInsensitiveSearch] == NSOrderedSame)
         {
-            NSString *className = [d objectForKey:@"class"];
-            NSString *genericCommandName = [d objectForKey:@"commandName"];
+            NSString *className = d[@"class"];
+            NSString *genericCommandName = d[@"commandName"];
             command = [[NSClassFromString(className) alloc] initWithCommandName:genericCommandName
                                                                         andArgs:[args subarrayWithRange:NSMakeRange(1, [args count] - 1)]];
             *stop = TRUE;

@@ -110,13 +110,11 @@
 + (void)initialize
 {
     // load the default values for the user defaults
-    NSDictionary *d = [NSDictionary dictionaryWithObjectsAndKeys:
-                       [NSNumber numberWithInt:kColorSchemeDefault], kColorScheme,
-                       [NSNumber numberWithBool:YES], kUseTransparency,
-                       [NSNumber numberWithFloat:0.75], kOpacityLevel,
-                       [NSNumber numberWithDouble:kDefaultOutputFontSize], kOutputFontPointSize,
-                       [NSNumber numberWithDouble:kDefaultTimestampFontSize], kTimestampFontPointSize,
-                       nil];
+    NSDictionary *d = @{kColorScheme: @kColorSchemeDefault,
+                       kUseTransparency: @YES,
+                       kOpacityLevel: @0.75f,
+                       kOutputFontPointSize: @kDefaultOutputFontSize,
+                       kTimestampFontPointSize: @kDefaultTimestampFontSize};
     
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults registerDefaults:d];
@@ -265,7 +263,7 @@
                 }
                 
                 _inputHistoryIndex--;
-                NSString *inputBuffer = [_inputHistory objectAtIndex:_inputHistoryIndex];
+                NSString *inputBuffer = _inputHistory[_inputHistoryIndex];
                 [self.inputTextView setString:inputBuffer];
             }
 
@@ -277,7 +275,7 @@
             if (_inputHistoryIndex < count - 1)
             {
                 _inputHistoryIndex++;
-                NSString *inputBuffer = [_inputHistory objectAtIndex:_inputHistoryIndex];
+                NSString *inputBuffer = _inputHistory[_inputHistoryIndex];
                 [self.inputTextView setString:inputBuffer];
             }
             else if (_inputHistoryIndex == count - 1)
@@ -380,7 +378,7 @@
                                             range:NSMakeRange(1, [inputText length] - 1)];
         if ([matches count] > 0)
         {
-            NSTextCheckingResult *match = [matches objectAtIndex:0];
+            NSTextCheckingResult *match = matches[0];
             NSRange commandRange = [match rangeAtIndex:1];
             NSRange argsRange = [match rangeAtIndex:3];
             NSString *command = [inputText substringWithRange:commandRange];
@@ -447,8 +445,7 @@
     NSString *password = [userDefaults stringForKey:@"password"];
     
     NSUInteger server = [[userDefaults valueForKey:@"defaultServer"] unsignedLongValue];
-    NSDictionary *serverDefinition = [[userDefaults arrayForKey:@"servers"]
-                                      objectAtIndex:server];
+    NSDictionary *serverDefinition = [userDefaults arrayForKey:@"servers"][server];
     if (serverDefinition != nil)
     {
         [self.client connectUsingHostname:[serverDefinition valueForKey:@"hostname"]
@@ -498,8 +495,8 @@
     // send them to a URL shortener processor before they are pasted to the
     // input buffer
     NSPasteboard *pasteboard = [NSPasteboard generalPasteboard];
-    NSArray *classes = [[NSArray alloc] initWithObjects:[NSString class], nil];
-    NSDictionary *options = [NSDictionary dictionary];
+    NSArray *classes = @[[NSString class]];
+    NSDictionary *options = @{};
     NSArray *copiedItems = [pasteboard readObjectsForClasses:classes
                                                      options:options];
     for (NSString *text in copiedItems)
@@ -541,10 +538,8 @@
     NSArray *constraints = nil;
     if (isHidden)
     {
-        views = [NSDictionary dictionaryWithObjectsAndKeys:
-                 self.splitView, @"splitview",
-                 self.statusBarView, @"bottomview",
-                 nil];
+        views = @{@"splitview": self.splitView,
+                 @"bottomview": self.statusBarView};
         constraints = [NSLayoutConstraint constraintsWithVisualFormat:@"V:[splitview]-(0)-[bottomview]"
                                                               options:0
                                                               metrics:nil
@@ -554,15 +549,14 @@
     {
         // the status bar was previously visible, so change our bottom
         // constraint to be relative to the superview, not the status bar
-        views = [NSDictionary dictionaryWithObjectsAndKeys:self.splitView, @"splitview",
-                 nil];
+        views = @{@"splitview": self.splitView};
         constraints = [NSLayoutConstraint constraintsWithVisualFormat:@"V:[splitview]-(0)-|"
                                                               options:0
                                                               metrics:nil
                                                                 views:views];
     }
     
-    [self.splitView.superview removeConstraints:[NSArray arrayWithObject:self.bottomConstraint]];
+    [self.splitView.superview removeConstraints:@[self.bottomConstraint]];
     self.bottomConstraint = constraints[0];
     [self.splitView.superview addConstraints:constraints];
     [self.splitView.superview setNeedsUpdateConstraints:YES];
@@ -611,9 +605,9 @@
     }
     
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    [userDefaults setValue:[NSNumber numberWithDouble:[_outputFont pointSize]]
+    [userDefaults setValue:@([_outputFont pointSize])
                     forKey:kOutputFontPointSize];
-    [userDefaults setValue:[NSNumber numberWithDouble:[_timestampFont pointSize]]
+    [userDefaults setValue:@([_timestampFont pointSize])
                     forKey:kTimestampFontPointSize];
 
     [self didUpdateFonts];
@@ -1345,17 +1339,15 @@
          
 - (void)setupPacketHandlers
 {
-    NSDictionary *d = [NSDictionary dictionaryWithObjectsAndKeys:
-                       [NSValue valueWithPointer:@selector(displayBeepPacket:)], [BeepPacket className],
-                       [NSValue valueWithPointer:@selector(displayCommandOutputPacket:)], [CommandOutputPacket className],
-                       [NSValue valueWithPointer:@selector(displayErrorPacket:)], [ErrorPacket className],
-                       [NSValue valueWithPointer:@selector(displayExitPacket:)], [ExitPacket className],
-                       [NSValue valueWithPointer:@selector(displayOpenPacket:)], [OpenPacket className],
-                       [NSValue valueWithPointer:@selector(displayPersonalPacket:)], [PersonalPacket className],
-                       [NSValue valueWithPointer:@selector(displayPingPacket:)], [PingPacket className],
-                       [NSValue valueWithPointer:@selector(displayProtocolPacket:)], [ProtocolPacket className],
-                       [NSValue valueWithPointer:@selector(displayStatusPacket:)], [StatusPacket className],
-                       nil];
+    NSDictionary *d = @{[BeepPacket className]: [NSValue valueWithPointer:@selector(displayBeepPacket:)],
+                       [CommandOutputPacket className]: [NSValue valueWithPointer:@selector(displayCommandOutputPacket:)],
+                       [ErrorPacket className]: [NSValue valueWithPointer:@selector(displayErrorPacket:)],
+                       [ExitPacket className]: [NSValue valueWithPointer:@selector(displayExitPacket:)],
+                       [OpenPacket className]: [NSValue valueWithPointer:@selector(displayOpenPacket:)],
+                       [PersonalPacket className]: [NSValue valueWithPointer:@selector(displayPersonalPacket:)],
+                       [PingPacket className]: [NSValue valueWithPointer:@selector(displayPingPacket:)],
+                       [ProtocolPacket className]: [NSValue valueWithPointer:@selector(displayProtocolPacket:)],
+                       [StatusPacket className]: [NSValue valueWithPointer:@selector(displayStatusPacket:)]};
     _packetHandlers = d;
 }
 
@@ -1389,7 +1381,7 @@
         NSUInteger len = 0;
         for (NSUInteger i  = 0; i < n - maxLines; i++)
         {
-            len += [[paragraphs objectAtIndex:i] length];
+            len += [paragraphs[i] length];
         }
         const NSRange r = NSMakeRange(1, len);
         [textStorage deleteCharactersInRange:r];

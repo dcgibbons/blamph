@@ -12,7 +12,7 @@
 
 - (void)processCommandWithClient:(ICBClient *)client
 {
-    [client sendPersonalMessage:[args objectAtIndex:0]
+    [client sendPersonalMessage:args[0]
                         withMsg:[[args subarrayWithRange:NSMakeRange(1, [args count] - 1)] componentsJoinedByString:@" "]];
 }
 

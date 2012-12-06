@@ -20,17 +20,15 @@
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     
     // load the default values for the user defaults
-    NSArray *servers = [NSArray arrayWithObject:
-                        [NSDictionary dictionaryWithObjectsAndKeys:
-                         @"default.icb.net", @"hostname",
-                         [NSNumber numberWithInt:7326], @"port",
-                         nil]];
-    NSDictionary *d = [NSDictionary dictionaryWithObjectsAndKeys:
-                       servers, @"servers",
-                       [NSNumber numberWithUnsignedLong:0L], @"defaultServer",
-                       [NSNumber numberWithBool:YES], @"sendKeepAlives",
-                       [NSNumber numberWithDouble:60.0], @"keepAliveInterval",
-                       nil];
+    NSArray *servers = @[
+        @{@"hostname": @"default.icb.net", @"port": @7326}
+    ];
+    NSDictionary *d = @{
+        @"servers": servers,
+        @"defaultServer": @0UL,
+        @"sendKeepAlives": @YES,
+        @"keepAliveInterval": @60.0
+    };
     [userDefaults registerDefaults:d];
 }
 
@@ -75,7 +73,7 @@
         NSViewController *advanced = [[AdvancedViewController alloc]
                                       initWithNibName:@"AdvancedViewController"
                                       bundle:mainBundle];
-        NSArray *views = [NSArray arrayWithObjects:general, advanced, nil];
+        NSArray *views = @[general, advanced];
         self.preferences = [[MASPreferencesWindowController alloc]
                             initWithViewControllers:views
                             title:@"Preferences"];
