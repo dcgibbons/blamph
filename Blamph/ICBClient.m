@@ -9,19 +9,7 @@
 #import "ICBClient.h"
 
 #import <DebugKitFramework/DebugKit.h>
-#import <ICBProtocolFramework/BeepPacket.h>
-#import <ICBProtocolFramework/CommandPacket.h>
-#import <ICBProtocolFramework/CommandOutputPacket.h>
-#import <ICBProtocolFramework/ErrorPacket.h>
-#import <ICBProtocolFramework/ExitPacket.h>
-#import <ICBProtocolFramework/LoginPacket.h>
-#import <ICBProtocolFramework/NoOpPacket.h>
-#import <ICBProtocolFramework/PersonalPacket.h>
-#import <ICBProtocolFramework/PingPacket.h>
-#import <ICBProtocolFramework/PongPacket.h>
-#import <ICBProtocolFramework/ProtocolPacket.h>
-#import <ICBProtocolFramework/OpenPacket.h>
-#import <ICBProtocolFramework/StatusPacket.h>
+#import <ICBProtocolFramework/ICBProtocol.h>
 
 #import "NSString+StringUtils.h"
 #import "Reachability.h"
