@@ -7,7 +7,8 @@
 //
 
 #import "GenericCommand.h"
-#import "CommandPacket.h"
+
+#import <ICBProtocolFramework/CommandPacket.h>
 
 @implementation GenericCommand
 

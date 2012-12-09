@@ -9,19 +9,21 @@
 #import "UIController.h"
 #import "ClientCommand.h"
 #import "DateTimeUtils.h"
-#import "BeepPacket.h"
-#import "CommandPacket.h"
-#import "CommandOutputPacket.h"
-#import "ErrorPacket.h"
-#import "ExitPacket.h"
-#import "LoginPacket.h"
-#import "PersonalPacket.h"
-#import "PingPacket.h"
-#import "PongPacket.h"
-#import "ProtocolPacket.h"
-#import "OpenPacket.h"
-#import "StatusPacket.h"
 #import "URLHelper.h"
+
+#import <ICBProtocolFramework/BeepPacket.h>
+#import <ICBProtocolFramework/CommandPacket.h>
+#import <ICBProtocolFramework/CommandOutputPacket.h>
+#import <ICBProtocolFramework/ErrorPacket.h>
+#import <ICBProtocolFramework/ExitPacket.h>
+#import <ICBProtocolFramework/LoginPacket.h>
+#import <ICBProtocolFramework/NoOpPacket.h>
+#import <ICBProtocolFramework/PersonalPacket.h>
+#import <ICBProtocolFramework/PingPacket.h>
+#import <ICBProtocolFramework/PongPacket.h>
+#import <ICBProtocolFramework/ProtocolPacket.h>
+#import <ICBProtocolFramework/OpenPacket.h>
+#import <ICBProtocolFramework/StatusPacket.h>
 
 @interface UIController()
 {

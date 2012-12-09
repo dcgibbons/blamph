@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-#import "ICBPacket.h"
+#import <ICBProtocolFramework/ICBPacket.h>
 #import "NicknameHistory.h"
 
 /*!

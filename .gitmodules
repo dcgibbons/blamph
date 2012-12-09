@@ -1,0 +1,12 @@
+[submodule "deps/DebugKit"]
+	path = deps/DebugKit
+	url = git@github.com:dcgibbons/DebugKit.git
+[submodule "deps/MASPreferences"]
+	path = deps/MASPreferences
+	url = git@github.com:dcgibbons/MASPreferences.git
+[submodule "deps/Reachability"]
+	path = deps/Reachability
+	url = git@github.com:dcgibbons/Reachability.git
+[submodule "deps/icb-protocol"]
+	path = deps/icb-protocol
+	url = git@github.com:dcgibbons/icb-protocol.git

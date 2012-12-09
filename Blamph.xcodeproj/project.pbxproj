@@ -11,24 +11,23 @@
 		C223285216683C8A00D3C60F /* NicknameHistoryTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C223285116683C8A00D3C60F /* NicknameHistoryTests.m */; };
 		C223285A1668440D00D3C60F /* NSString+StringUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = C22328591668440D00D3C60F /* NSString+StringUtils.m */; };
 		C225824E166E1BF000D61FB4 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C225824D166E1BF000D61FB4 /* SystemConfiguration.framework */; };
-		C2258251166E231100D61FB4 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = C2258250166E231100D61FB4 /* Reachability.m */; };
 		C24330AC1645958A0039A005 /* ClientCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = C24330AB1645958A0039A005 /* ClientCommand.m */; };
 		C24330D31645B3780039A005 /* WriteMessageCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = C24330D21645B3780039A005 /* WriteMessageCommand.m */; };
 		C24330D61645B7950039A005 /* MessageCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = C24330D51645B7950039A005 /* MessageCommand.m */; };
 		C24330E91645BBC60039A005 /* GenericCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = C24330E81645BBC60039A005 /* GenericCommand.m */; };
-		C29FE8CC165BFFB8001A2C0D /* DebugKitFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C29FE8C0165BFF28001A2C0D /* DebugKitFramework.framework */; };
-		C2AB6AB81661922900BC4A2B /* NoOpPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = C2AB6AB71661922900BC4A2B /* NoOpPacket.m */; };
+		C28CEC3116742C3500D8BE95 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = C28CEC2B16742C3500D8BE95 /* .gitignore */; };
+		C28CEC3216742C3500D8BE95 /* MASPreferencesWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = C28CEC2D16742C3500D8BE95 /* MASPreferencesWindow.xib */; };
+		C28CEC3316742C3500D8BE95 /* MASPreferencesWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = C28CEC2F16742C3500D8BE95 /* MASPreferencesWindowController.m */; };
+		C28CEC3416742C3500D8BE95 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = C28CEC3016742C3500D8BE95 /* README.md */; };
+		C28CEC4816742C4E00D8BE95 /* DebugKitFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C28CEC4116742C4700D8BE95 /* DebugKitFramework.framework */; };
+		C28CEC6416742D5300D8BE95 /* ICBProtocolFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C28CEC5C16742D4B00D8BE95 /* ICBProtocolFramework.framework */; };
+		C28CEC7A16742EA600D8BE95 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = C28CEC7916742EA600D8BE95 /* Reachability.m */; };
 		C2B3B0251655FA9000D0991B /* UIController.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B3B0241655FA9000D0991B /* UIController.m */; };
-		C2B3B0441657DBF000D0991B /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = C2B3B03E1657DBF000D0991B /* .gitignore */; };
-		C2B3B0451657DBF000D0991B /* MASPreferencesWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = C2B3B0401657DBF000D0991B /* MASPreferencesWindow.xib */; };
-		C2B3B0461657DBF000D0991B /* MASPreferencesWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B3B0421657DBF000D0991B /* MASPreferencesWindowController.m */; };
-		C2B3B0471657DBF000D0991B /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = C2B3B0431657DBF000D0991B /* README.md */; };
 		C2B3B04B1657DC6D00D0991B /* GeneralViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B3B0491657DC6D00D0991B /* GeneralViewController.m */; };
 		C2B3B04C1657DC6D00D0991B /* GeneralViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C2B3B04A1657DC6D00D0991B /* GeneralViewController.xib */; };
 		C2B3B0501657DC7500D0991B /* AdvancedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B3B04E1657DC7500D0991B /* AdvancedViewController.m */; };
 		C2B3B0511657DC7500D0991B /* AdvancedViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C2B3B04F1657DC7500D0991B /* AdvancedViewController.xib */; };
 		C2BA824D165B1D1E005C88DE /* NicknameHistory.m in Sources */ = {isa = PBXBuildFile; fileRef = C2BA824C165B1D1E005C88DE /* NicknameHistory.m */; };
-		C2CEA773165C041400C30869 /* DebugKitFramework.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = C29FE8C0165BFF28001A2C0D /* DebugKitFramework.framework */; };
 		C2CEA775165C0AB100C30869 /* Blamph-Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = C2CEA774165C0AB100C30869 /* Blamph-Icon.png */; };
 		C2F19574163F26E3006D48A4 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2F1953D163F2628006D48A4 /* Cocoa.framework */; };
 		C2F1957A163F26E3006D48A4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C2F19578163F26E3006D48A4 /* InfoPlist.strings */; };
@@ -41,72 +40,65 @@
 		C2F19596163F26E3006D48A4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C2F19594163F26E3006D48A4 /* InfoPlist.strings */; };
 		C2F19599163F26E3006D48A4 /* BlamphTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C2F19598163F26E3006D48A4 /* BlamphTests.m */; };
 		C2F195AF163F2C8B006D48A4 /* ICBClient.m in Sources */ = {isa = PBXBuildFile; fileRef = C2F195AE163F2C8B006D48A4 /* ICBClient.m */; };
-		C2F199E816404A64006D48A4 /* BeepPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = C2F199CF16404A64006D48A4 /* BeepPacket.m */; };
-		C2F199E916404A64006D48A4 /* BeepPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = C2F199CF16404A64006D48A4 /* BeepPacket.m */; };
-		C2F199EA16404A64006D48A4 /* ErrorPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = C2F199D116404A64006D48A4 /* ErrorPacket.m */; };
-		C2F199EB16404A64006D48A4 /* ErrorPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = C2F199D116404A64006D48A4 /* ErrorPacket.m */; };
-		C2F199EC16404A64006D48A4 /* ExitPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = C2F199D316404A64006D48A4 /* ExitPacket.m */; };
-		C2F199ED16404A64006D48A4 /* ExitPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = C2F199D316404A64006D48A4 /* ExitPacket.m */; };
-		C2F199EE16404A64006D48A4 /* ICBPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = C2F199D516404A64006D48A4 /* ICBPacket.m */; };
-		C2F199EF16404A64006D48A4 /* ICBPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = C2F199D516404A64006D48A4 /* ICBPacket.m */; };
-		C2F199F016404A64006D48A4 /* ICBProtocol-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C2F199D616404A64006D48A4 /* ICBProtocol-Info.plist */; };
-		C2F199F116404A64006D48A4 /* ICBProtocol-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C2F199D616404A64006D48A4 /* ICBProtocol-Info.plist */; };
-		C2F199F216404A64006D48A4 /* ICBProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = C2F199D916404A64006D48A4 /* ICBProtocol.m */; };
-		C2F199F316404A64006D48A4 /* ICBProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = C2F199D916404A64006D48A4 /* ICBProtocol.m */; };
-		C2F199F416404A64006D48A4 /* LoginPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = C2F199DB16404A64006D48A4 /* LoginPacket.m */; };
-		C2F199F516404A64006D48A4 /* LoginPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = C2F199DB16404A64006D48A4 /* LoginPacket.m */; };
-		C2F199F616404A64006D48A4 /* OpenPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = C2F199DD16404A64006D48A4 /* OpenPacket.m */; };
-		C2F199F716404A64006D48A4 /* OpenPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = C2F199DD16404A64006D48A4 /* OpenPacket.m */; };
-		C2F199F816404A64006D48A4 /* PersonalPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = C2F199DF16404A64006D48A4 /* PersonalPacket.m */; };
-		C2F199F916404A64006D48A4 /* PersonalPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = C2F199DF16404A64006D48A4 /* PersonalPacket.m */; };
-		C2F199FA16404A64006D48A4 /* PingPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = C2F199E116404A64006D48A4 /* PingPacket.m */; };
-		C2F199FB16404A64006D48A4 /* PingPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = C2F199E116404A64006D48A4 /* PingPacket.m */; };
-		C2F199FC16404A64006D48A4 /* PongPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = C2F199E316404A64006D48A4 /* PongPacket.m */; };
-		C2F199FD16404A64006D48A4 /* PongPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = C2F199E316404A64006D48A4 /* PongPacket.m */; };
-		C2F199FE16404A64006D48A4 /* ProtocolPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = C2F199E516404A64006D48A4 /* ProtocolPacket.m */; };
-		C2F199FF16404A64006D48A4 /* ProtocolPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = C2F199E516404A64006D48A4 /* ProtocolPacket.m */; };
-		C2F19A0016404A64006D48A4 /* StatusPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = C2F199E716404A64006D48A4 /* StatusPacket.m */; };
-		C2F19A0116404A64006D48A4 /* StatusPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = C2F199E716404A64006D48A4 /* StatusPacket.m */; };
-		C2F19A1F16404BC0006D48A4 /* CommandPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = C2F19A1E16404BC0006D48A4 /* CommandPacket.m */; };
-		C2F19A2216404BDC006D48A4 /* CommandOutputPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = C2F19A2116404BDC006D48A4 /* CommandOutputPacket.m */; };
 		C2F19A6916449B5B006D48A4 /* DateTimeUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = C2F19A6816449B5B006D48A4 /* DateTimeUtils.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		C29FE8BF165BFF28001A2C0D /* PBXContainerItemProxy */ = {
+		C28CEC4016742C4700D8BE95 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = C29FE8B5165BFF28001A2C0D /* DebugKit.xcodeproj */;
+			containerPortal = C28CEC3616742C4700D8BE95 /* DebugKit.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = C2864811159AC401006B31D4;
 			remoteInfo = DebugKitFramework;
 		};
-		C29FE8C1165BFF28001A2C0D /* PBXContainerItemProxy */ = {
+		C28CEC4216742C4700D8BE95 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = C29FE8B5165BFF28001A2C0D /* DebugKit.xcodeproj */;
+			containerPortal = C28CEC3616742C4700D8BE95 /* DebugKit.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = C2864829159AC401006B31D4;
 			remoteInfo = DebugKitFrameworkTests;
 		};
-		C29FE8C3165BFF28001A2C0D /* PBXContainerItemProxy */ = {
+		C28CEC4416742C4700D8BE95 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = C29FE8B5165BFF28001A2C0D /* DebugKit.xcodeproj */;
+			containerPortal = C28CEC3616742C4700D8BE95 /* DebugKit.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = C286484F159AC657006B31D4;
 			remoteInfo = DebugKitLibrary;
 		};
-		C29FE8C5165BFF28001A2C0D /* PBXContainerItemProxy */ = {
+		C28CEC4616742C4700D8BE95 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = C29FE8B5165BFF28001A2C0D /* DebugKit.xcodeproj */;
+			containerPortal = C28CEC3616742C4700D8BE95 /* DebugKit.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = C286485D159AC657006B31D4;
 			remoteInfo = DebugKitLibraryTests;
 		};
-		C29FE8CA165BFFB4001A2C0D /* PBXContainerItemProxy */ = {
+		C28CEC5716742D4B00D8BE95 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = C29FE8B5165BFF28001A2C0D /* DebugKit.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = C2864810159AC401006B31D4;
-			remoteInfo = DebugKitFramework;
+			containerPortal = C28CEC4916742D4A00D8BE95 /* ICBProtocol.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C2F19799163F6D84006D48A4;
+			remoteInfo = ICBProtocol;
+		};
+		C28CEC5916742D4B00D8BE95 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C28CEC4916742D4A00D8BE95 /* ICBProtocol.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C2F197AD163F6D84006D48A4;
+			remoteInfo = ICBProtocolTests;
+		};
+		C28CEC5B16742D4B00D8BE95 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C28CEC4916742D4A00D8BE95 /* ICBProtocol.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C2F19983163F8C11006D48A4;
+			remoteInfo = ICBProtocolFramework;
+		};
+		C28CEC5D16742D4B00D8BE95 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C28CEC4916742D4A00D8BE95 /* ICBProtocol.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C2F19994163F8C11006D48A4;
+			remoteInfo = ICBProtocolFrameworkTests;
 		};
 		C2F1958F163F26E3006D48A4 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -124,7 +116,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				C2CEA773165C041400C30869 /* DebugKitFramework.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 1;
 		};
@@ -138,8 +129,6 @@
 		C22328581668440D00D3C60F /* NSString+StringUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+StringUtils.h"; sourceTree = "<group>"; };
 		C22328591668440D00D3C60F /* NSString+StringUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+StringUtils.m"; sourceTree = "<group>"; };
 		C225824D166E1BF000D61FB4 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk/System/Library/Frameworks/SystemConfiguration.framework; sourceTree = DEVELOPER_DIR; };
-		C225824F166E231100D61FB4 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Reachability.h; path = ../../../deps/Reachability/Reachability.h; sourceTree = "<group>"; };
-		C2258250166E231100D61FB4 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Reachability.m; path = ../../../deps/Reachability/Reachability.m; sourceTree = "<group>"; };
 		C24330AA1645958A0039A005 /* ClientCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClientCommand.h; sourceTree = "<group>"; };
 		C24330AB1645958A0039A005 /* ClientCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClientCommand.m; sourceTree = "<group>"; };
 		C24330D11645B3780039A005 /* WriteMessageCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WriteMessageCommand.h; sourceTree = "<group>"; };
@@ -153,17 +142,18 @@
 		C28670F915A62418005DE3D5 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		C28670FB15A62418005DE3D5 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		C286711215A62418005DE3D5 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
-		C29FE8B5165BFF28001A2C0D /* DebugKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = DebugKit.xcodeproj; path = ../../deps/DebugKit/DebugKit.xcodeproj; sourceTree = "<group>"; };
-		C2AB6AB61661922900BC4A2B /* NoOpPacket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoOpPacket.h; sourceTree = "<group>"; };
-		C2AB6AB71661922900BC4A2B /* NoOpPacket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoOpPacket.m; sourceTree = "<group>"; };
+		C28CEC2B16742C3500D8BE95 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
+		C28CEC2C16742C3500D8BE95 /* MASPreferencesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MASPreferencesViewController.h; sourceTree = "<group>"; };
+		C28CEC2D16742C3500D8BE95 /* MASPreferencesWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MASPreferencesWindow.xib; sourceTree = "<group>"; };
+		C28CEC2E16742C3500D8BE95 /* MASPreferencesWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MASPreferencesWindowController.h; sourceTree = "<group>"; };
+		C28CEC2F16742C3500D8BE95 /* MASPreferencesWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MASPreferencesWindowController.m; sourceTree = "<group>"; };
+		C28CEC3016742C3500D8BE95 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
+		C28CEC3616742C4700D8BE95 /* DebugKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = DebugKit.xcodeproj; path = deps/DebugKit/DebugKit.xcodeproj; sourceTree = "<group>"; };
+		C28CEC4916742D4A00D8BE95 /* ICBProtocol.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ICBProtocol.xcodeproj; path = "deps/icb-protocol/ICBProtocol.xcodeproj"; sourceTree = "<group>"; };
+		C28CEC7816742EA600D8BE95 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Reachability.h; path = deps/Reachability/Reachability.h; sourceTree = "<group>"; };
+		C28CEC7916742EA600D8BE95 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Reachability.m; path = deps/Reachability/Reachability.m; sourceTree = "<group>"; };
 		C2B3B0231655FA9000D0991B /* UIController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIController.h; sourceTree = "<group>"; };
 		C2B3B0241655FA9000D0991B /* UIController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIController.m; sourceTree = "<group>"; };
-		C2B3B03E1657DBF000D0991B /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
-		C2B3B03F1657DBF000D0991B /* MASPreferencesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MASPreferencesViewController.h; sourceTree = "<group>"; };
-		C2B3B0401657DBF000D0991B /* MASPreferencesWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MASPreferencesWindow.xib; sourceTree = "<group>"; };
-		C2B3B0411657DBF000D0991B /* MASPreferencesWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MASPreferencesWindowController.h; sourceTree = "<group>"; };
-		C2B3B0421657DBF000D0991B /* MASPreferencesWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MASPreferencesWindowController.m; sourceTree = "<group>"; };
-		C2B3B0431657DBF000D0991B /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		C2B3B0481657DC6D00D0991B /* GeneralViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GeneralViewController.h; sourceTree = "<group>"; };
 		C2B3B0491657DC6D00D0991B /* GeneralViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GeneralViewController.m; sourceTree = "<group>"; };
 		C2B3B04A1657DC6D00D0991B /* GeneralViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GeneralViewController.xib; sourceTree = "<group>"; };
@@ -194,36 +184,6 @@
 		C2F195AD163F2C8B006D48A4 /* ICBClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ICBClient.h; sourceTree = "<group>"; };
 		C2F195AE163F2C8B006D48A4 /* ICBClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ICBClient.m; sourceTree = "<group>"; };
 		C2F1963E163F33F9006D48A4 /* Blamph.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Blamph.entitlements; sourceTree = "<group>"; };
-		C2F199CE16404A64006D48A4 /* BeepPacket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BeepPacket.h; sourceTree = "<group>"; };
-		C2F199CF16404A64006D48A4 /* BeepPacket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BeepPacket.m; sourceTree = "<group>"; };
-		C2F199D016404A64006D48A4 /* ErrorPacket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ErrorPacket.h; sourceTree = "<group>"; };
-		C2F199D116404A64006D48A4 /* ErrorPacket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ErrorPacket.m; sourceTree = "<group>"; };
-		C2F199D216404A64006D48A4 /* ExitPacket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExitPacket.h; sourceTree = "<group>"; };
-		C2F199D316404A64006D48A4 /* ExitPacket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExitPacket.m; sourceTree = "<group>"; };
-		C2F199D416404A64006D48A4 /* ICBPacket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ICBPacket.h; sourceTree = "<group>"; };
-		C2F199D516404A64006D48A4 /* ICBPacket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ICBPacket.m; sourceTree = "<group>"; };
-		C2F199D616404A64006D48A4 /* ICBProtocol-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "ICBProtocol-Info.plist"; sourceTree = "<group>"; };
-		C2F199D716404A64006D48A4 /* ICBProtocol-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ICBProtocol-Prefix.pch"; sourceTree = "<group>"; };
-		C2F199D816404A64006D48A4 /* ICBProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ICBProtocol.h; sourceTree = "<group>"; };
-		C2F199D916404A64006D48A4 /* ICBProtocol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ICBProtocol.m; sourceTree = "<group>"; };
-		C2F199DA16404A64006D48A4 /* LoginPacket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginPacket.h; sourceTree = "<group>"; };
-		C2F199DB16404A64006D48A4 /* LoginPacket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginPacket.m; sourceTree = "<group>"; };
-		C2F199DC16404A64006D48A4 /* OpenPacket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenPacket.h; sourceTree = "<group>"; };
-		C2F199DD16404A64006D48A4 /* OpenPacket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenPacket.m; sourceTree = "<group>"; };
-		C2F199DE16404A64006D48A4 /* PersonalPacket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PersonalPacket.h; sourceTree = "<group>"; };
-		C2F199DF16404A64006D48A4 /* PersonalPacket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PersonalPacket.m; sourceTree = "<group>"; };
-		C2F199E016404A64006D48A4 /* PingPacket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PingPacket.h; sourceTree = "<group>"; };
-		C2F199E116404A64006D48A4 /* PingPacket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PingPacket.m; sourceTree = "<group>"; };
-		C2F199E216404A64006D48A4 /* PongPacket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PongPacket.h; sourceTree = "<group>"; };
-		C2F199E316404A64006D48A4 /* PongPacket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PongPacket.m; sourceTree = "<group>"; };
-		C2F199E416404A64006D48A4 /* ProtocolPacket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProtocolPacket.h; sourceTree = "<group>"; };
-		C2F199E516404A64006D48A4 /* ProtocolPacket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProtocolPacket.m; sourceTree = "<group>"; };
-		C2F199E616404A64006D48A4 /* StatusPacket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatusPacket.h; sourceTree = "<group>"; };
-		C2F199E716404A64006D48A4 /* StatusPacket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatusPacket.m; sourceTree = "<group>"; };
-		C2F19A1D16404BC0006D48A4 /* CommandPacket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommandPacket.h; sourceTree = "<group>"; };
-		C2F19A1E16404BC0006D48A4 /* CommandPacket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommandPacket.m; sourceTree = "<group>"; };
-		C2F19A2016404BDC006D48A4 /* CommandOutputPacket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommandOutputPacket.h; sourceTree = "<group>"; };
-		C2F19A2116404BDC006D48A4 /* CommandOutputPacket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommandOutputPacket.m; sourceTree = "<group>"; };
 		C2F19A6716449B5B006D48A4 /* DateTimeUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DateTimeUtils.h; sourceTree = "<group>"; };
 		C2F19A6816449B5B006D48A4 /* DateTimeUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DateTimeUtils.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -235,7 +195,8 @@
 			files = (
 				C2F19574163F26E3006D48A4 /* Cocoa.framework in Frameworks */,
 				C225824E166E1BF000D61FB4 /* SystemConfiguration.framework in Frameworks */,
-				C29FE8CC165BFFB8001A2C0D /* DebugKitFramework.framework in Frameworks */,
+				C28CEC4816742C4E00D8BE95 /* DebugKitFramework.framework in Frameworks */,
+				C28CEC6416742D5300D8BE95 /* ICBProtocolFramework.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -254,10 +215,11 @@
 		C28670E615A62418005DE3D5 = {
 			isa = PBXGroup;
 			children = (
+				C28CEC4916742D4A00D8BE95 /* ICBProtocol.xcodeproj */,
+				C28CEC3616742C4700D8BE95 /* DebugKit.xcodeproj */,
 				C225824D166E1BF000D61FB4 /* SystemConfiguration.framework */,
-				C29FE8B5165BFF28001A2C0D /* DebugKit.xcodeproj */,
-				C2F199CD16404A64006D48A4 /* ICBProtocol */,
-				C2B3B03D1657DBEF00D0991B /* MASPreferences */,
+				C28CEC2A16742C3500D8BE95 /* MASPreferences */,
+				C28CEC7B16742EB000D8BE95 /* Reachability */,
 				C2F19575163F26E3006D48A4 /* Blamph */,
 				C2F19591163F26E3006D48A4 /* BlamphTests */,
 				C28670F415A62418005DE3D5 /* Frameworks */,
@@ -288,6 +250,51 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		C28CEC2A16742C3500D8BE95 /* MASPreferences */ = {
+			isa = PBXGroup;
+			children = (
+				C28CEC2B16742C3500D8BE95 /* .gitignore */,
+				C28CEC2C16742C3500D8BE95 /* MASPreferencesViewController.h */,
+				C28CEC2D16742C3500D8BE95 /* MASPreferencesWindow.xib */,
+				C28CEC2E16742C3500D8BE95 /* MASPreferencesWindowController.h */,
+				C28CEC2F16742C3500D8BE95 /* MASPreferencesWindowController.m */,
+				C28CEC3016742C3500D8BE95 /* README.md */,
+			);
+			name = MASPreferences;
+			path = deps/MASPreferences;
+			sourceTree = SOURCE_ROOT;
+		};
+		C28CEC3716742C4700D8BE95 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C28CEC4116742C4700D8BE95 /* DebugKitFramework.framework */,
+				C28CEC4316742C4700D8BE95 /* DebugKitFrameworkTests.octest */,
+				C28CEC4516742C4700D8BE95 /* libDebugKitLibrary.a */,
+				C28CEC4716742C4700D8BE95 /* DebugKitLibraryTests.octest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		C28CEC4A16742D4A00D8BE95 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C28CEC5816742D4B00D8BE95 /* libICBProtocol.a */,
+				C28CEC5A16742D4B00D8BE95 /* ICBProtocolTests.octest */,
+				C28CEC5C16742D4B00D8BE95 /* ICBProtocolFramework.framework */,
+				C28CEC5E16742D4B00D8BE95 /* ICBProtocolFrameworkTests.octest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		C28CEC7B16742EB000D8BE95 /* Reachability */ = {
+			isa = PBXGroup;
+			children = (
+				C28CEC7816742EA600D8BE95 /* Reachability.h */,
+				C28CEC7916742EA600D8BE95 /* Reachability.m */,
+			);
+			name = Reachability;
+			sourceTree = "<group>";
+		};
 		C29FE8B4165B6785001A2C0D /* Commands */ = {
 			isa = PBXGroup;
 			children = (
@@ -301,31 +308,6 @@
 				C24330D21645B3780039A005 /* WriteMessageCommand.m */,
 			);
 			name = Commands;
-			sourceTree = "<group>";
-		};
-		C29FE8B6165BFF28001A2C0D /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				C29FE8C0165BFF28001A2C0D /* DebugKitFramework.framework */,
-				C29FE8C2165BFF28001A2C0D /* DebugKitFrameworkTests.octest */,
-				C29FE8C4165BFF28001A2C0D /* libDebugKitLibrary.a */,
-				C29FE8C6165BFF28001A2C0D /* DebugKitLibraryTests.octest */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		C2B3B03D1657DBEF00D0991B /* MASPreferences */ = {
-			isa = PBXGroup;
-			children = (
-				C2B3B03E1657DBF000D0991B /* .gitignore */,
-				C2B3B03F1657DBF000D0991B /* MASPreferencesViewController.h */,
-				C2B3B0401657DBF000D0991B /* MASPreferencesWindow.xib */,
-				C2B3B0411657DBF000D0991B /* MASPreferencesWindowController.h */,
-				C2B3B0421657DBF000D0991B /* MASPreferencesWindowController.m */,
-				C2B3B0431657DBF000D0991B /* README.md */,
-			);
-			name = MASPreferences;
-			path = ../../deps/MASPreferences;
 			sourceTree = "<group>";
 		};
 		C2F1953F163F2628006D48A4 /* Other Frameworks */ = {
@@ -348,8 +330,6 @@
 				C2F19A6816449B5B006D48A4 /* DateTimeUtils.m */,
 				C2F195AD163F2C8B006D48A4 /* ICBClient.h */,
 				C2F195AE163F2C8B006D48A4 /* ICBClient.m */,
-				C225824F166E231100D61FB4 /* Reachability.h */,
-				C2258250166E231100D61FB4 /* Reachability.m */,
 				C2BA824B165B1D1E005C88DE /* NicknameHistory.h */,
 				C2BA824C165B1D1E005C88DE /* NicknameHistory.m */,
 				C2B3B0231655FA9000D0991B /* UIController.h */,
@@ -405,46 +385,6 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		C2F199CD16404A64006D48A4 /* ICBProtocol */ = {
-			isa = PBXGroup;
-			children = (
-				C2F199CE16404A64006D48A4 /* BeepPacket.h */,
-				C2F199CF16404A64006D48A4 /* BeepPacket.m */,
-				C2F19A2016404BDC006D48A4 /* CommandOutputPacket.h */,
-				C2F19A2116404BDC006D48A4 /* CommandOutputPacket.m */,
-				C2F19A1D16404BC0006D48A4 /* CommandPacket.h */,
-				C2F19A1E16404BC0006D48A4 /* CommandPacket.m */,
-				C2F199D016404A64006D48A4 /* ErrorPacket.h */,
-				C2F199D116404A64006D48A4 /* ErrorPacket.m */,
-				C2F199D216404A64006D48A4 /* ExitPacket.h */,
-				C2F199D316404A64006D48A4 /* ExitPacket.m */,
-				C2F199D416404A64006D48A4 /* ICBPacket.h */,
-				C2F199D516404A64006D48A4 /* ICBPacket.m */,
-				C2F199D616404A64006D48A4 /* ICBProtocol-Info.plist */,
-				C2F199D716404A64006D48A4 /* ICBProtocol-Prefix.pch */,
-				C2F199D816404A64006D48A4 /* ICBProtocol.h */,
-				C2F199D916404A64006D48A4 /* ICBProtocol.m */,
-				C2F199DA16404A64006D48A4 /* LoginPacket.h */,
-				C2F199DB16404A64006D48A4 /* LoginPacket.m */,
-				C2AB6AB61661922900BC4A2B /* NoOpPacket.h */,
-				C2AB6AB71661922900BC4A2B /* NoOpPacket.m */,
-				C2F199DC16404A64006D48A4 /* OpenPacket.h */,
-				C2F199DD16404A64006D48A4 /* OpenPacket.m */,
-				C2F199DE16404A64006D48A4 /* PersonalPacket.h */,
-				C2F199DF16404A64006D48A4 /* PersonalPacket.m */,
-				C2F199E016404A64006D48A4 /* PingPacket.h */,
-				C2F199E116404A64006D48A4 /* PingPacket.m */,
-				C2F199E216404A64006D48A4 /* PongPacket.h */,
-				C2F199E316404A64006D48A4 /* PongPacket.m */,
-				C2F199E416404A64006D48A4 /* ProtocolPacket.h */,
-				C2F199E516404A64006D48A4 /* ProtocolPacket.m */,
-				C2F199E616404A64006D48A4 /* StatusPacket.h */,
-				C2F199E716404A64006D48A4 /* StatusPacket.m */,
-			);
-			name = ICBProtocol;
-			path = ../../protocol/ICBProtocol/ICBProtocol;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -461,7 +401,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				C29FE8CB165BFFB4001A2C0D /* PBXTargetDependency */,
 			);
 			name = Blamph;
 			productName = Blamph;
@@ -508,8 +447,12 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = C29FE8B6165BFF28001A2C0D /* Products */;
-					ProjectRef = C29FE8B5165BFF28001A2C0D /* DebugKit.xcodeproj */;
+					ProductGroup = C28CEC3716742C4700D8BE95 /* Products */;
+					ProjectRef = C28CEC3616742C4700D8BE95 /* DebugKit.xcodeproj */;
+				},
+				{
+					ProductGroup = C28CEC4A16742D4A00D8BE95 /* Products */;
+					ProjectRef = C28CEC4916742D4A00D8BE95 /* ICBProtocol.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -521,32 +464,60 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		C29FE8C0165BFF28001A2C0D /* DebugKitFramework.framework */ = {
+		C28CEC4116742C4700D8BE95 /* DebugKitFramework.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
 			path = DebugKitFramework.framework;
-			remoteRef = C29FE8BF165BFF28001A2C0D /* PBXContainerItemProxy */;
+			remoteRef = C28CEC4016742C4700D8BE95 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		C29FE8C2165BFF28001A2C0D /* DebugKitFrameworkTests.octest */ = {
+		C28CEC4316742C4700D8BE95 /* DebugKitFrameworkTests.octest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
 			path = DebugKitFrameworkTests.octest;
-			remoteRef = C29FE8C1165BFF28001A2C0D /* PBXContainerItemProxy */;
+			remoteRef = C28CEC4216742C4700D8BE95 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		C29FE8C4165BFF28001A2C0D /* libDebugKitLibrary.a */ = {
+		C28CEC4516742C4700D8BE95 /* libDebugKitLibrary.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
 			path = libDebugKitLibrary.a;
-			remoteRef = C29FE8C3165BFF28001A2C0D /* PBXContainerItemProxy */;
+			remoteRef = C28CEC4416742C4700D8BE95 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		C29FE8C6165BFF28001A2C0D /* DebugKitLibraryTests.octest */ = {
+		C28CEC4716742C4700D8BE95 /* DebugKitLibraryTests.octest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
 			path = DebugKitLibraryTests.octest;
-			remoteRef = C29FE8C5165BFF28001A2C0D /* PBXContainerItemProxy */;
+			remoteRef = C28CEC4616742C4700D8BE95 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C28CEC5816742D4B00D8BE95 /* libICBProtocol.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libICBProtocol.a;
+			remoteRef = C28CEC5716742D4B00D8BE95 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C28CEC5A16742D4B00D8BE95 /* ICBProtocolTests.octest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = ICBProtocolTests.octest;
+			remoteRef = C28CEC5916742D4B00D8BE95 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C28CEC5C16742D4B00D8BE95 /* ICBProtocolFramework.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = ICBProtocolFramework.framework;
+			remoteRef = C28CEC5B16742D4B00D8BE95 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C28CEC5E16742D4B00D8BE95 /* ICBProtocolFrameworkTests.octest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = ICBProtocolFrameworkTests.octest;
+			remoteRef = C28CEC5D16742D4B00D8BE95 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -559,13 +530,12 @@
 				C2F1957A163F26E3006D48A4 /* InfoPlist.strings in Resources */,
 				C2F19580163F26E3006D48A4 /* Credits.rtf in Resources */,
 				C2F19586163F26E3006D48A4 /* MainMenu.xib in Resources */,
-				C2F199F016404A64006D48A4 /* ICBProtocol-Info.plist in Resources */,
-				C2B3B0441657DBF000D0991B /* .gitignore in Resources */,
-				C2B3B0451657DBF000D0991B /* MASPreferencesWindow.xib in Resources */,
-				C2B3B0471657DBF000D0991B /* README.md in Resources */,
 				C2B3B04C1657DC6D00D0991B /* GeneralViewController.xib in Resources */,
 				C2B3B0511657DC7500D0991B /* AdvancedViewController.xib in Resources */,
 				C2CEA775165C0AB100C30869 /* Blamph-Icon.png in Resources */,
+				C28CEC3116742C3500D8BE95 /* .gitignore in Resources */,
+				C28CEC3216742C3500D8BE95 /* MASPreferencesWindow.xib in Resources */,
+				C28CEC3416742C3500D8BE95 /* README.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -574,7 +544,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				C2F19596163F26E3006D48A4 /* InfoPlist.strings in Resources */,
-				C2F199F116404A64006D48A4 /* ICBProtocol-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -617,34 +586,19 @@
 				C2F1957C163F26E3006D48A4 /* main.m in Sources */,
 				C2F19583163F26E3006D48A4 /* AppDelegate.m in Sources */,
 				C2F195AF163F2C8B006D48A4 /* ICBClient.m in Sources */,
-				C2F199E816404A64006D48A4 /* BeepPacket.m in Sources */,
-				C2F199EA16404A64006D48A4 /* ErrorPacket.m in Sources */,
-				C2F199EC16404A64006D48A4 /* ExitPacket.m in Sources */,
-				C2F199EE16404A64006D48A4 /* ICBPacket.m in Sources */,
-				C2F199F216404A64006D48A4 /* ICBProtocol.m in Sources */,
-				C2F199F416404A64006D48A4 /* LoginPacket.m in Sources */,
-				C2F199F616404A64006D48A4 /* OpenPacket.m in Sources */,
-				C2F199F816404A64006D48A4 /* PersonalPacket.m in Sources */,
-				C2F199FA16404A64006D48A4 /* PingPacket.m in Sources */,
-				C2F199FC16404A64006D48A4 /* PongPacket.m in Sources */,
-				C2F199FE16404A64006D48A4 /* ProtocolPacket.m in Sources */,
-				C2F19A0016404A64006D48A4 /* StatusPacket.m in Sources */,
-				C2F19A1F16404BC0006D48A4 /* CommandPacket.m in Sources */,
-				C2F19A2216404BDC006D48A4 /* CommandOutputPacket.m in Sources */,
 				C2F19A6916449B5B006D48A4 /* DateTimeUtils.m in Sources */,
 				C24330AC1645958A0039A005 /* ClientCommand.m in Sources */,
 				C24330D31645B3780039A005 /* WriteMessageCommand.m in Sources */,
 				C24330D61645B7950039A005 /* MessageCommand.m in Sources */,
 				C24330E91645BBC60039A005 /* GenericCommand.m in Sources */,
 				C2B3B0251655FA9000D0991B /* UIController.m in Sources */,
-				C2B3B0461657DBF000D0991B /* MASPreferencesWindowController.m in Sources */,
 				C2B3B04B1657DC6D00D0991B /* GeneralViewController.m in Sources */,
 				C2B3B0501657DC7500D0991B /* AdvancedViewController.m in Sources */,
 				C2BA824D165B1D1E005C88DE /* NicknameHistory.m in Sources */,
-				C2AB6AB81661922900BC4A2B /* NoOpPacket.m in Sources */,
 				C22328371667F2AE00D3C60F /* URLHelper.m in Sources */,
 				C223285A1668440D00D3C60F /* NSString+StringUtils.m in Sources */,
-				C2258251166E231100D61FB4 /* Reachability.m in Sources */,
+				C28CEC3316742C3500D8BE95 /* MASPreferencesWindowController.m in Sources */,
+				C28CEC7A16742EA600D8BE95 /* Reachability.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -653,18 +607,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				C2F19599163F26E3006D48A4 /* BlamphTests.m in Sources */,
-				C2F199E916404A64006D48A4 /* BeepPacket.m in Sources */,
-				C2F199EB16404A64006D48A4 /* ErrorPacket.m in Sources */,
-				C2F199ED16404A64006D48A4 /* ExitPacket.m in Sources */,
-				C2F199EF16404A64006D48A4 /* ICBPacket.m in Sources */,
-				C2F199F316404A64006D48A4 /* ICBProtocol.m in Sources */,
-				C2F199F516404A64006D48A4 /* LoginPacket.m in Sources */,
-				C2F199F716404A64006D48A4 /* OpenPacket.m in Sources */,
-				C2F199F916404A64006D48A4 /* PersonalPacket.m in Sources */,
-				C2F199FB16404A64006D48A4 /* PingPacket.m in Sources */,
-				C2F199FD16404A64006D48A4 /* PongPacket.m in Sources */,
-				C2F199FF16404A64006D48A4 /* ProtocolPacket.m in Sources */,
-				C2F19A0116404A64006D48A4 /* StatusPacket.m in Sources */,
 				C223285216683C8A00D3C60F /* NicknameHistoryTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -672,11 +614,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		C29FE8CB165BFFB4001A2C0D /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = DebugKitFramework;
-			targetProxy = C29FE8CA165BFFB4001A2C0D /* PBXContainerItemProxy */;
-		};
 		C2F19590163F26E3006D48A4 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = C2F19571163F26E3006D48A4 /* Blamph */;
