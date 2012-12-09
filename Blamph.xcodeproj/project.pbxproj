@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		C22328371667F2AE00D3C60F /* URLHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = C22328361667F2AE00D3C60F /* URLHelper.m */; };
 		C223285216683C8A00D3C60F /* NicknameHistoryTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C223285116683C8A00D3C60F /* NicknameHistoryTests.m */; };
 		C223285A1668440D00D3C60F /* NSString+StringUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = C22328591668440D00D3C60F /* NSString+StringUtils.m */; };
 		C225824E166E1BF000D61FB4 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C225824D166E1BF000D61FB4 /* SystemConfiguration.framework */; };
@@ -22,6 +21,7 @@
 		C28CEC4816742C4E00D8BE95 /* DebugKitFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C28CEC4116742C4700D8BE95 /* DebugKitFramework.framework */; };
 		C28CEC6416742D5300D8BE95 /* ICBProtocolFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C28CEC5C16742D4B00D8BE95 /* ICBProtocolFramework.framework */; };
 		C28CEC7A16742EA600D8BE95 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = C28CEC7916742EA600D8BE95 /* Reachability.m */; };
+		C28CECCE1674493900D8BE95 /* URLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C28CECCB1674492C00D8BE95 /* URLKit.framework */; };
 		C2B3B0251655FA9000D0991B /* UIController.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B3B0241655FA9000D0991B /* UIController.m */; };
 		C2B3B04B1657DC6D00D0991B /* GeneralViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B3B0491657DC6D00D0991B /* GeneralViewController.m */; };
 		C2B3B04C1657DC6D00D0991B /* GeneralViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C2B3B04A1657DC6D00D0991B /* GeneralViewController.xib */; };
@@ -100,6 +100,20 @@
 			remoteGlobalIDString = C2F19994163F8C11006D48A4;
 			remoteInfo = ICBProtocolFrameworkTests;
 		};
+		C28CECCA1674492C00D8BE95 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C28CECC21674492B00D8BE95 /* URLKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C28CEC881674419600D8BE95;
+			remoteInfo = URLKit;
+		};
+		C28CECCC1674492C00D8BE95 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C28CECC21674492B00D8BE95 /* URLKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C28CECA01674419600D8BE95;
+			remoteInfo = URLKitTests;
+		};
 		C2F1958F163F26E3006D48A4 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = C28670E815A62418005DE3D5 /* Project object */;
@@ -122,8 +136,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		C22328351667F2AE00D3C60F /* URLHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = URLHelper.h; sourceTree = "<group>"; };
-		C22328361667F2AE00D3C60F /* URLHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = URLHelper.m; sourceTree = "<group>"; };
 		C223285016683C8A00D3C60F /* NicknameHistoryTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NicknameHistoryTests.h; sourceTree = "<group>"; };
 		C223285116683C8A00D3C60F /* NicknameHistoryTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NicknameHistoryTests.m; sourceTree = "<group>"; };
 		C22328581668440D00D3C60F /* NSString+StringUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+StringUtils.h"; sourceTree = "<group>"; };
@@ -152,6 +164,7 @@
 		C28CEC4916742D4A00D8BE95 /* ICBProtocol.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ICBProtocol.xcodeproj; path = "deps/icb-protocol/ICBProtocol.xcodeproj"; sourceTree = "<group>"; };
 		C28CEC7816742EA600D8BE95 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Reachability.h; path = deps/Reachability/Reachability.h; sourceTree = "<group>"; };
 		C28CEC7916742EA600D8BE95 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Reachability.m; path = deps/Reachability/Reachability.m; sourceTree = "<group>"; };
+		C28CECC21674492B00D8BE95 /* URLKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = URLKit.xcodeproj; path = deps/URLKit/URLKit.xcodeproj; sourceTree = "<group>"; };
 		C2B3B0231655FA9000D0991B /* UIController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIController.h; sourceTree = "<group>"; };
 		C2B3B0241655FA9000D0991B /* UIController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIController.m; sourceTree = "<group>"; };
 		C2B3B0481657DC6D00D0991B /* GeneralViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GeneralViewController.h; sourceTree = "<group>"; };
@@ -193,6 +206,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C28CECCE1674493900D8BE95 /* URLKit.framework in Frameworks */,
 				C2F19574163F26E3006D48A4 /* Cocoa.framework in Frameworks */,
 				C225824E166E1BF000D61FB4 /* SystemConfiguration.framework in Frameworks */,
 				C28CEC4816742C4E00D8BE95 /* DebugKitFramework.framework in Frameworks */,
@@ -215,6 +229,7 @@
 		C28670E615A62418005DE3D5 = {
 			isa = PBXGroup;
 			children = (
+				C28CECC21674492B00D8BE95 /* URLKit.xcodeproj */,
 				C28CEC4916742D4A00D8BE95 /* ICBProtocol.xcodeproj */,
 				C28CEC3616742C4700D8BE95 /* DebugKit.xcodeproj */,
 				C225824D166E1BF000D61FB4 /* SystemConfiguration.framework */,
@@ -295,6 +310,15 @@
 			name = Reachability;
 			sourceTree = "<group>";
 		};
+		C28CECC31674492B00D8BE95 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C28CECCB1674492C00D8BE95 /* URLKit.framework */,
+				C28CECCD1674492C00D8BE95 /* URLKitTests.octest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		C29FE8B4165B6785001A2C0D /* Commands */ = {
 			isa = PBXGroup;
 			children = (
@@ -338,8 +362,6 @@
 				C2B3B0491657DC6D00D0991B /* GeneralViewController.m */,
 				C2B3B04D1657DC7400D0991B /* AdvancedViewController.h */,
 				C2B3B04E1657DC7500D0991B /* AdvancedViewController.m */,
-				C22328351667F2AE00D3C60F /* URLHelper.h */,
-				C22328361667F2AE00D3C60F /* URLHelper.m */,
 				C22328581668440D00D3C60F /* NSString+StringUtils.h */,
 				C22328591668440D00D3C60F /* NSString+StringUtils.m */,
 				C2F19576163F26E3006D48A4 /* Supporting Files */,
@@ -454,6 +476,10 @@
 					ProductGroup = C28CEC4A16742D4A00D8BE95 /* Products */;
 					ProjectRef = C28CEC4916742D4A00D8BE95 /* ICBProtocol.xcodeproj */;
 				},
+				{
+					ProductGroup = C28CECC31674492B00D8BE95 /* Products */;
+					ProjectRef = C28CECC21674492B00D8BE95 /* URLKit.xcodeproj */;
+				},
 			);
 			projectRoot = "";
 			targets = (
@@ -518,6 +544,20 @@
 			fileType = wrapper.cfbundle;
 			path = ICBProtocolFrameworkTests.octest;
 			remoteRef = C28CEC5D16742D4B00D8BE95 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C28CECCB1674492C00D8BE95 /* URLKit.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = URLKit.framework;
+			remoteRef = C28CECCA1674492C00D8BE95 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C28CECCD1674492C00D8BE95 /* URLKitTests.octest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = URLKitTests.octest;
+			remoteRef = C28CECCC1674492C00D8BE95 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -595,7 +635,6 @@
 				C2B3B04B1657DC6D00D0991B /* GeneralViewController.m in Sources */,
 				C2B3B0501657DC7500D0991B /* AdvancedViewController.m in Sources */,
 				C2BA824D165B1D1E005C88DE /* NicknameHistory.m in Sources */,
-				C22328371667F2AE00D3C60F /* URLHelper.m in Sources */,
 				C223285A1668440D00D3C60F /* NSString+StringUtils.m in Sources */,
 				C28CEC3316742C3500D8BE95 /* MASPreferencesWindowController.m in Sources */,
 				C28CEC7A16742EA600D8BE95 /* Reachability.m in Sources */,

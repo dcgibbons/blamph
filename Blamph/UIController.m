@@ -9,8 +9,8 @@
 #import "UIController.h"
 #import "ClientCommand.h"
 #import "DateTimeUtils.h"
-#import "URLHelper.h"
 
+#import <URLKit/URLKit.h>
 #import <ICBProtocolFramework/BeepPacket.h>
 #import <ICBProtocolFramework/CommandPacket.h>
 #import <ICBProtocolFramework/CommandOutputPacket.h>
@@ -493,42 +493,16 @@
 
 - (IBAction)pasteSpecial:(id)sender
 {
+    URLShortener *shortener = [URLShortener defaultURLShortener];
+
     // a special paste will look for URLs in the pasteboard text and then
     // send them to a URL shortener processor before they are pasted to the
     // input buffer
     NSPasteboard *pasteboard = [NSPasteboard generalPasteboard];
-    NSArray *classes = @[[NSString class]];
-    NSDictionary *options = @{};
-    NSArray *copiedItems = [pasteboard readObjectsForClasses:classes
-                                                     options:options];
-    for (NSString *text in copiedItems)
-    {
-        NSError *error = NULL;
-        NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:kURLPattern
-                                                                               options:NSRegularExpressionCaseInsensitive
-                                                                                 error:&error];
-        
-        NSArray *matches = [regex matchesInString:text
-                                          options:0
-                                            range:NSMakeRange(0, [text length])];
-        
-        for (NSTextCheckingResult *match in matches)
-        {
-            NSRange urlRange = [match rangeAtIndex:1];
-            NSString *urlText = [text substringWithRange:urlRange];
-            [URLHelper shortenURL:[NSURL URLWithString:urlText]
-                       toSelector:@selector(pasteURL:)
-                         onObject:self];
-        }
-        
-        // TODO: this special paste doesn't deal with the text in the pasteboard
-        // that aren't URL's! whoops
-    }
-}
-
-- (void)pasteURL:(NSString *)urlText
-{
-    [self.inputTextView insertText:urlText];
+    NSArray *copiedItems = [pasteboard readObjectsForClasses:@[[NSString class]]
+                                                     options:@{}];
+    NSString *text = [copiedItems componentsJoinedByString:@" "];
+    [shortener shortenTextWithURLs:text observer:self];
 }
 
 - (IBAction)toggleStatusBar:(id)sender
@@ -900,7 +874,7 @@
                value:textStyle
                range:textRange];
     
-    [URLHelper findURLsInText:as];
+//    [URLHelper findURLsInText:as];
     
     const NSTextStorage *textStorage = self.outputTextView.textStorage;
     [textStorage appendAttributedString:as];
@@ -1482,5 +1456,14 @@
         // NO-OP
     }
 }
+
+#pragma mark -
+#pragma URLShorteningObserver methods
+
+- (void)textWithURLsShortened:(NSString *)text
+{
+    [self.inputTextView insertText:urlText];
+}
+
 
 @end

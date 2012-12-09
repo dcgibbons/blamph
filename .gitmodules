@@ -10,3 +10,6 @@
 [submodule "deps/icb-protocol"]
 	path = deps/icb-protocol
 	url = git@github.com:dcgibbons/icb-protocol.git
+[submodule "deps/URLKit"]
+	path = deps/URLKit
+	url = git@github.com:dcgibbons/URLKit.git

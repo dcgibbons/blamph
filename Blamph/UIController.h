@@ -7,10 +7,12 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <URLKit/URLKit.h>
+
 #import "MainWindow.h"
 #import "ICBClient.h"
 
-@interface UIController : NSObject <NSTextViewDelegate>
+@interface UIController : NSObject <NSTextViewDelegate, URLShorteningObserver>
 
 @property (nonatomic, retain) IBOutlet ICBClient *client;
 
