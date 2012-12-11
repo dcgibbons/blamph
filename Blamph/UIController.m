@@ -812,18 +812,19 @@
     BOOL isTransparent = [[userDefaults valueForKey:kUseTransparency] boolValue];
     if (isTransparent) alpha = [userDefaults floatForKey:kOpacityLevel];
 
+    NSColor *lightGray = [NSColor colorWithSRGBRed:220.0/255.0 green:220.0/255.0 blue:220.0/255.0 alpha:1.0];
     _backgroundColor = [[NSColor blackColor] colorWithAlphaComponent:alpha];
-    _linkColor = [NSColor blueColor];
-    _openTextColor = [NSColor lightGrayColor];
-    _openNickColor = [NSColor lightGrayColor];
-    _personalTextColor = [NSColor lightGrayColor];
+    _linkColor = [NSColor colorWithSRGBRed:171.0/255.0 green:130.0/255.0 blue:255.0 alpha:1.0];
+    _openTextColor = lightGray;
+    _openNickColor = lightGray;
+    _personalTextColor = lightGray;
     _personalNickColor = [NSColor colorWithSRGBRed:137.0/255.0 green:216.0/255.0 blue:230.0/255.0 alpha:1.0]; // lightblue
     _commandTextColor = [NSColor colorWithSRGBRed:144.0/255.0 green:238.0/255.0 blue:144.0/255.0 alpha:1.0]; // lightgreen
     _errorTextColor = [NSColor colorWithSRGBRed:1.0 green:192.0/255.0 blue:203.0/255.0 alpha:1.0]; // pink 255	192	203
     _statusHeaderColor = [NSColor colorWithSRGBRed:144.0/255.0 green:238.0/255.0 blue:144.0/255.0 alpha:1.0]; // lightgreen
     _statusTextColor = [NSColor colorWithSRGBRed:144.0/255.0 green:238.0/255.0 blue:144.0/255.0 alpha:1.0]; // lightgreen
     _timestampColor = [NSColor grayColor];
-    _inputColor = [NSColor lightGrayColor];
+    _inputColor = lightGray;
     
     [self.progressIndicator setControlTint:NSDefaultControlTint];
     
