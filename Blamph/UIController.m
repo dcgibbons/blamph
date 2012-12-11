@@ -821,7 +821,7 @@
     _commandTextColor = [NSColor colorWithSRGBRed:144.0/255.0 green:238.0/255.0 blue:144.0/255.0 alpha:1.0]; // lightgreen
     _errorTextColor = [NSColor colorWithSRGBRed:1.0 green:192.0/255.0 blue:203.0/255.0 alpha:1.0]; // pink 255	192	203
     _statusHeaderColor = [NSColor colorWithSRGBRed:144.0/255.0 green:238.0/255.0 blue:144.0/255.0 alpha:1.0]; // lightgreen
-    _statusTextColor = [NSColor colorWithSRGBRed:1.0 green:192.0/255.0 blue:203.0/255.0 alpha:1.0]; // pink 255	192	203
+    _statusTextColor = [NSColor colorWithSRGBRed:144.0/255.0 green:238.0/255.0 blue:144.0/255.0 alpha:1.0]; // lightgreen
     _timestampColor = [NSColor grayColor];
     _inputColor = [NSColor lightGrayColor];
     
