@@ -93,9 +93,17 @@
 - (void)reachabilityChanged:(NSNotification *)notification
 {
     Reachability *reachability = notification.object;
+    DLog(@"Reachabilty Change");
+    DLog(@"\t isConnectionOnDemand:%u", reachability.isConnectionOnDemand);
+    DLog(@"\t isConnectionRequired:%u", reachability.isConnectionRequired);
+    DLog(@"\t isInterventionRequired:%u", reachability.isInterventionRequired);
+    DLog(@"\t isProxy:%u", reachability.isProxy);
+    DLog(@"\t isReachable:%u", reachability.isReachable);
+    DLog(@"\t isReachableViaWiFi:%u", reachability.isReachableViaWiFi);
+    DLog(@"\t isReachableViaWWAN:%u", reachability.isReachableViaWWAN);
     if (!reachability.isReachable && self.isConnected)
     {
-        [self disconnect];
+//        [self disconnect];
     }
 }
 

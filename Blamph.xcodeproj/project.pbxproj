@@ -9,11 +9,12 @@
 /* Begin PBXBuildFile section */
 		C223285216683C8A00D3C60F /* NicknameHistoryTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C223285116683C8A00D3C60F /* NicknameHistoryTests.m */; };
 		C223285A1668440D00D3C60F /* NSString+StringUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = C22328591668440D00D3C60F /* NSString+StringUtils.m */; };
-		C225824E166E1BF000D61FB4 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C225824D166E1BF000D61FB4 /* SystemConfiguration.framework */; };
 		C24330AC1645958A0039A005 /* ClientCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = C24330AB1645958A0039A005 /* ClientCommand.m */; };
 		C24330D31645B3780039A005 /* WriteMessageCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = C24330D21645B3780039A005 /* WriteMessageCommand.m */; };
 		C24330D61645B7950039A005 /* MessageCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = C24330D51645B7950039A005 /* MessageCommand.m */; };
 		C24330E91645BBC60039A005 /* GenericCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = C24330E81645BBC60039A005 /* GenericCommand.m */; };
+		C2480F4716755ED60069BB84 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2E0C5CB16755AB6006FE62B /* Cocoa.framework */; };
+		C2480F4816755EDB0069BB84 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C225824D166E1BF000D61FB4 /* SystemConfiguration.framework */; };
 		C28CEC3116742C3500D8BE95 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = C28CEC2B16742C3500D8BE95 /* .gitignore */; };
 		C28CEC3216742C3500D8BE95 /* MASPreferencesWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = C28CEC2D16742C3500D8BE95 /* MASPreferencesWindow.xib */; };
 		C28CEC3316742C3500D8BE95 /* MASPreferencesWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = C28CEC2F16742C3500D8BE95 /* MASPreferencesWindowController.m */; };
@@ -29,14 +30,15 @@
 		C2B3B0511657DC7500D0991B /* AdvancedViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C2B3B04F1657DC7500D0991B /* AdvancedViewController.xib */; };
 		C2BA824D165B1D1E005C88DE /* NicknameHistory.m in Sources */ = {isa = PBXBuildFile; fileRef = C2BA824C165B1D1E005C88DE /* NicknameHistory.m */; };
 		C2CEA775165C0AB100C30869 /* Blamph-Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = C2CEA774165C0AB100C30869 /* Blamph-Icon.png */; };
-		C2F19574163F26E3006D48A4 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2F1953D163F2628006D48A4 /* Cocoa.framework */; };
+		C2E0C5D416755CB2006FE62B /* DebugKitFramework.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = C28CEC4116742C4700D8BE95 /* DebugKitFramework.framework */; };
+		C2E0C5D516755CB2006FE62B /* URLKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = C28CECCB1674492C00D8BE95 /* URLKit.framework */; };
+		C2E0C5D616755CB2006FE62B /* ICBProtocolFramework.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = C28CEC5C16742D4B00D8BE95 /* ICBProtocolFramework.framework */; };
 		C2F1957A163F26E3006D48A4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C2F19578163F26E3006D48A4 /* InfoPlist.strings */; };
 		C2F1957C163F26E3006D48A4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C2F1957B163F26E3006D48A4 /* main.m */; };
 		C2F19580163F26E3006D48A4 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = C2F1957E163F26E3006D48A4 /* Credits.rtf */; };
 		C2F19583163F26E3006D48A4 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C2F19582163F26E3006D48A4 /* AppDelegate.m */; };
 		C2F19586163F26E3006D48A4 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = C2F19584163F26E3006D48A4 /* MainMenu.xib */; };
 		C2F1958D163F26E3006D48A4 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C286711215A62418005DE3D5 /* SenTestingKit.framework */; };
-		C2F1958E163F26E3006D48A4 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2F1953D163F2628006D48A4 /* Cocoa.framework */; };
 		C2F19596163F26E3006D48A4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C2F19594163F26E3006D48A4 /* InfoPlist.strings */; };
 		C2F19599163F26E3006D48A4 /* BlamphTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C2F19598163F26E3006D48A4 /* BlamphTests.m */; };
 		C2F195AF163F2C8B006D48A4 /* ICBClient.m in Sources */ = {isa = PBXBuildFile; fileRef = C2F195AE163F2C8B006D48A4 /* ICBClient.m */; };
@@ -114,6 +116,27 @@
 			remoteGlobalIDString = C28CECA01674419600D8BE95;
 			remoteInfo = URLKitTests;
 		};
+		C2E0C5CD16755BEE006FE62B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C28CECC21674492B00D8BE95 /* URLKit.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = C28CEC871674419600D8BE95;
+			remoteInfo = URLKit;
+		};
+		C2E0C5CF16755BEE006FE62B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C28CEC4916742D4A00D8BE95 /* ICBProtocol.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = C2F19982163F8C11006D48A4;
+			remoteInfo = ICBProtocolFramework;
+		};
+		C2E0C5D116755BEE006FE62B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C28CEC3616742C4700D8BE95 /* DebugKit.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = C2864810159AC401006B31D4;
+			remoteInfo = DebugKitFramework;
+		};
 		C2F1958F163F26E3006D48A4 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = C28670E815A62418005DE3D5 /* Project object */;
@@ -124,14 +147,17 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		C2CEA772165C040700C30869 /* CopyFiles */ = {
+		C2E0C5D316755CA1006FE62B /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 8;
+			buildActionMask = 12;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				C2E0C5D416755CB2006FE62B /* DebugKitFramework.framework in CopyFiles */,
+				C2E0C5D516755CB2006FE62B /* URLKit.framework in CopyFiles */,
+				C2E0C5D616755CB2006FE62B /* ICBProtocolFramework.framework in CopyFiles */,
 			);
-			runOnlyForDeploymentPostprocessing = 1;
+			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
@@ -176,7 +202,7 @@
 		C2BA824B165B1D1E005C88DE /* NicknameHistory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NicknameHistory.h; sourceTree = "<group>"; };
 		C2BA824C165B1D1E005C88DE /* NicknameHistory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NicknameHistory.m; sourceTree = "<group>"; };
 		C2CEA774165C0AB100C30869 /* Blamph-Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Blamph-Icon.png"; sourceTree = SOURCE_ROOT; };
-		C2F1953D163F2628006D48A4 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = Library/Frameworks/Cocoa.framework; sourceTree = DEVELOPER_DIR; };
+		C2E0C5CB16755AB6006FE62B /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk/System/Library/Frameworks/Cocoa.framework; sourceTree = DEVELOPER_DIR; };
 		C2F19540163F2628006D48A4 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		C2F19541163F2628006D48A4 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		C2F19542163F2628006D48A4 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -206,9 +232,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C2480F4716755ED60069BB84 /* Cocoa.framework in Frameworks */,
+				C2480F4816755EDB0069BB84 /* SystemConfiguration.framework in Frameworks */,
 				C28CECCE1674493900D8BE95 /* URLKit.framework in Frameworks */,
-				C2F19574163F26E3006D48A4 /* Cocoa.framework in Frameworks */,
-				C225824E166E1BF000D61FB4 /* SystemConfiguration.framework in Frameworks */,
 				C28CEC4816742C4E00D8BE95 /* DebugKitFramework.framework in Frameworks */,
 				C28CEC6416742D5300D8BE95 /* ICBProtocolFramework.framework in Frameworks */,
 			);
@@ -219,7 +245,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				C2F1958D163F26E3006D48A4 /* SenTestingKit.framework in Frameworks */,
-				C2F1958E163F26E3006D48A4 /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -229,15 +254,14 @@
 		C28670E615A62418005DE3D5 = {
 			isa = PBXGroup;
 			children = (
+				C28CEC3616742C4700D8BE95 /* DebugKit.xcodeproj */,
 				C28CECC21674492B00D8BE95 /* URLKit.xcodeproj */,
 				C28CEC4916742D4A00D8BE95 /* ICBProtocol.xcodeproj */,
-				C28CEC3616742C4700D8BE95 /* DebugKit.xcodeproj */,
-				C225824D166E1BF000D61FB4 /* SystemConfiguration.framework */,
-				C28CEC2A16742C3500D8BE95 /* MASPreferences */,
-				C28CEC7B16742EB000D8BE95 /* Reachability */,
 				C2F19575163F26E3006D48A4 /* Blamph */,
 				C2F19591163F26E3006D48A4 /* BlamphTests */,
 				C28670F415A62418005DE3D5 /* Frameworks */,
+				C28CEC2A16742C3500D8BE95 /* MASPreferences */,
+				C28CEC7B16742EB000D8BE95 /* Reachability */,
 				C28670F215A62418005DE3D5 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -254,12 +278,13 @@
 		C28670F415A62418005DE3D5 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				C2E0C5CB16755AB6006FE62B /* Cocoa.framework */,
+				C225824D166E1BF000D61FB4 /* SystemConfiguration.framework */,
 				C28670F515A62418005DE3D5 /* UIKit.framework */,
 				C28670F715A62418005DE3D5 /* Foundation.framework */,
 				C28670F915A62418005DE3D5 /* CoreGraphics.framework */,
 				C28670FB15A62418005DE3D5 /* CoreData.framework */,
 				C286711215A62418005DE3D5 /* SenTestingKit.framework */,
-				C2F1953D163F2628006D48A4 /* Cocoa.framework */,
 				C2F1953F163F2628006D48A4 /* Other Frameworks */,
 			);
 			name = Frameworks;
@@ -418,11 +443,14 @@
 				C2F1956E163F26E3006D48A4 /* Sources */,
 				C2F1956F163F26E3006D48A4 /* Frameworks */,
 				C2F19570163F26E3006D48A4 /* Resources */,
-				C2CEA772165C040700C30869 /* CopyFiles */,
+				C2E0C5D316755CA1006FE62B /* CopyFiles */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				C2E0C5D216755BEE006FE62B /* PBXTargetDependency */,
+				C2E0C5CE16755BEE006FE62B /* PBXTargetDependency */,
+				C2E0C5D016755BEE006FE62B /* PBXTargetDependency */,
 			);
 			name = Blamph;
 			productName = Blamph;
@@ -653,6 +681,21 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		C2E0C5CE16755BEE006FE62B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = URLKit;
+			targetProxy = C2E0C5CD16755BEE006FE62B /* PBXContainerItemProxy */;
+		};
+		C2E0C5D016755BEE006FE62B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = ICBProtocolFramework;
+			targetProxy = C2E0C5CF16755BEE006FE62B /* PBXContainerItemProxy */;
+		};
+		C2E0C5D216755BEE006FE62B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = DebugKitFramework;
+			targetProxy = C2E0C5D116755BEE006FE62B /* PBXContainerItemProxy */;
+		};
 		C2F19590163F26E3006D48A4 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = C2F19571163F26E3006D48A4 /* Blamph */;

@@ -18,6 +18,7 @@
 {
 @private
     NSColor *_backgroundColor;
+    NSColor *_linkColor;
     NSColor *_openTextColor;
     NSColor *_openNickColor;
     NSColor *_personalTextColor;
@@ -45,32 +46,10 @@
 
 @implementation UIController
 
-@synthesize progressIndicator=_progressIndicator;
-@synthesize inputTextView=_inputTextView;
-@synthesize outputTextView=_outputTextView;
-@synthesize connectMenuItem=_connectMenuItem;
-@synthesize disconnectMenuItem=_disconnectMenuItem;
-@synthesize menuItemCopy=_menuItemCopy;
-@synthesize menuItemPaste=_menuItemPaste;
-@synthesize menuItemToggleStatusBar=_menuItemToggleStatusBar;
-@synthesize menuItemUseTransparency=_menuItemUseTransparency;
-@synthesize menuItemIncreaseFontSize=_menuItemIncreaseFontSize;
-@synthesize menuItemDefaultFontSize=_menuItemDefaultFontSize;
-@synthesize menuItemDecreaseFontSize=_menuItemDecreaseFontSize;
-@synthesize splitView=_splitView;
-@synthesize bottomConstraint=_bottomConstraint;
-@synthesize statusBarView=_statusBarView;
-@synthesize connectionStatusLabel=_connectionStatusLabel;
-@synthesize connectionTimeLabel=_connectionTimeLabel;
-@synthesize idleTimeLabel=_idleTimeLabel;
-@synthesize timer=_timer;
-@synthesize inputScrollView=_inputScrollView;
-@synthesize outputScrollView=_outputScrollView;
-@synthesize heightConstraint=_heightConstraint;
-
 #define kOutputScrollbackSize       1000
 #define kColorSchemeDefault         1001
 #define kColorSchemeOldSchool       1002
+#define kColorSchemeOldSchoolLite  1003
 
 #define kFontName                   @"Menlo"
 #define kTextStyle                  @"textStyle"
@@ -165,6 +144,9 @@
         case kColorSchemeOldSchool:
             [self selectOldSchoolColors];
             break;
+        case kColorSchemeOldSchoolLite:
+            [self selectOldSchoolLiteColors];
+            break;
     }
 
     [self.inputTextView setFont:_outputFont];
@@ -178,6 +160,8 @@
 
     [self.splitView.superview layoutSubtreeIfNeeded];
     [self updateInputWindowConstraints];
+    
+    [self.outputTextView setLinkTextAttributes:@{NSCursorAttributeName:[NSCursor pointingHandCursor]}];
 }
 
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem
@@ -203,6 +187,11 @@
     {
         NSInteger colorScheme = [userDefaults integerForKey:kColorScheme];
         [menuItem setState:(colorScheme == kColorSchemeOldSchool) ? NSOnState : NSOffState];
+    }
+    else if (menuItem == self.menuItemOldSchoolLiteColorScheme)
+    {
+        NSInteger colorScheme = [userDefaults integerForKey:kColorScheme];
+        [menuItem setState:(colorScheme == kColorSchemeOldSchoolLite) ? NSOnState : NSOffState];
     }
 
     return valid;
@@ -537,6 +526,10 @@
     {
         [self selectOldSchoolColors];
     }
+    else if (sender == self.menuItemOldSchoolLiteColorScheme)
+    {
+        [self selectOldSchoolLiteColors];
+    }
 }
 
 - (IBAction)changeFontSize:(id)sender
@@ -766,6 +759,7 @@
     if (isTransparent) alpha = [userDefaults floatForKey:kOpacityLevel];
     
     _backgroundColor = [[NSColor whiteColor] colorWithAlphaComponent:alpha];
+    _linkColor = [NSColor blueColor];
     _openTextColor = [NSColor blackColor];
     _openNickColor = [NSColor blueColor];
     _personalTextColor = [NSColor darkGrayColor];
@@ -776,7 +770,7 @@
     _statusTextColor = [NSColor blackColor];
     _timestampColor = [NSColor lightGrayColor];
     _inputColor = [NSColor blackColor];
-
+    
     [self.progressIndicator setControlTint:NSDefaultControlTint];
     
     [userDefaults setInteger:kColorSchemeDefault forKey:kColorScheme];
@@ -792,6 +786,7 @@
     if (isTransparent) alpha = [userDefaults floatForKey:kOpacityLevel];
 
     _backgroundColor = [[NSColor blackColor] colorWithAlphaComponent:alpha];
+    _linkColor = [NSColor blueColor];
     _openTextColor = [NSColor greenColor];
     _openNickColor = [NSColor blueColor];
     _personalTextColor = [NSColor colorWithSRGBRed:1.0 green:191.0/255.0 blue:0.0 alpha:1.0];
@@ -807,6 +802,33 @@
     
     [userDefaults setInteger:kColorSchemeOldSchool forKey:kColorScheme];
 
+    [self didUpdateColorScheme];
+}
+
+- (void)selectOldSchoolLiteColors
+{
+    CGFloat alpha = 1.0;
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    BOOL isTransparent = [[userDefaults valueForKey:kUseTransparency] boolValue];
+    if (isTransparent) alpha = [userDefaults floatForKey:kOpacityLevel];
+
+    _backgroundColor = [[NSColor blackColor] colorWithAlphaComponent:alpha];
+    _linkColor = [NSColor blueColor];
+    _openTextColor = [NSColor lightGrayColor];
+    _openNickColor = [NSColor lightGrayColor];
+    _personalTextColor = [NSColor lightGrayColor];
+    _personalNickColor = [NSColor colorWithSRGBRed:137.0/255.0 green:216.0/255.0 blue:230.0/255.0 alpha:1.0]; // lightblue
+    _commandTextColor = [NSColor colorWithSRGBRed:144.0/255.0 green:238.0/255.0 blue:144.0/255.0 alpha:1.0]; // lightgreen
+    _errorTextColor = [NSColor colorWithSRGBRed:1.0 green:192.0/255.0 blue:203.0/255.0 alpha:1.0]; // pink 255	192	203
+    _statusHeaderColor = [NSColor colorWithSRGBRed:144.0/255.0 green:238.0/255.0 blue:144.0/255.0 alpha:1.0]; // lightgreen
+    _statusTextColor = [NSColor colorWithSRGBRed:1.0 green:192.0/255.0 blue:203.0/255.0 alpha:1.0]; // pink 255	192	203
+    _timestampColor = [NSColor grayColor];
+    _inputColor = [NSColor lightGrayColor];
+    
+    [self.progressIndicator setControlTint:NSDefaultControlTint];
+    
+    [userDefaults setInteger:kColorSchemeDefault forKey:kColorScheme];
+    
     [self didUpdateColorScheme];
 }
 
@@ -862,8 +884,21 @@
     [as addAttribute:kTextStyle
                value:textStyle
                range:textRange];
-    
-//    [URLHelper findURLsInText:as];
+
+    NSArray *urls = [URLFinder findURLs:text];
+    for (NSValue *rangeValue in urls)
+    {
+        NSRange range = [rangeValue rangeValue];
+        [as addAttribute:NSLinkAttributeName
+                   value:[NSURL URLWithString:[text substringWithRange:range]]
+                   range:range];
+        [as addAttribute:NSForegroundColorAttributeName
+                   value:_linkColor
+                   range:range];
+        [as addAttribute:NSUnderlineStyleAttributeName
+                   value:@(NSUnderlineStyleSingle)
+                   range:range];
+    }
     
     const NSTextStorage *textStorage = self.outputTextView.textStorage;
     [textStorage appendAttributedString:as];
@@ -975,7 +1010,7 @@
                    range:nickRange];
         [textStorage appendAttributedString:as];
         [self displayText:[NSString stringWithFormat:@" %@\n", [s substringFromIndex:range.location + range.length + 2]]
-            withTextStyle:kTextStyleCommandText];
+            withTextStyle:kTextStylePersonalText];
     }
     else
     {

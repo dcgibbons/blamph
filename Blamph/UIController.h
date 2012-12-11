@@ -23,6 +23,7 @@
 @property (nonatomic, retain) IBOutlet NSMenuItem *menuItemToggleStatusBar;
 @property (nonatomic, retain) IBOutlet NSMenuItem *menuItemDefaultColorScheme;
 @property (nonatomic, retain) IBOutlet NSMenuItem *menuItemOldSchoolColorScheme;
+@property (nonatomic, retain) IBOutlet NSMenuItem *menuItemOldSchoolLiteColorScheme;
 @property (nonatomic, retain) IBOutlet NSMenuItem *menuItemUseTransparency;
 @property (nonatomic, retain) IBOutlet NSMenuItem *menuItemIncreaseFontSize;
 @property (nonatomic, retain) IBOutlet NSMenuItem *menuItemDefaultFontSize;
