@@ -162,6 +162,15 @@
     [self updateInputWindowConstraints];
     
     [self.outputTextView setLinkTextAttributes:@{NSCursorAttributeName:[NSCursor pointingHandCursor]}];
+    
+    [_client addObserver:self
+              forKeyPath:@"currentGroupName"
+                 options:NSKeyValueObservingOptionNew
+                 context:NULL];
+    [_client addObserver:self
+              forKeyPath:@"currentGroupUsers"
+                 options:NSKeyValueObservingOptionNew
+                 context:NULL];
 }
 
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem
@@ -1409,6 +1418,8 @@
 {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     
+    DLog(@"value change for %@", keyPath);
+    
     if ([keyPath compare:kUseTransparency] == NSOrderedSame)
     {
         BOOL isTransparent = [[change valueForKey:@"new"] boolValue];
@@ -1421,6 +1432,14 @@
         {
             [self setTransparency:isTransparent];
         }
+    }
+    else if ([keyPath compare:@"currentGroupName"] == NSOrderedSame)
+    {
+        DLog(@"new group name: %@", self.client.currentGroupName);
+    }
+    else if ([keyPath compare:@"currentGroupUsers"] == NSOrderedSame)
+    {
+        DLog(@"new group users: %@", self.client.currentGroupUsers);
     }
 }
 

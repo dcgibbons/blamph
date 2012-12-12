@@ -28,8 +28,8 @@
     NSUInteger _reconnectNeeded;
     
     enum { kReady, kParseWhoListing } _clientState;
-    NSString *_currentGroupName;
-    NSMutableArray *_currentGroupUsers;
+//    NSString *_currentGroupName;
+//    NSMutableArray *_currentGroupUsers;
     
     NSString *_hostname;
     UInt32 _port;
@@ -61,10 +61,6 @@
 @end
 
 @implementation ICBClient
-
-@synthesize istream=_istream;
-@synthesize ostream=_ostream;
-@synthesize nicknameHistory=_nicknameHistory;
 
 - (id)init
 {
@@ -269,6 +265,7 @@
         DLog(@"received response to ping during who listing!");
         broadcast = NO;
         _clientState = kReady;
+        [self didChangeValueForKey:@"currentGroupUsers"];
     }
     if ([[packet errorText] compare:@"Nickname already in use."] == NSOrderedSame)
     {
@@ -359,8 +356,10 @@
     NSString *text = p.text;
     NSError *error = NULL;
     NSRegularExpression *regex = nil;
+    DLog(@"header=%@", header);
     
-    if ([header compare:@"Status" options:NSCaseInsensitiveSearch] == NSOrderedSame)
+    if ([header compare:@"Status" options:NSCaseInsensitiveSearch] == NSOrderedSame ||
+        [header compare:@"Change" options:NSCaseInsensitiveSearch] == NSOrderedSame)
     {
         NSString *pattern = @"(?:You are now in group|renamed group to) (\\w+)";
         regex = [NSRegularExpression regularExpressionWithPattern:pattern
@@ -378,10 +377,13 @@
             NSString *groupName = [text substringWithRange:groupRange];
             DLog(@"now in group %@", groupName);
             
+            [self willChangeValueForKey:@"currentGroupName"];
             _currentGroupName = groupName;
-            // TODO: send notification of group name change
+            [self didChangeValueForKey:@"currentGroupName"];
             
             _clientState = kParseWhoListing;
+            [self willChangeValueForKey:@"currentGroupUsers"];
+            [_currentGroupUsers removeAllObjects];
             
             [self sendPacket:[[CommandPacket alloc] initWithCommand:@"w"
                                                        optionalArgs:@"."]];
@@ -405,7 +407,11 @@
             NSRange range = [match rangeAtIndex:0];
             NSString *nick = [text substringWithRange:range];
             DLog(@"User %@ has just arrived in group %@", nick, _currentGroupName);
+
+            [self willChangeValueForKey:@"currentGroupUsers"];
             [_currentGroupUsers addObject:nick];
+            [self didChangeValueForKey:@"currentGroupUsers"];
+            
             DLog(@"_currentGroupUsers %@", _currentGroupUsers);
         }
     }
@@ -426,7 +432,9 @@
             NSRange range = [match rangeAtIndex:0];
             NSString *nick = [text substringWithRange:range];
             DLog(@"User %@ has just left group %@", nick, _currentGroupName);
+            [self willChangeValueForKey:@"currentGroupUsers"];
             [_currentGroupUsers removeObject:nick];
+            [self didChangeValueForKey:@"currentGroupUsers"];
             DLog(@"_currentGroupUsers %@", _currentGroupUsers);
         }
     }

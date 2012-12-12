@@ -29,6 +29,8 @@
 @interface ICBClient : NSObject
 
 @property (nonatomic, readonly) NicknameHistory *nicknameHistory;
+@property (nonatomic, readonly) NSString *currentGroupName;
+@property (nonatomic, readonly) NSMutableArray *currentGroupUsers;
 
 - (id)init;
 
@@ -121,5 +123,7 @@
 #define kICBClient_disconnected     @"ICBClient:disconnected"
 #define kICBClient_packet           @"ICBClient:packet"
 #define kICBClient_loginOK          @"ICBClient:loginOK"
+#define kICBClient_groupChange      @"ICBClient:groupChange"
+#define kICBClient_groupUsersChange @"ICBClient:groupUsersChange"
 
 @end
