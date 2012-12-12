@@ -27,6 +27,10 @@
     
     NSUInteger _reconnectNeeded;
     
+    enum { kReady, kParseWhoListing } _clientState;
+    NSString *_currentGroupName;
+    NSMutableArray *_currentGroupUsers;
+    
     NSString *_hostname;
     UInt32 _port;
     NSString *_nickname;
@@ -69,6 +73,9 @@
         [self setupPacketHandlers];
         
         _connectionState = kDisconnected;
+        _clientState = kReady;
+        _currentGroupName = nil;
+        _currentGroupUsers = [NSMutableArray arrayWithCapacity:100];
         
         _packetBuffer = [NSMutableData dataWithCapacity:MAX_PACKET_SIZE];
         _inputQueue = [NSMutableArray arrayWithCapacity:100];
@@ -246,19 +253,32 @@
                        [ExitPacket className]: [NSValue valueWithPointer:@selector(handleExitPacket:)],
                        [LoginPacket className]: [NSValue valueWithPointer:@selector(handleLoginPacket:)],
                        [PersonalPacket className]: [NSValue valueWithPointer:@selector(handlePersonalPacket:)],
-                       [ProtocolPacket className]: [NSValue valueWithPointer:@selector(handleProtocolPacket:)]};
+                       [PingPacket className]: [NSValue valueWithPointer:@selector(handlePingPacket:)],
+                       [ProtocolPacket className]: [NSValue valueWithPointer:@selector(handleProtocolPacket:)],
+                       [StatusPacket className]: [NSValue valueWithPointer:@selector(handleStatusPacket:)],
+                       [CommandOutputPacket className]: [NSValue valueWithPointer:@selector(handleCommandOutputPacket:)]};
     _packetHandlers = d;
 }
 
-- (void)handleErrorPacket:(ErrorPacket *)packet
+- (BOOL)handleErrorPacket:(ErrorPacket *)packet
 {
+    BOOL broadcast = YES;
+    
+    if (_clientState == kParseWhoListing && [[packet errorText] hasPrefix:@"Server doesn't handle ICB_M_PING packets"])
+    {
+        DLog(@"received response to ping during who listing!");
+        broadcast = NO;
+        _clientState = kReady;
+    }
     if ([[packet errorText] compare:@"Nickname already in use."] == NSOrderedSame)
     {
         _reconnectNeeded++;
     }
+    
+    return broadcast;
 }
 
-- (void)handleLoginPacket:(LoginPacket *)packet
+- (BOOL)handleLoginPacket:(LoginPacket *)packet
 {
     _reconnectNeeded = 0;
     
@@ -269,27 +289,45 @@
     
     [[NSNotificationCenter defaultCenter] postNotificationName:kICBClient_loginOK
                                                         object:self];
+    
+    return YES;
 }
 
-- (void)handleExitPacket:(ExitPacket *)packet
+- (BOOL)handleExitPacket:(ExitPacket *)packet
 {
     [self disconnect];
+    return YES;
 }
 
-- (void)handlePersonalPacket:(PersonalPacket *)packet
+- (BOOL)handlePersonalPacket:(PersonalPacket *)packet
 {
     // anytime a personal packet comes in, add it to the nickname history
     PersonalPacket *p = (PersonalPacket *)packet;
     [self.nicknameHistory add:p.nick];
+    
+    return YES;
 }
 
-- (void)handlePingPacket:(PingPacket *)packet
+- (BOOL)handlePingPacket:(PingPacket *)packet
 {
-    PongPacket *pongPacket = [[PongPacket alloc] init];
-    [self sendPacket:pongPacket];
+    BOOL broadcast = YES;
+    
+    if (_clientState == kParseWhoListing)
+    {
+        DLog(@"PingPacket received while parsing who listing - all done!");
+        broadcast = NO;
+        _clientState = kReady;
+    }
+    else
+    {
+        PongPacket *pongPacket = [[PongPacket alloc] init];
+        [self sendPacket:pongPacket];
+    }
+    
+    return broadcast;
 }
 
-- (void)handleProtocolPacket:(ProtocolPacket *)packet
+- (BOOL)handleProtocolPacket:(ProtocolPacket *)packet
 {
     if (packet.protocolLevel != 1)
     {
@@ -311,6 +349,107 @@
                                                                    password:_password];
         [self sendPacket:loginPacket];
     }
+    
+    return YES;
+}
+
+- (BOOL)handleStatusPacket:(StatusPacket *)p
+{
+    NSString *header = p.header;
+    NSString *text = p.text;
+    NSError *error = NULL;
+    NSRegularExpression *regex = nil;
+    
+    if ([header compare:@"Status" options:NSCaseInsensitiveSearch] == NSOrderedSame)
+    {
+        NSString *pattern = @"(?:You are now in group|renamed group to) (\\w+)";
+        regex = [NSRegularExpression regularExpressionWithPattern:pattern
+                                                          options:NSRegularExpressionCaseInsensitive
+                                                            error:&error];
+        
+        NSArray *matches = [regex matchesInString:text
+                                          options:0
+                                            range:NSMakeRange(0, [text length])];
+        DLog(@"matches=%@", matches);
+        if ([matches count] > 0)
+        {
+            NSTextCheckingResult *match = matches[0];
+            NSRange groupRange = [match rangeAtIndex:1];
+            NSString *groupName = [text substringWithRange:groupRange];
+            DLog(@"now in group %@", groupName);
+            
+            _currentGroupName = groupName;
+            // TODO: send notification of group name change
+            
+            _clientState = kParseWhoListing;
+            
+            [self sendPacket:[[CommandPacket alloc] initWithCommand:@"w"
+                                                       optionalArgs:@"."]];
+            [self sendPacket:[[PingPacket alloc] init]];
+        }
+    }
+    else if ([header compare:@"Arrive" options:NSCaseInsensitiveSearch] == NSOrderedSame ||
+             [header compare:@"Sign-on" options:NSCaseInsensitiveSearch] == NSOrderedSame)
+    {
+        NSString *pattern = @"(\\w+)";
+        regex = [NSRegularExpression regularExpressionWithPattern:pattern
+                                                          options:NSRegularExpressionCaseInsensitive
+                                                            error:&error];
+        
+        NSArray *matches = [regex matchesInString:text
+                                          options:0
+                                            range:NSMakeRange(0, [text length])];
+        if ([matches count] > 0)
+        {
+            NSTextCheckingResult *match = matches[0];
+            NSRange range = [match rangeAtIndex:0];
+            NSString *nick = [text substringWithRange:range];
+            DLog(@"User %@ has just arrived in group %@", nick, _currentGroupName);
+            [_currentGroupUsers addObject:nick];
+            DLog(@"_currentGroupUsers %@", _currentGroupUsers);
+        }
+    }
+    else if ([header compare:@"Depart" options:NSCaseInsensitiveSearch] == NSOrderedSame ||
+             [header compare:@"Sign-off" options:NSCaseInsensitiveSearch] == NSOrderedSame)
+    {
+        NSString *pattern = @"(\\w+)";
+        regex = [NSRegularExpression regularExpressionWithPattern:pattern
+                                                          options:NSRegularExpressionCaseInsensitive
+                                                            error:&error];
+        
+        NSArray *matches = [regex matchesInString:text
+                                          options:0
+                                            range:NSMakeRange(0, [text length])];
+        if ([matches count] > 0)
+        {
+            NSTextCheckingResult *match = matches[0];
+            NSRange range = [match rangeAtIndex:0];
+            NSString *nick = [text substringWithRange:range];
+            DLog(@"User %@ has just left group %@", nick, _currentGroupName);
+            [_currentGroupUsers removeObject:nick];
+            DLog(@"_currentGroupUsers %@", _currentGroupUsers);
+        }
+    }
+    
+    return YES;
+}
+
+- (BOOL)handleCommandOutputPacket:(CommandOutputPacket *)p
+{
+    BOOL broadcast = YES;
+    
+    if (_clientState == kParseWhoListing)
+    {
+        DLog(@"commandOutputPacket while in wholisting: %@", [[p data] hexDump]);
+        broadcast = NO;
+        if ([p.outputType compare:@"wl"] == NSOrderedSame)
+        {
+            NSString *nickname = [p nickname];
+            [_currentGroupUsers addObject:nickname];
+        }
+    }
+    
+    return broadcast;
 }
 
 - (void)handlePacket:(ICBPacket *)packet
@@ -319,15 +458,20 @@
     
     DLog(@"handlePacket: %@", packet);
 
+    BOOL broadcast = YES;
     SEL selector = [[_packetHandlers valueForKey:[packet className]] pointerValue];
     if (selector)
     {
-        SuppressPerformSelectorLeakWarning([self performSelector:selector
-                                                      withObject:packet]);
+//        broadcast = SuppressPerformSelectorLeakWarning([self performSelector:selector
+//                                                                  withObject:packet]);
+        broadcast = [self performSelector:selector withObject:packet];
     }
-    
-    [[NSNotificationCenter defaultCenter] postNotificationName:kICBClient_packet
-                                                        object:packet];
+
+    if (broadcast)
+    {
+        [[NSNotificationCenter defaultCenter] postNotificationName:kICBClient_packet
+                                                            object:packet];
+    }
 }
 
 - (void)sendPacket:(ICBPacket *)packet
@@ -547,6 +691,9 @@
     switch (streamEvent) {
         case NSStreamEventOpenCompleted:
             _readState = kWaitingForPacket;
+            _clientState = kReady;
+            _currentGroupName = nil;
+            [_currentGroupUsers removeAllObjects];
             [self changeConnectingState:kConnected];
             break;
             
