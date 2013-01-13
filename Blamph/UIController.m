@@ -14,7 +14,7 @@
 #import <ICBProtocolFramework/ICBProtocol.h>
 #import <URLKit/URLKit.h>
 
-@interface UIController()
+@interface UIController() <NSOutlineViewDataSource, NSOutlineViewDelegate>
 {
 @private
     NSColor *_backgroundColor;
@@ -42,6 +42,67 @@
     NSMutableArray *_inputHistory;
     NSString *_savedInputBuffer;
 }
+
+@property (nonatomic, retain) IBOutlet ICBClient *client;
+
+@property (nonatomic, retain) IBOutlet NSMenuItem *connectMenuItem;
+@property (nonatomic, retain) IBOutlet NSMenuItem *disconnectMenuItem;
+@property (nonatomic, retain) IBOutlet NSMenuItem *menuItemCopy;
+@property (nonatomic, retain) IBOutlet NSMenuItem *menuItemPaste;
+@property (nonatomic, retain) IBOutlet NSMenuItem *menuItemToggleStatusBar;
+@property (nonatomic, retain) IBOutlet NSMenuItem *menuItemDefaultColorScheme;
+@property (nonatomic, retain) IBOutlet NSMenuItem *menuItemOldSchoolColorScheme;
+@property (nonatomic, retain) IBOutlet NSMenuItem *menuItemOldSchoolLiteColorScheme;
+@property (nonatomic, retain) IBOutlet NSMenuItem *menuItemUseTransparency;
+@property (nonatomic, retain) IBOutlet NSMenuItem *menuItemIncreaseFontSize;
+@property (nonatomic, retain) IBOutlet NSMenuItem *menuItemDefaultFontSize;
+@property (nonatomic, retain) IBOutlet NSMenuItem *menuItemDecreaseFontSize;
+
+@property (nonatomic, retain) IBOutlet NSOutlineView *sidebar;
+@property (nonatomic, retain) IBOutlet NSSplitView *splitView;
+@property (nonatomic, retain) IBOutlet NSScrollView *outputScrollView;
+@property (nonatomic, retain) IBOutlet NSScrollView *inputScrollView;
+@property (nonatomic, retain) IBOutlet NSLayoutConstraint *bottomConstraint;
+@property (nonatomic, retain) IBOutlet NSView *statusBarView;
+@property (nonatomic, retain) IBOutlet NSTextField *connectionStatusLabel;
+@property (nonatomic, retain) IBOutlet NSTextField *connectionTimeLabel;
+@property (nonatomic, retain) IBOutlet NSTextField *idleTimeLabel;
+
+@property (nonatomic, retain) IBOutlet NSProgressIndicator *progressIndicator;
+
+@property (nonatomic, retain) IBOutlet NSTextView *inputTextView;
+@property (nonatomic, retain) IBOutlet NSTextView *outputTextView;
+
+@property (nonatomic, retain) IBOutlet NSLayoutConstraint *heightConstraint;
+
+@property (nonatomic, retain) IBOutlet MainWindow *window;
+
+@property (nonatomic, retain) NSTimer *timer;
+
+- (BOOL)validateMenuItem:(NSMenuItem *)menuItem;
+
+- (void)submitTextInput:(NSString *)input;
+
+- (void)displayText:(NSString *)text
+withTextStyle:(NSString *)textStyle;
+
+- (BOOL)textView:(NSTextView *)aTextView
+clickedOnLink:(id)link
+atIndex:(NSUInteger)charIndex;
+
+- (IBAction)hideApp:(id)sender;
+- (IBAction)hideOthers:(id)sender;
+- (IBAction)connect:(id)sender;
+- (IBAction)disconnect:(id)sender;
+- (IBAction)selectAll:(id)sender;
+- (IBAction)copy:(id)sender;
+- (IBAction)paste:(id)sender;
+- (IBAction)pasteSpecial:(id)sender;
+- (IBAction)toggleStatusBar:(id)sender;
+- (IBAction)selectColorScheme:(id)sender;
+- (IBAction)changeFontSize:(id)sender;
+
+- (void)clientNotify:(NSNotification *)notification;
 @end
 
 @implementation UIController
@@ -49,7 +110,7 @@
 #define kOutputScrollbackSize       1000
 #define kColorSchemeDefault         1001
 #define kColorSchemeOldSchool       1002
-#define kColorSchemeOldSchoolLite  1003
+#define kColorSchemeOldSchoolLite   1003
 
 #define kFontName                   @"Menlo"
 #define kTextStyle                  @"textStyle"
@@ -88,8 +149,6 @@
     
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults registerDefaults:d];
-
-//    [userDefaults setBool:YES forKey:@"NSConstraintBasedLayoutVisualizeMutuallyExclusiveConstraints"];
 }
 
 - (id)init
@@ -1436,10 +1495,12 @@
     else if ([keyPath compare:@"currentGroupName"] == NSOrderedSame)
     {
         DLog(@"new group name: %@", self.client.currentGroupName);
+        [self.sidebar reloadItem:nil reloadChildren:YES];
     }
     else if ([keyPath compare:@"currentGroupUsers"] == NSOrderedSame)
     {
         DLog(@"new group users: %@", self.client.currentGroupUsers);
+        [self.sidebar reloadItem:nil reloadChildren:YES];
     }
 }
 
@@ -1509,5 +1570,99 @@
     [self.inputTextView insertText:text];
 }
 
+#pragma mark -
+#pragma NSOutlineViewDataSource methods
+
+- (id)outlineView:(NSOutlineView *)outlineView
+            child:(NSInteger)index
+           ofItem:(id)item
+{
+    DLog(@"outlineView: child=%ld item=%@", index, item);
+
+    id value = nil;    
+    if (item == nil)
+    {
+        switch (index) {
+            case 0:
+                value = self.client.currentGroupName;
+                break;
+            default:
+                break;
+        }
+    }
+    else if ([item isEqualToString:self.client.currentGroupName])
+    {
+        value = self.client.currentGroupUsers[index];
+    }
+    
+    DLog(@"child value=%@", value);
+    return value;
+}
+
+- (BOOL)outlineView:(NSOutlineView *)outlineView isGroupItem:(id)item
+{
+    BOOL isGroupItem = ([item isEqualToString:self.client.currentGroupName]);
+    DLog(@"isGroupItem=%d for item=%@", isGroupItem, item);
+    return isGroupItem;
+}
+
+- (BOOL)outlineView:(NSOutlineView *)outlineView isItemExpandable:(id)item
+{
+    BOOL isItemExpandable = ([item isEqualToString:self.client.currentGroupName]);
+    DLog(@"isItemExpandable=%d for item=%@", isItemExpandable, item);
+    return isItemExpandable;
+}
+
+- (NSInteger)outlineView:(NSOutlineView *)outlineView
+  numberOfChildrenOfItem:(id)item
+{
+    NSInteger children = 0;
+    
+    if (item == nil)
+    {
+        children = 1;
+    }
+    else if ([item isEqualToString:self.client.currentGroupName])
+    {
+        children = [self.client.currentGroupUsers count];
+    }
+    
+    DLog(@"# of children=%ld of item=%@", children, item);
+    return children;
+}
+
+- (NSView *)outlineView:(NSOutlineView *)outlineView
+     viewForTableColumn:(NSTableColumn *)tableColumn
+                   item:(id)item
+{
+    NSView *view = nil;
+    
+    if ([item isEqualToString:self.client.currentGroupName])
+    {
+        NSTableCellView *cell = [outlineView makeViewWithIdentifier:@"HeaderCell" owner:self];
+        cell.textField.stringValue = [NSString stringWithFormat:@"GROUP - %@", [item uppercaseString]];
+        view = cell;
+    }
+    else if ([self.client.currentGroupUsers containsObject:item])
+    {
+        NSTableCellView *cell = [outlineView makeViewWithIdentifier:@"DataCell" owner:self];
+        cell.textField.stringValue = item;
+        view = cell;
+    }
+    DLog(@"view=%@ for cell=%@", view, item);
+    return view;
+}
+
+- (BOOL)outlineView:(NSOutlineView *)outlineView
+shouldShowOutlineCellForItem:(id)item
+{
+    // As an example, hide the "outline disclosure button" for FAVORITES. This
+    // hides the "Show/Hide" button and disables the tracking area for that row.
+//    if ([item isEqualToString:self.client.currentGroupName])
+//    {
+//        return NO;
+//    }
+    return YES;
+}
 
 @end

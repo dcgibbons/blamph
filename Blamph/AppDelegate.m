@@ -38,7 +38,7 @@
     {
         NSDate *today = [NSDate date];
         //(the number of seconds from Midnight, January 1st, 2001 GMT until you want your app to expire);
-        NSTimeInterval expiry = 378604919; // Midnight, Dec 31, 2012
+        NSTimeInterval expiry = 383788799; // Midnight, Feb 28, 2013 1362095999 - 978307200 
         
         if ([today timeIntervalSinceReferenceDate] > expiry)
         {

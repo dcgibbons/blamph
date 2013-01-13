@@ -438,6 +438,31 @@
             DLog(@"_currentGroupUsers %@", _currentGroupUsers);
         }
     }
+    else if ([header compare:@"Name" options:NSCaseInsensitiveSearch] == NSOrderedSame)
+    {
+        NSString *pattern = @"(\\w+) changed nickname to (\\w+)";
+        regex = [NSRegularExpression regularExpressionWithPattern:pattern
+                                                          options:NSRegularExpressionCaseInsensitive
+                                                            error:&error];
+        
+        NSArray *matches = [regex matchesInString:text
+                                          options:0
+                                            range:NSMakeRange(0, [text length])];
+        if ([matches count] > 0)
+        {
+            NSTextCheckingResult *match = matches[0];
+            NSRange range = [match rangeAtIndex:0];
+            NSRange newNickRange = [match rangeAtIndex:1];
+            NSString *oldNick = [text substringWithRange:range];
+            NSString *newNick = [text substringWithRange:newNickRange];
+            DLog(@"User %@ has just renamed themselves to %@", oldNick, newNick);
+            [self willChangeValueForKey:@"currentGroupUsers"];
+            [_currentGroupUsers removeObject:oldNick];
+            [_currentGroupUsers addObject:newNick];
+            [self didChangeValueForKey:@"currentGroupUsers"];
+            DLog(@"_currentGroupUsers %@", _currentGroupUsers);
+        }
+    }
     
     return YES;
 }
