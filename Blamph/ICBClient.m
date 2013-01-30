@@ -308,7 +308,7 @@
                                                                        nick:nick
                                                                       group:_initialGroup
                                                                     command:@"login"
-                                                                   password:_password];
+                                                                   password:_password ? _password : @""];
         [self sendPacket:loginPacket];
     }
 }
