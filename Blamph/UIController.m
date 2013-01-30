@@ -69,6 +69,7 @@
 #define kOpacityLevel               @"opacityLevel"
 #define kOutputFontPointSize        @"outputFontPointSize"
 #define kTimestampFontPointSize     @"timestampFontPointSize"
+#define kEnableAutoCorrect          @"enableAutoCorrect"
 
 #define kCommandPrefix              '/'
 
@@ -84,7 +85,8 @@
                        kUseTransparency: @YES,
                        kOpacityLevel: @0.75f,
                        kOutputFontPointSize: @kDefaultOutputFontSize,
-                       kTimestampFontPointSize: @kDefaultTimestampFontSize};
+                       kTimestampFontPointSize: @kDefaultTimestampFontSize,
+                       kEnableAutoCorrect: @NO};
     
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults registerDefaults:d];
@@ -118,6 +120,11 @@
 
         [userDefaults addObserver:self
                        forKeyPath:kOpacityLevel
+                          options:NSKeyValueObservingOptionNew
+                          context:NULL];
+        
+        [userDefaults addObserver:self
+                       forKeyPath:kEnableAutoCorrect
                           options:NSKeyValueObservingOptionNew
                           context:NULL];
     }
@@ -157,6 +164,8 @@
     [self.window makeFirstResponder:self.inputTextView];
 
     [self setTransparency:[userDefaults boolForKey:kUseTransparency]];
+    [self.inputTextView setContinuousSpellCheckingEnabled:[userDefaults boolForKey:kEnableAutoCorrect]];
+    [self.inputTextView setAutomaticSpellingCorrectionEnabled:[userDefaults boolForKey:kEnableAutoCorrect]];
 
     [self.splitView.superview layoutSubtreeIfNeeded];
     [self updateInputWindowConstraints];
@@ -1421,6 +1430,12 @@
         {
             [self setTransparency:isTransparent];
         }
+    }
+    else if ([keyPath compare:kEnableAutoCorrect] == NSOrderedSame)
+    {
+        BOOL enabled = [[userDefaults valueForKey:kEnableAutoCorrect] boolValue];
+        [self.inputTextView setContinuousSpellCheckingEnabled:enabled];
+        [self.inputTextView setAutomaticSpellingCorrectionEnabled:enabled];
     }
 }
 
