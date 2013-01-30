@@ -783,6 +783,7 @@
     [self.progressIndicator setControlTint:NSDefaultControlTint];
     
     [userDefaults setInteger:kColorSchemeDefault forKey:kColorScheme];
+    [userDefaults synchronize];
     
     [self didUpdateColorScheme];
 }
@@ -810,6 +811,7 @@
     [self.progressIndicator setControlTint:NSBlueControlTint];
     
     [userDefaults setInteger:kColorSchemeOldSchool forKey:kColorScheme];
+    [userDefaults synchronize];
 
     [self didUpdateColorScheme];
 }
@@ -837,7 +839,8 @@
     
     [self.progressIndicator setControlTint:NSDefaultControlTint];
     
-    [userDefaults setInteger:kColorSchemeDefault forKey:kColorScheme];
+    [userDefaults setInteger:kColorSchemeOldSchoolLite forKey:kColorScheme];
+    [userDefaults synchronize];
     
     [self didUpdateColorScheme];
 }
