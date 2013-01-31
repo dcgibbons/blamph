@@ -29,7 +29,7 @@
 		C2B3B0501657DC7500D0991B /* AdvancedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B3B04E1657DC7500D0991B /* AdvancedViewController.m */; };
 		C2B3B0511657DC7500D0991B /* AdvancedViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C2B3B04F1657DC7500D0991B /* AdvancedViewController.xib */; };
 		C2BA824D165B1D1E005C88DE /* NicknameHistory.m in Sources */ = {isa = PBXBuildFile; fileRef = C2BA824C165B1D1E005C88DE /* NicknameHistory.m */; };
-		C2CEA775165C0AB100C30869 /* Blamph-Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = C2CEA774165C0AB100C30869 /* Blamph-Icon.png */; };
+		C2BFD2BC16BB2EE00055A24F /* Blamph.iconset in Resources */ = {isa = PBXBuildFile; fileRef = C2BFD2BB16BB2EE00055A24F /* Blamph.iconset */; };
 		C2E0C5D416755CB2006FE62B /* DebugKitFramework.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = C28CEC4116742C4700D8BE95 /* DebugKitFramework.framework */; };
 		C2E0C5D516755CB2006FE62B /* URLKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = C28CECCB1674492C00D8BE95 /* URLKit.framework */; };
 		C2E0C5D616755CB2006FE62B /* ICBProtocolFramework.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = C28CEC5C16742D4B00D8BE95 /* ICBProtocolFramework.framework */; };
@@ -201,6 +201,7 @@
 		C2B3B04F1657DC7500D0991B /* AdvancedViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AdvancedViewController.xib; sourceTree = "<group>"; };
 		C2BA824B165B1D1E005C88DE /* NicknameHistory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NicknameHistory.h; sourceTree = "<group>"; };
 		C2BA824C165B1D1E005C88DE /* NicknameHistory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NicknameHistory.m; sourceTree = "<group>"; };
+		C2BFD2BB16BB2EE00055A24F /* Blamph.iconset */ = {isa = PBXFileReference; lastKnownFileType = folder.iconset; path = Blamph.iconset; sourceTree = "<group>"; };
 		C2CEA774165C0AB100C30869 /* Blamph-Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Blamph-Icon.png"; sourceTree = SOURCE_ROOT; };
 		C2E0C5CB16755AB6006FE62B /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk/System/Library/Frameworks/Cocoa.framework; sourceTree = DEVELOPER_DIR; };
 		C2F19540163F2628006D48A4 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -254,6 +255,7 @@
 		C28670E615A62418005DE3D5 = {
 			isa = PBXGroup;
 			children = (
+				C2BFD2BB16BB2EE00055A24F /* Blamph.iconset */,
 				C28CEC3616742C4700D8BE95 /* DebugKit.xcodeproj */,
 				C28CECC21674492B00D8BE95 /* URLKit.xcodeproj */,
 				C28CEC4916742D4A00D8BE95 /* ICBProtocol.xcodeproj */,
@@ -600,10 +602,10 @@
 				C2F19586163F26E3006D48A4 /* MainMenu.xib in Resources */,
 				C2B3B04C1657DC6D00D0991B /* GeneralViewController.xib in Resources */,
 				C2B3B0511657DC7500D0991B /* AdvancedViewController.xib in Resources */,
-				C2CEA775165C0AB100C30869 /* Blamph-Icon.png in Resources */,
 				C28CEC3116742C3500D8BE95 /* .gitignore in Resources */,
 				C28CEC3216742C3500D8BE95 /* MASPreferencesWindow.xib in Resources */,
 				C28CEC3416742C3500D8BE95 /* README.md in Resources */,
+				C2BFD2BC16BB2EE00055A24F /* Blamph.iconset in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -807,6 +809,7 @@
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_ENTITLEMENTS = Blamph/Blamph.entitlements;
+				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -835,6 +838,7 @@
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_ENTITLEMENTS = Blamph/Blamph.entitlements;
+				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				FRAMEWORK_SEARCH_PATHS = (
