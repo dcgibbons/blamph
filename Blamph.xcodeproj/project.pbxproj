@@ -30,9 +30,9 @@
 		C2B3B0511657DC7500D0991B /* AdvancedViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C2B3B04F1657DC7500D0991B /* AdvancedViewController.xib */; };
 		C2BA824D165B1D1E005C88DE /* NicknameHistory.m in Sources */ = {isa = PBXBuildFile; fileRef = C2BA824C165B1D1E005C88DE /* NicknameHistory.m */; };
 		C2BFD2BC16BB2EE00055A24F /* Blamph.iconset in Resources */ = {isa = PBXBuildFile; fileRef = C2BFD2BB16BB2EE00055A24F /* Blamph.iconset */; };
-		C2E0C5D416755CB2006FE62B /* DebugKitFramework.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = C28CEC4116742C4700D8BE95 /* DebugKitFramework.framework */; };
-		C2E0C5D516755CB2006FE62B /* URLKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = C28CECCB1674492C00D8BE95 /* URLKit.framework */; };
-		C2E0C5D616755CB2006FE62B /* ICBProtocolFramework.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = C28CEC5C16742D4B00D8BE95 /* ICBProtocolFramework.framework */; };
+		C2BFD2BD16BC57BA0055A24F /* DebugKitFramework.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = C28CEC4116742C4700D8BE95 /* DebugKitFramework.framework */; };
+		C2BFD2BE16BC57BA0055A24F /* URLKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = C28CECCB1674492C00D8BE95 /* URLKit.framework */; };
+		C2BFD2BF16BC57BA0055A24F /* ICBProtocolFramework.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = C28CEC5C16742D4B00D8BE95 /* ICBProtocolFramework.framework */; };
 		C2F1957A163F26E3006D48A4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C2F19578163F26E3006D48A4 /* InfoPlist.strings */; };
 		C2F1957C163F26E3006D48A4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C2F1957B163F26E3006D48A4 /* main.m */; };
 		C2F19580163F26E3006D48A4 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = C2F1957E163F26E3006D48A4 /* Credits.rtf */; };
@@ -153,9 +153,9 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				C2E0C5D416755CB2006FE62B /* DebugKitFramework.framework in CopyFiles */,
-				C2E0C5D516755CB2006FE62B /* URLKit.framework in CopyFiles */,
-				C2E0C5D616755CB2006FE62B /* ICBProtocolFramework.framework in CopyFiles */,
+				C2BFD2BD16BC57BA0055A24F /* DebugKitFramework.framework in CopyFiles */,
+				C2BFD2BE16BC57BA0055A24F /* URLKit.framework in CopyFiles */,
+				C2BFD2BF16BC57BA0055A24F /* ICBProtocolFramework.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -202,7 +202,6 @@
 		C2BA824B165B1D1E005C88DE /* NicknameHistory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NicknameHistory.h; sourceTree = "<group>"; };
 		C2BA824C165B1D1E005C88DE /* NicknameHistory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NicknameHistory.m; sourceTree = "<group>"; };
 		C2BFD2BB16BB2EE00055A24F /* Blamph.iconset */ = {isa = PBXFileReference; lastKnownFileType = folder.iconset; path = Blamph.iconset; sourceTree = "<group>"; };
-		C2CEA774165C0AB100C30869 /* Blamph-Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Blamph-Icon.png"; sourceTree = SOURCE_ROOT; };
 		C2E0C5CB16755AB6006FE62B /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk/System/Library/Frameworks/Cocoa.framework; sourceTree = DEVELOPER_DIR; };
 		C2F19540163F2628006D48A4 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		C2F19541163F2628006D48A4 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
@@ -400,7 +399,6 @@
 			isa = PBXGroup;
 			children = (
 				C2F1963E163F33F9006D48A4 /* Blamph.entitlements */,
-				C2CEA774165C0AB100C30869 /* Blamph-Icon.png */,
 				C2F19577163F26E3006D48A4 /* Blamph-Info.plist */,
 				C2F1957D163F26E3006D48A4 /* Blamph-Prefix.pch */,
 				C2F19578163F26E3006D48A4 /* InfoPlist.strings */,
@@ -484,7 +482,7 @@
 		C28670E815A62418005DE3D5 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0430;
+				LastUpgradeCheck = 0460;
 				ORGANIZATIONNAME = "Nuclear Bunny Studios, LLC";
 			};
 			buildConfigurationList = C28670EB15A62418005DE3D5 /* Build configuration list for PBXProject "Blamph" */;
@@ -747,6 +745,10 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -779,6 +781,10 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
