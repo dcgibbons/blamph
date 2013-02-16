@@ -36,16 +36,16 @@
 {
     if (self = [super init])
     {
-        NSDate *today = [NSDate date];
-        //(the number of seconds from Midnight, January 1st, 2001 GMT until you want your app to expire);
-        NSTimeInterval expiry = 383702400; // midnight, feb 28, 2013
-        
-        if ([today timeIntervalSinceReferenceDate] > expiry)
-        {
-            NSRunAlertPanel(@"This pre-release version has expired.", @"Please download a new release.", nil, nil, nil);
-            NSLog(@"expired");
-            [[NSApplication sharedApplication] terminate:self];
-        }
+//        NSDate *today = [NSDate date];
+//        //(the number of seconds from Midnight, January 1st, 2001 GMT until you want your app to expire);
+//        NSTimeInterval expiry = 383702400; // midnight, feb 28, 2013
+//        
+//        if ([today timeIntervalSinceReferenceDate] > expiry)
+//        {
+//            NSRunAlertPanel(@"This pre-release version has expired.", @"Please download a new release.", nil, nil, nil);
+//            NSLog(@"expired");
+//            [[NSApplication sharedApplication] terminate:self];
+//        }
     }
     return self;
 }
