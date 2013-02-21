@@ -28,10 +28,12 @@ bugs, here's what you need to know:
 1. Check out the Blamph project from https://github.com/dcgibbons/blamph
 2. Blamph depends upon a variety of submodules within its deps subdirectory.
    Perform the following to check them out:
+
     git submodule init
     git submodule update
 3. Open up the Blamph project in Xcode. Or, if you prefer to build from the
    command-line:
+
     xcodebuild -scheme Blamph -sdk macosx10.8 archive
 
 If you wish to make any changes to Blamph, please fork the repository on
